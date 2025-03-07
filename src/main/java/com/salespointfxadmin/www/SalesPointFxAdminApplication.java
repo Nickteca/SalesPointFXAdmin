@@ -1,4 +1,4 @@
-package com.salespointfx2.www;
+package com.salespointfxadmin.www;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
