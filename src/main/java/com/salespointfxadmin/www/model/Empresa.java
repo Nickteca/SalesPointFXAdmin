@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -43,7 +44,7 @@ public class Empresa implements Serializable {
 	@Column(nullable = false)
 	private LocalDateTime createdAt;
 
-	@OneToMany(mappedBy = "empresa")
+	@OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
 	private List<Sucursal> listSucursal;
 
 	public Empresa(Short idEmpresa, String nombreEmpresa, String direccionEmpresa, String telefonoEmpresa, String rfcEmpresa, LocalDateTime createdAt) {

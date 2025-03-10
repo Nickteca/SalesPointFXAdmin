@@ -16,11 +16,13 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "idSucursal", "nombreSucursal" }))
@@ -48,7 +50,7 @@ public class Sucursal implements Serializable {
 	private String telefonoSucursal;
 
 	@Column(nullable = false)
-	private Boolean estatusSucursal;
+	private boolean estatusSucursal;
 
 	@Column(nullable = false)
 	private LocalDateTime cretaedAt;
@@ -56,14 +58,17 @@ public class Sucursal implements Serializable {
 	@JoinColumn(name = "empresa", referencedColumnName = "idEmpresa")
 	@ManyToOne(optional = false)
 	private Empresa empresa;
-	
+
 	@OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL)
 	private List<SucursalProducto> listSucursalProductos;
-	
+
 	@OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL)
 	private List<MovimientoCaja> listMovimientoCaja;
 
-	public Sucursal(Integer idSucursal, String nombreSucursal, String calleSucursal, String ciudadSucursal, String estadosucursal, String telefonoSucursal, Boolean estatusSucursal, Empresa empresa) {
+	@OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL)
+	private List<Folio> listFolio;
+
+	public Sucursal(Integer idSucursal, String nombreSucursal, String calleSucursal, String ciudadSucursal, String estadosucursal, String telefonoSucursal, boolean estatusSucursal, Empresa empresa) {
 		super();
 		this.idSucursal = idSucursal;
 		this.nombreSucursal = nombreSucursal;
@@ -74,6 +79,11 @@ public class Sucursal implements Serializable {
 		this.estatusSucursal = estatusSucursal;
 		this.cretaedAt = LocalDateTime.now();
 		this.empresa = empresa;
+	}
+
+	@Override
+	public String toString() {
+		return this.idSucursal + " " + this.nombreSucursal;
 	}
 
 }
