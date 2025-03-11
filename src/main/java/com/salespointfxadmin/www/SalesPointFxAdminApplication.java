@@ -21,17 +21,7 @@ public class SalesPointFxAdminApplication extends Application {
 	@Override
 	public void init() throws Exception {
 		context = SpringApplication.run(SalesPointFxAdminApplication.class);
-
 	}
-
-	/*
-	 * public static void main(String[] args) { if
-	 * (!isApplicationAlreadyRunning(9999)) { // Elige un puerto no usado, como 5555
-	 * context = SpringApplication.run(SalesPointFxAdminApplication.class, args);
-	 * SalesPointFxAdminApplicationFx.launch(SalesPointFxAdminApplicationFx.class,
-	 * args); } else { System.out.println("La aplicación ya se está ejecutando.");
-	 * System.exit(0); } }
-	 */
 
 	private static boolean isApplicationAlreadyRunning(int port) {
 		try {
@@ -62,7 +52,5 @@ public class SalesPointFxAdminApplication extends Application {
 			System.out.println("La aplicación ya se está ejecutando.");
 			System.exit(0); // Salir si ya hay otra instancia
 		}
-
 	}
-
 }

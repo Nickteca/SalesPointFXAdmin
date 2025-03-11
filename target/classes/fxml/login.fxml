@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -9,25 +11,42 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.LoginController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.LoginController">
    <children>
       <AnchorPane>
          <children>
-            <HBox alignment="CENTER" layoutX="152.0" layoutY="172.0" prefHeight="400.0" prefWidth="518.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox alignment="CENTER" layoutX="152.0" layoutY="172.0" prefHeight="572.0" prefWidth="724.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <ImageView fitHeight="400.0" fitWidth="300.0" pickOnBounds="true" smooth="false" HBox.hgrow="ALWAYS">
                      <image>
                         <Image url="@../img/reydelpollo.png" />
                      </image>
                   </ImageView>
-                  <AnchorPane prefHeight="200.0" prefWidth="266.0" HBox.hgrow="ALWAYS">
+                  <AnchorPane HBox.hgrow="ALWAYS">
                      <children>
-                        <Label alignment="CENTER" layoutX="136.0" layoutY="14.0" text="INICIAR SECION" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0" />
-                        <Label layoutX="14.0" layoutY="148.0" text="USUARIO:" />
-                        <TextField fx:id="textUsuario" layoutX="94.0" layoutY="144.0" />
-                        <Label layoutX="14.0" layoutY="204.0" text="PASSWORD:" />
-                        <Button fx:id="btnAceptar" layoutX="191.0" layoutY="307.0" mnemonicParsing="false" onAction="#aceptar" text="Aceptar">
+                        <Label alignment="CENTER" layoutX="136.0" layoutY="14.0" text="INICIAR SECION" textAlignment="CENTER" textFill="#ae0404" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font></Label>
+                        <Label layoutX="14.0" layoutY="148.0" text="USUARIO:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                        <TextField fx:id="textUsuario" layoutX="94.0" layoutY="144.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font></TextField>
+                        <Label layoutX="14.0" layoutY="204.0" text="PASSWORD:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                        <PasswordField fx:id="passUsuario" layoutX="94.0" layoutY="200.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font></PasswordField>
+                        <Button fx:id="btnAceptar" layoutX="158.0" layoutY="309.0" mnemonicParsing="false" onAction="#aceptar" text="Aceptar">
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" smooth="false">
                                  <image>
@@ -35,8 +54,11 @@
                                  </image>
                               </ImageView>
                            </graphic>
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
                         </Button>
-                        <Button fx:id="btnCancelar" layoutX="80.0" layoutY="307.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar">
+                        <Button fx:id="btnCancelar" layoutX="47.0" layoutY="309.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar">
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" smooth="false">
                                  <image>
@@ -44,12 +66,25 @@
                                  </image>
                               </ImageView>
                            </graphic>
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
                         </Button>
-                        <PasswordField fx:id="passUsuario" layoutX="94.0" layoutY="200.0" />
-                     </children></AnchorPane>
+                     </children>
+                     <styleClass>
+                        <String fx:value="banner-bg" />
+                        <String fx:value="shadow" />
+                        <String fx:value="radius" />
+                     </styleClass>
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin></AnchorPane>
                </children>
             </HBox>
          </children>
+         <StackPane.margin>
+            <Insets />
+         </StackPane.margin>
       </AnchorPane>
    </children>
 </StackPane>

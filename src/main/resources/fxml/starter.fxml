@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<StackPane minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" stylesheets="@../css/starter.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.StarterController">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <BorderPane fx:id="bPanePrimcipal" layoutX="177.0" layoutY="147.0" prefHeight="768.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <center>
+                  <AnchorPane BorderPane.alignment="CENTER" />
+               </center>
+               <left>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <VBox alignment="TOP_CENTER" layoutX="32.0" layoutY="46.0" prefHeight="768.0" prefWidth="200.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" smooth="false">
+                                 <image>
+                                    <Image url="@../img/reydelpollo.png" />
+                                 </image>
+                              </ImageView>
+                              <AnchorPane VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <VBox alignment="CENTER" layoutX="50.0" layoutY="81.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" text="Productos" textFill="#141414" VBox.vgrow="ALWAYS" />
+                                          <Button mnemonicParsing="false" text="Paquetes" VBox.vgrow="ALWAYS" />
+                                          <Button mnemonicParsing="false" text="Button" VBox.vgrow="ALWAYS" />
+                                          <Button mnemonicParsing="false" text="Button" VBox.vgrow="ALWAYS" />
+                                          <Button mnemonicParsing="false" text="Button" VBox.vgrow="ALWAYS" />
+                                          <Button mnemonicParsing="false" text="Button" VBox.vgrow="ALWAYS" />
+                                          <Button mnemonicParsing="false" text="Button" VBox.vgrow="ALWAYS" />
+                                          <Button mnemonicParsing="false" text="Button" VBox.vgrow="ALWAYS" />
+                                          <Button mnemonicParsing="false" text="Button" VBox.vgrow="ALWAYS" />
+                                          <Button mnemonicParsing="false" text="Button" VBox.vgrow="ALWAYS" />
+                                          <Button mnemonicParsing="false" text="Button" VBox.vgrow="ALWAYS" />
+                                          <Button mnemonicParsing="false" text="Button" VBox.vgrow="ALWAYS" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </VBox>
+                     </children>
+                     <styleClass>
+                        <String fx:value="banner-bg" />
+                        <String fx:value="radius" />
+                        <String fx:value="shadow" />
+                     </styleClass>
+                  </AnchorPane>
+               </left>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

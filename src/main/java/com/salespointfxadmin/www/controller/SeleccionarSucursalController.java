@@ -7,7 +7,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.salespointfxadmin.www.SalesPointFxAdminApplication;
+import com.salespointfxadmin.www.component.SpringFXMLLoader;
 import com.salespointfxadmin.www.model.Sucursal;
+import com.salespointfxadmin.www.service.MovimientoCajaService;
 import com.salespointfxadmin.www.service.SucursalService;
 
 import javafx.collections.FXCollections;
@@ -29,6 +31,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SeleccionarSucursalController implements Initializable {
 	private final SucursalService ss;
+	private final SpringFXMLLoader springFXMLLoader;
+	private final MovimientoCajaService mcs;
 
 	private ConfigurableApplicationContext context;
 
@@ -50,16 +54,20 @@ public class SeleccionarSucursalController implements Initializable {
 
 				Stage currenstage = (Stage) buttonSeleccionar.getScene().getWindow();
 				currenstage.close();
+				if (mcs.getLastMovmientoCaja() != null) {
 
-				// Abrir la ventana de Movimiento Caja
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/movimientocaja.fxml"));
-				loader.setControllerFactory(context::getBean);
-				Parent root = loader.load();
+				} else {
+					// Abrir la ventana de Movimiento Caja
+					FXMLLoader loader = springFXMLLoader.load("/fxml/movimientocaja" + ".fxml");// new
+																								// FXMLLoader(getClass().getResource("/fxml/movimientocaja.fxml"));
+					// loader.setControllerFactory(context::getBean);
+					Parent root = loader.load();
 
-				Stage newStage = new Stage();
-				newStage.setScene(new Scene(root));
-				newStage.setTitle("Movimiento de Caja");
-				newStage.showAndWait();
+					Stage newStage = new Stage();
+					newStage.setScene(new Scene(root));
+					newStage.setTitle("Movimiento de Caja");
+					newStage.showAndWait();
+				}
 
 			} else {
 				Alert infoAlert = new Alert(AlertType.WARNING);
@@ -70,7 +78,11 @@ public class SeleccionarSucursalController implements Initializable {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Alert infoAlert = new Alert(AlertType.ERROR);
+			infoAlert.setTitle("Seleccinora sucursal error!!!");
+			infoAlert.setHeaderText("Error al seleccionar la susucrsal");
+			infoAlert.setContentText(e.getMessage() + "\n" + e.getCause());
+			infoAlert.show();
 		}
 	}
 

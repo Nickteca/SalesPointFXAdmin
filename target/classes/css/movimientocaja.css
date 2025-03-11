@@ -1,5 +1,5 @@
 .shadow {
-	-fx-effect: dropshadow(three-pass-box, rgba(0, 99, 42, 0.5), 5, 0, 0, 0);
+	-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0, 0, 0);
 }
 
 .banner-bg {

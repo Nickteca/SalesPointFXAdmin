@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.salespointfxadmin.www.model.Usuario;
 
-public interface UsuarioRepo extends JpaRepository<Usuario, Short> {
 
+public interface UsuarioRepo extends JpaRepository<Usuario, Short> {
+	Usuario findByNombreUsuario(String nombreUsuario);
 }

@@ -17,7 +17,6 @@ public class SucursalService {
 	private final FolioService fs;
 
 	public Sucursal getSucursalActive() {
-		System.out.println(sr.findByEstatusSucursalTrue());
 		return sr.findByEstatusSucursalTrue();
 	}
 
