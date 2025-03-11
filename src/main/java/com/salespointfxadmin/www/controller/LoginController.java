@@ -7,10 +7,7 @@ import java.util.ResourceBundle;
 import org.springframework.stereotype.Component;
 
 import com.salespointfxadmin.www.component.SpringFXMLLoader;
-import com.salespointfxadmin.www.model.MovimientoCaja;
-import com.salespointfxadmin.www.model.MovimientoCaja.TipoMovimiento;
 import com.salespointfxadmin.www.model.Usuario;
-import com.salespointfxadmin.www.service.MovimientoCajaService;
 import com.salespointfxadmin.www.service.SucursalService;
 import com.salespointfxadmin.www.service.UsuarioService;
 
@@ -34,7 +31,7 @@ public class LoginController implements Initializable {
 	private final UsuarioService us;
 	private final SpringFXMLLoader springFXMLLoader;
 	private final SucursalService ss;
-	private final MovimientoCajaService mcs;
+	// private final MovimientoCajaService mcs;
 	@FXML
 	private Button btnAceptar;
 
@@ -93,7 +90,9 @@ public class LoginController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		this.textUsuario.setText("admin");
+		this.passUsuario.setText("admin");
+		this.btnAceptar.requestFocus();
 	}
 
 	private void seleccionarSucursal() {
@@ -132,6 +131,7 @@ public class LoginController implements Initializable {
 			alerta.showAndWait();
 		}
 	}
+
 	private void starter() {
 		try {
 			FXMLLoader loader = springFXMLLoader.load("/fxml/starter" + ".fxml");

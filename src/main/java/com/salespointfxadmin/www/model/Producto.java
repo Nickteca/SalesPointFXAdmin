@@ -12,11 +12,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Producto implements Serializable {
@@ -39,12 +41,20 @@ public class Producto implements Serializable {
 	@OneToMany(mappedBy = "paquete", cascade = CascadeType.ALL)
 	private List<ProductoPaquete> listProductoPaquete;
 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "producto")
+	private List<SucursalProducto> listSucursalProducto;
+
 	public Producto(Short idProducto, String nombreProducto, Boolean esPaquete) {
 		super();
 		this.idProducto = idProducto;
 		this.nombreProducto = nombreProducto;
 		this.esPaquete = esPaquete;
 		this.createdAt = LocalDateTime.now();
+	}
+
+	@Override
+	public String toString() {
+		return nombreProducto;
 	}
 
 }

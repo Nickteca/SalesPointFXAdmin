@@ -14,11 +14,13 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "nombreCategoria" }))
@@ -34,13 +36,18 @@ public class Categoria implements Serializable {
 
 	@Column(length = 20, nullable = false, unique = true)
 	private String nombreCategoria;
-	
+
 	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
 	private List<SucursalProducto> productos;
 
 	public Categoria(String nombreCategoria) {
 		super();
 		this.nombreCategoria = nombreCategoria;
+	}
+
+	@Override
+	public String toString() {
+		return nombreCategoria;
 	}
 
 }
