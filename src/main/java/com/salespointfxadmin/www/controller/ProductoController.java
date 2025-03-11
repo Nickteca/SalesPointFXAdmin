@@ -92,32 +92,32 @@ public class ProductoController implements Initializable {
 		cbCategoria.getSelectionModel().selectFirst();
 		/* SE INICIA TODO DE LOS PRODITOS */
 		pColumnId.setCellValueFactory(new PropertyValueFactory<>("idProducto"));
-		pColumnId.prefWidthProperty().bind(pTViewProductos.widthProperty().multiply(0.1));
+		pColumnId.prefWidthProperty().bind(pTViewProductos.widthProperty().multiply(0.2));
 
 		pColumnDescripcion.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
-		pColumnDescripcion.prefWidthProperty().bind(pTViewProductos.widthProperty().multiply(0.8));
+		pColumnDescripcion.prefWidthProperty().bind(pTViewProductos.widthProperty().multiply(0.7));
 
 		productos = FXCollections.observableArrayList(ps.getAllProductos());
 		pTViewProductos.setItems(productos);
 
 		/* SE INICIA TODO DE LOS PRODUCTO SUCURSAL */
 		columnId.setCellValueFactory(new PropertyValueFactory<>("idSucursalProducto"));
-		columnId.prefWidthProperty().bind(pTViewProductos.widthProperty().multiply(0.1));
+		columnId.prefWidthProperty().bind(tVSucursalProducto.widthProperty().multiply(0.1));
 
 		columnDescripcion.setCellValueFactory(new PropertyValueFactory<>("producto"));
-		columnDescripcion.prefWidthProperty().bind(pTViewProductos.widthProperty().multiply(0.5));
+		columnDescripcion.prefWidthProperty().bind(tVSucursalProducto.widthProperty().multiply(0.3));
 
 		columnInventario.setCellValueFactory(new PropertyValueFactory<>("inventario"));
-		columnInventario.prefWidthProperty().bind(pTViewProductos.widthProperty().multiply(0.2));
+		columnInventario.prefWidthProperty().bind(tVSucursalProducto.widthProperty().multiply(0.1));
 
 		columnCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
-		columnCategoria.prefWidthProperty().bind(pTViewProductos.widthProperty().multiply(0.2));
+		columnCategoria.prefWidthProperty().bind(tVSucursalProducto.widthProperty().multiply(0.2));
 
 		columnPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
-		columnPrecio.prefWidthProperty().bind(pTViewProductos.widthProperty().multiply(0.2));
+		columnPrecio.prefWidthProperty().bind(tVSucursalProducto.widthProperty().multiply(0.15));
 
 		columnVendible.setCellValueFactory(new PropertyValueFactory<>("vendible"));
-		columnVendible.prefWidthProperty().bind(pTViewProductos.widthProperty().multiply(0.2));
+		columnVendible.prefWidthProperty().bind(tVSucursalProducto.widthProperty().multiply(0.15));
 
 		sucursalProducto = FXCollections.observableArrayList(sps.getAllProductosSucursalActive());
 		tVSucursalProducto.setItems(sucursalProducto);

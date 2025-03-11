@@ -1,0 +1,15 @@
+.shadow {
+	-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0, 0, 0);
+}
+
+.banner-bg {
+	-fx-background-color: #fff;
+}
+
+.radius {
+	-fx-background-radius: 10px;
+}
+.titulo{
+	-fx-background-color: linear-gradient(to bottom right, #c97525, #9e0303);
+}
+
