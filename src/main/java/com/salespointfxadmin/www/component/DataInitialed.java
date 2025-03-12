@@ -10,12 +10,14 @@ import org.springframework.stereotype.Component;
 
 import com.salespointfxadmin.www.model.Categoria;
 import com.salespointfxadmin.www.model.Empresa;
+import com.salespointfxadmin.www.model.Gasto;
 import com.salespointfxadmin.www.model.Producto;
 import com.salespointfxadmin.www.model.Sucursal;
 import com.salespointfxadmin.www.model.Usuario;
 import com.salespointfxadmin.www.model.UsuarioRol;
 import com.salespointfxadmin.www.repositorie.CategoriaRepo;
 import com.salespointfxadmin.www.repositorie.EmpresaRepo;
+import com.salespointfxadmin.www.repositorie.GastoRepo;
 import com.salespointfxadmin.www.repositorie.ProductoRepo;
 import com.salespointfxadmin.www.repositorie.RolRepo;
 import com.salespointfxadmin.www.repositorie.SucursalRepo;
@@ -32,6 +34,7 @@ public class DataInitialed implements CommandLineRunner {
 	private final UsuarioRepo ur;
 	private final CategoriaRepo cr;
 	private final ProductoRepo pr;
+	private final GastoRepo gr;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -40,6 +43,7 @@ public class DataInitialed implements CommandLineRunner {
 		insertarRoles();
 		insertarUsuarios();
 		insertarProductos();
+		insertarGastos();
 	}
 
 	private Empresa saveEmpresa() {
@@ -184,6 +188,18 @@ public class DataInitialed implements CommandLineRunner {
 			pr.save(new Producto(null, "Botas grandes", false));
 			pr.save(new Producto(null, "kit medico", false));
 
+		}
+	}
+
+	private void insertarGastos() {
+		if (gr.count() == 0) {
+			gr.save(new Gasto(null, "Renta Local"));
+			gr.save(new Gasto(null, "Pago Luz"));
+			gr.save(new Gasto(null, "Pago de agua"));
+			gr.save(new Gasto(null, "Pago de la leña"));
+			gr.save(new Gasto(null, "Internet"));
+			gr.save(new Gasto(null, "Salarios"));
+			gr.save(new Gasto(null, "Herramienta"));
 		}
 	}
 }

@@ -11,6 +11,7 @@ import com.salespointfxadmin.www.model.SucursalProducto;
 import com.salespointfxadmin.www.service.CategoriaService;
 import com.salespointfxadmin.www.service.ProductoService;
 import com.salespointfxadmin.www.service.SucursalProductoService;
+import com.salespointfxadmin.www.service.SucursalService;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,17 +37,26 @@ public class ProductoController implements Initializable {
 	private final ProductoService ps;
 	private final SucursalProductoService sps;
 	private final CategoriaService cs;
+	private final SucursalService ss;
 
 	@FXML
 	private Button btnAgregar;
-
 	@FXML
 	private Button btnCancelar;
 	@FXML
+	private Button btnCancelar2;
+	@FXML
+	private Button btnEditar;
+	@FXML
 	private CheckBox cBoxVendible;
+	@FXML
+	private CheckBox cBoxVendible2;
 
 	@FXML
 	private ChoiceBox<Categoria> cbCategoria;
+
+	@FXML
+	private ChoiceBox<Categoria> cbCategoria2;
 
 	@FXML
 	private TableColumn<SucursalProducto, Categoria> columnCategoria;
@@ -82,7 +92,15 @@ public class ProductoController implements Initializable {
 	@FXML
 	private TableView<SucursalProducto> tVSucursalProducto;
 	@FXML
+	private TextField textDescripcion;
+	@FXML
+	private TextField textId;
+
+	@FXML
 	private TextField textPrecio;
+
+	@FXML
+	private TextField textPrecio2;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -90,6 +108,7 @@ public class ProductoController implements Initializable {
 		ObservableList<Categoria> categorias = FXCollections.observableArrayList(cs.getAllCategorias());
 		cbCategoria.setItems(categorias);
 		cbCategoria.getSelectionModel().selectFirst();
+		cbCategoria2.setItems(categorias);
 		/* SE INICIA TODO DE LOS PRODITOS */
 		pColumnId.setCellValueFactory(new PropertyValueFactory<>("idProducto"));
 		pColumnId.prefWidthProperty().bind(pTViewProductos.widthProperty().multiply(0.2));
@@ -119,7 +138,7 @@ public class ProductoController implements Initializable {
 		columnVendible.setCellValueFactory(new PropertyValueFactory<>("vendible"));
 		columnVendible.prefWidthProperty().bind(tVSucursalProducto.widthProperty().multiply(0.15));
 
-		sucursalProducto = FXCollections.observableArrayList(sps.getAllProductosSucursalActive());
+		sucursalProducto = FXCollections.observableArrayList(sps.getAllProductosSucursalActive(ss.getSucursalActive()));
 		tVSucursalProducto.setItems(sucursalProducto);
 		/* CheckBox por defaul chequeado */
 		cBoxVendible.setSelected(true);
@@ -134,8 +153,32 @@ public class ProductoController implements Initializable {
 			return null; // Rechazar el cambio
 		});
 
+		TextFormatter<String> formatter2 = new TextFormatter<>(change -> {
+			String newText = change.getControlNewText();
+
+			// Permitir solo números que no inicien con '0', excepto si es solo '0'
+			if (newText.matches("[1-9][0-9]*|0|")) {
+				return change; // Aceptar el cambio
+			}
+			return null; // Rechazar el cambio
+		});
+
 		// Asignar el TextFormatter al TextField
 		textPrecio.setTextFormatter(formatter);
+		textPrecio2.setTextFormatter(formatter2);
+		/* SE AGREGA N ESCUCHADOR A LA TABLA CSUCURSALPRODUCTO */
+		tVSucursalProducto.setOnMouseClicked(event -> {
+			if (event.getClickCount() == 2) { // Doble clic
+				SucursalProducto productoSeleccionado = tVSucursalProducto.getSelectionModel().getSelectedItem();
+				if (productoSeleccionado != null) {
+					textDescripcion.setText(productoSeleccionado.getProducto().getNombreProducto());
+					textPrecio2.setText(productoSeleccionado.getPrecio() + "");
+					textId.setText(productoSeleccionado.getIdSucursalProducto() + "");
+					cbCategoria2.getSelectionModel().select(productoSeleccionado.getCategoria());
+					cBoxVendible2.setSelected(productoSeleccionado.isVendible());
+				}
+			}
+		});
 	}
 
 	@FXML
@@ -156,7 +199,7 @@ public class ProductoController implements Initializable {
 				throw new Exception("El producto ya está agregado a la sucursal.");
 			}
 
-			sucursalProducto.add(sps.saveSucursalProducto(precio, vendibe, c, p));
+			sucursalProducto.add(sps.saveSucursalProducto(precio, vendibe, c, p, ss.getSucursalActive()));
 		} catch (
 
 		Exception e) {
@@ -170,6 +213,16 @@ public class ProductoController implements Initializable {
 
 	@FXML
 	void cancelar(ActionEvent event) {
+	}
+
+	@FXML
+	void cancelar2(ActionEvent event) {
+
+	}
+
+	@FXML
+	void editar(ActionEvent event) {
+
 	}
 
 }

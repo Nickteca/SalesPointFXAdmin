@@ -19,7 +19,7 @@
 
 <AnchorPane prefHeight="768.0" prefWidth="824.0" stylesheets="@../css/productos.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.ProductoController">
    <children>
-      <BorderPane layoutX="185.0" layoutY="174.0" prefHeight="768.0" prefWidth="824.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane layoutX="185.0" layoutY="174.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <AnchorPane styleClass="titulo" BorderPane.alignment="CENTER">
                <children>
@@ -37,7 +37,7 @@
          <center>
             <AnchorPane BorderPane.alignment="CENTER">
                <children>
-                  <VBox layoutX="369.0" layoutY="237.0" prefHeight="731.0" prefWidth="824.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox layoutX="369.0" layoutY="237.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <AnchorPane VBox.vgrow="ALWAYS">
                            <VBox.margin>
@@ -147,39 +147,35 @@
                         </AnchorPane>
                         <AnchorPane VBox.vgrow="ALWAYS">
                            <children>
-                              <HBox layoutX="261.0" layoutY="165.0" prefHeight="511.0" prefWidth="824.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <AnchorPane HBox.hgrow="ALWAYS">
-                                       <children>
-                                          <TableView fx:id="tVSucursalProducto" prefHeight="266.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                            <columns>
-                                              <TableColumn fx:id="columnId" prefWidth="75.0" text="ID" />
-                                              <TableColumn fx:id="columnDescripcion" prefWidth="251.0" text="DESCRIPCION" />
-                                                <TableColumn fx:id="columnInventario" prefWidth="81.0" text="INVENTARIO" />
-                                                <TableColumn fx:id="columnCategoria" prefWidth="149.0" text="CATEGORIA" />
-                                                <TableColumn fx:id="columnPrecio" prefWidth="71.0" text="PRECIO" />
-                                                <TableColumn fx:id="columnVendible" prefWidth="69.0" text="VENDIBLE" />
-                                            </columns>
-                                          </TableView>
-                                       </children>
-                                       <padding>
-                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                       </padding>
-                                       <styleClass>
-                                          <String fx:value="banner-bg" />
-                                          <String fx:value="radius" />
-                                          <String fx:value="shadow" />
-                                       </styleClass>
-                                    </AnchorPane>
+                                    <TableView fx:id="tVSucursalProducto" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                                        <TableColumn fx:id="columnId" editable="false" prefWidth="75.0" text="ID" />
+                                        <TableColumn fx:id="columnDescripcion" editable="false" prefWidth="251.0" text="DESCRIPCION" />
+                                          <TableColumn fx:id="columnInventario" editable="false" prefWidth="81.0" text="INVENTARIO" />
+                                          <TableColumn fx:id="columnCategoria" editable="false" prefWidth="149.0" text="CATEGORIA" />
+                                          <TableColumn fx:id="columnPrecio" editable="false" prefWidth="71.0" text="PRECIO" />
+                                          <TableColumn fx:id="columnVendible" editable="false" prefWidth="69.0" text="VENDIBLE" />
+                                      </columns>
+                                    </TableView>
                                  </children>
+                                 <styleClass>
+                                    <String fx:value="banner-bg" />
+                                    <String fx:value="radius" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </padding>
-                              </HBox>
+                              </AnchorPane>
                            </children>
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
                         </AnchorPane>
                      </children>
                      <padding>
@@ -190,7 +186,94 @@
             </AnchorPane>
          </center>
          <bottom>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <AnchorPane BorderPane.alignment="CENTER">
+               <children>
+                  <VBox alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <AnchorPane VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label alignment="CENTER" styleClass="titulo" text="Producto" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label layoutX="14.0" layoutY="14.0" text="ID:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="textId" editable="false" layoutX="37.0" layoutY="10.0" prefHeight="25.0" prefWidth="73.0" />
+                              <Label layoutX="226.0" layoutY="14.0" text="DESCRIPCION:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="textDescripcion" layoutX="310.0" layoutY="10.0" prefHeight="25.0" prefWidth="195.0" />
+                              <Label layoutX="545.0" layoutY="14.0" text="CATEGORIA:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <ChoiceBox fx:id="cbCategoria2" layoutX="618.0" layoutY="10.0" prefWidth="150.0" />
+                              <Label layoutX="11.0" layoutY="49.0" text="PRECIO:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="textPrecio2" layoutX="61.0" layoutY="45.0" />
+                              <Label layoutX="239.0" layoutY="49.0" text="VENDIBLE:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <CheckBox fx:id="cBoxVendible2" layoutX="308.0" layoutY="49.0" mnemonicParsing="false" />
+                              <Button fx:id="btnEditar" layoutX="382.0" layoutY="45.0" mnemonicParsing="false" onAction="#editar" text="Editar">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" smooth="false">
+                                       <image>
+                                          <Image url="@../img/Edit.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="btnCancelar2" layoutX="461.0" layoutY="45.0" mnemonicParsing="false" onAction="#cancelar2" text="Cencelar">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" smooth="false">
+                                       <image>
+                                          <Image url="@../img/Cancel.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                           <styleClass>
+                              <String fx:value="banner-bg" />
+                              <String fx:value="radius" />
+                              <String fx:value="shadow" />
+                           </styleClass>
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="10.0" />
+                           </padding>
+                        </AnchorPane>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets top="10.0" />
+               </padding></AnchorPane>
          </bottom>
       </BorderPane>
    </children>

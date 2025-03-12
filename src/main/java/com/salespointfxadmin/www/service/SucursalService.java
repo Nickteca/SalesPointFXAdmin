@@ -16,6 +16,8 @@ public class SucursalService {
 	private final SucursalRepo sr;
 	private final FolioService fs;
 
+	private final SucursalProductoService sps;
+
 	public Sucursal getSucursalActive() {
 		return sr.findByEstatusSucursalTrue();
 	}
@@ -28,6 +30,7 @@ public class SucursalService {
 	public Sucursal activarSucursal(Sucursal sucursal) {
 		Sucursal s = sr.save(sucursal);
 		fs.insertFolios(s);
+		sps.insertarSucursalProductos(sucursal);
 		return s;
 	}
 }

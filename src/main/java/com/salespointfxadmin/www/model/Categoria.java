@@ -50,4 +50,9 @@ public class Categoria implements Serializable {
 		return nombreCategoria;
 	}
 
+	public Categoria(Short idCategoria) {
+		super();
+		this.idCategoria = idCategoria;
+	}
+
 }
