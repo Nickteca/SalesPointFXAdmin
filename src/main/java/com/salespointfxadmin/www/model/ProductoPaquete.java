@@ -29,4 +29,8 @@ public class ProductoPaquete implements Serializable {
 	@JoinColumn(name = "productoPaquete", referencedColumnName = "idProducto")
 	@ManyToOne(optional = false)
 	private Producto productoPaquete;
+
+	@JoinColumn(name = "paqueteProducto", referencedColumnName = "idProducto")
+	@ManyToOne(optional = false)
+	private Producto paqueteProducto;
 }

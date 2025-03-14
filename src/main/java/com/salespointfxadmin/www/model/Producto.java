@@ -38,8 +38,11 @@ public class Producto implements Serializable {
 	@Column(nullable = false)
 	private LocalDateTime createdAt;
 
-	@OneToMany(mappedBy = "paquete", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "productoPaquete", cascade = CascadeType.ALL)
 	private List<ProductoPaquete> listProductoPaquete;
+
+	@OneToMany(mappedBy = "paqueteProducto", cascade = CascadeType.ALL)
+	private List<ProductoPaquete> listPaqueteProducto;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "producto")
 	private List<SucursalProducto> listSucursalProducto;

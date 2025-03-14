@@ -21,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
@@ -34,115 +35,176 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductoController implements Initializable {
 
-	private final ProductoService ps;
-	private final SucursalProductoService sps;
 	private final CategoriaService cs;
+	private final SucursalProductoService sps;
 	private final SucursalService ss;
+	private final ProductoService ps;
 
 	@FXML
-	private Button btnAgregar;
+	private Button buttonCancelar;
 	@FXML
-	private Button btnCancelar;
+	private Button buttonGuardar;
 	@FXML
-	private Button btnCancelar2;
-	@FXML
-	private Button btnEditar;
+	private ChoiceBox<Categoria> cBoxCategoria;
+	private ObservableList<Categoria> olc;
 	@FXML
 	private CheckBox cBoxVendible;
 	@FXML
-	private CheckBox cBoxVendible2;
-
-	@FXML
-	private ChoiceBox<Categoria> cbCategoria;
-
-	@FXML
-	private ChoiceBox<Categoria> cbCategoria2;
-
-	@FXML
 	private TableColumn<SucursalProducto, Categoria> columnCategoria;
-
 	@FXML
 	private TableColumn<SucursalProducto, Producto> columnDescripcion;
-
 	@FXML
 	private TableColumn<SucursalProducto, Short> columnId;
-
 	@FXML
 	private TableColumn<SucursalProducto, Float> columnInventario;
-
 	@FXML
 	private TableColumn<SucursalProducto, Float> columnPrecio;
-
 	@FXML
 	private TableColumn<SucursalProducto, Boolean> columnVendible;
+	@FXML
+	private TextField tFieldDescripcion;
+	@FXML
+	private TextField tFieldId;
+	@FXML
+	private TextField tFieldInventario;
+	@FXML
+	private TextField tFieldPrecio;
+	@FXML
+	private TableView<SucursalProducto> tVeiwSucursalProductos;
+	private ObservableList<SucursalProducto> olsp;
 
 	@FXML
-	private TableColumn<Producto, String> pColumnDescripcion;
+	void cancelar(ActionEvent event) {
+		limpiarCampos();
+	}
 
 	@FXML
-	private TableColumn<Producto, Short> pColumnId;
-	@FXML
-	private ObservableList<Producto> productos;
-	@FXML
-	private ObservableList<SucursalProducto> sucursalProducto;
+	void guardar(ActionEvent event) {
+		try {
+			// Obtener el producto seleccionado de la tabla
+			SucursalProducto productoSeleccionado = tVeiwSucursalProductos.getSelectionModel().getSelectedItem();
+			if (productoSeleccionado != null) {
+				Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+				confirmacion.setTitle("Confirmar actualización");
+				confirmacion.setHeaderText("¿Deseas actualizar el producto?");
+				confirmacion.setContentText("Producto: " + productoSeleccionado.getProducto().getNombreProducto());
+				// Esperar la respuesta del usuario
+				var resultado = confirmacion.showAndWait();
+				// Actualizar el producto con los valores de los campos de texto y selección
+				if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+					productoSeleccionado.getProducto().setNombreProducto(tFieldDescripcion.getText());
+					productoSeleccionado.setPrecio(Float.parseFloat(tFieldPrecio.getText()));
+					productoSeleccionado.setInventario(Float.parseFloat(tFieldInventario.getText()));
+					productoSeleccionado.setCategoria(cBoxCategoria.getSelectionModel().getSelectedItem());
+					productoSeleccionado.setVendible(cBoxVendible.isSelected());
 
-	@FXML
-	private TableView<Producto> pTViewProductos;
+					// Guardar el producto actualizado en la base de datos
+					sps.saveSucursalProducto(productoSeleccionado);
 
-	@FXML
-	private TableView<SucursalProducto> tVSucursalProducto;
-	@FXML
-	private TextField textDescripcion;
-	@FXML
-	private TextField textId;
-
-	@FXML
-	private TextField textPrecio;
-
-	@FXML
-	private TextField textPrecio2;
+					// Refrescar la tabla
+					tVeiwSucursalProductos.refresh();
+					limpiarCampos();
+				} else {
+					limpiarCampos();
+				}
+			} else {
+				Producto p = new Producto(null, tFieldDescripcion.getText(), false);
+				p = ps.save(p);
+				SucursalProducto sp = new SucursalProducto(null, Float.parseFloat(tFieldPrecio.getText()), Float.parseFloat(tFieldInventario.getText()), cBoxVendible.isSelected(), p,
+						cBoxCategoria.getSelectionModel().getSelectedItem(), ss.getSucursalActive());
+				sp = sps.saveSucursalProducto(sp);
+				if (sp != null) {
+					Alert confirmacion = new Alert(AlertType.CONFIRMATION);
+					confirmacion.setTitle("Exito!!!");
+					confirmacion.setHeaderText("Dao de alta correctamente");
+					confirmacion.setContentText("El sucursalProducto:" + sp.getProducto().getNombreProducto() + " dado de alta correctamente");
+					confirmacion.show();
+					olsp.add(sp);
+					tVeiwSucursalProductos.refresh();
+					limpiarCampos();
+				}
+			}
+		} catch (Exception e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("ProductoCiontroller Error!!!");
+			error.setHeaderText("Error al insertar ya sea producto o sucursalproducto");
+			error.setContentText(e.getMessage() + "\n" + e.getCause());
+			error.show();
+		}
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		/* CARGANDO CATEGORIAS */
-		ObservableList<Categoria> categorias = FXCollections.observableArrayList(cs.getAllCategorias());
-		cbCategoria.setItems(categorias);
-		cbCategoria.getSelectionModel().selectFirst();
-		cbCategoria2.setItems(categorias);
-		/* SE INICIA TODO DE LOS PRODITOS */
-		pColumnId.setCellValueFactory(new PropertyValueFactory<>("idProducto"));
-		pColumnId.prefWidthProperty().bind(pTViewProductos.widthProperty().multiply(0.2));
+		inicarTabla();
+		tablaLsitener();
+		textFielNumeros();
+		olc = FXCollections.observableArrayList(cs.getAllCategorias());
+		cBoxCategoria.setItems(olc);
+		cBoxCategoria.getSelectionModel().selectFirst();
 
-		pColumnDescripcion.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
-		pColumnDescripcion.prefWidthProperty().bind(pTViewProductos.widthProperty().multiply(0.7));
+		seleccionarTextoAlHacerClick(tFieldDescripcion);
+		seleccionarTextoAlHacerClick(tFieldPrecio);
+		seleccionarTextoAlHacerClick(tFieldInventario);
+		seleccionarTextoAlHacerClick(tFieldId);
 
-		productos = FXCollections.observableArrayList(ps.getAllProductos());
-		pTViewProductos.setItems(productos);
+		tFieldPrecio.setOnAction(event -> buttonGuardar.fire());
+	}
 
+	private void inicarTabla() {
 		/* SE INICIA TODO DE LOS PRODUCTO SUCURSAL */
 		columnId.setCellValueFactory(new PropertyValueFactory<>("idSucursalProducto"));
-		columnId.prefWidthProperty().bind(tVSucursalProducto.widthProperty().multiply(0.1));
+		columnId.prefWidthProperty().bind(tVeiwSucursalProductos.widthProperty().multiply(0.1));
 
 		columnDescripcion.setCellValueFactory(new PropertyValueFactory<>("producto"));
-		columnDescripcion.prefWidthProperty().bind(tVSucursalProducto.widthProperty().multiply(0.3));
+		columnDescripcion.prefWidthProperty().bind(tVeiwSucursalProductos.widthProperty().multiply(0.3));
 
 		columnInventario.setCellValueFactory(new PropertyValueFactory<>("inventario"));
-		columnInventario.prefWidthProperty().bind(tVSucursalProducto.widthProperty().multiply(0.1));
+		columnInventario.prefWidthProperty().bind(tVeiwSucursalProductos.widthProperty().multiply(0.1));
 
 		columnCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
-		columnCategoria.prefWidthProperty().bind(tVSucursalProducto.widthProperty().multiply(0.2));
+		columnCategoria.prefWidthProperty().bind(tVeiwSucursalProductos.widthProperty().multiply(0.2));
 
 		columnPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
-		columnPrecio.prefWidthProperty().bind(tVSucursalProducto.widthProperty().multiply(0.15));
+		columnPrecio.prefWidthProperty().bind(tVeiwSucursalProductos.widthProperty().multiply(0.15));
 
 		columnVendible.setCellValueFactory(new PropertyValueFactory<>("vendible"));
-		columnVendible.prefWidthProperty().bind(tVSucursalProducto.widthProperty().multiply(0.15));
+		columnVendible.prefWidthProperty().bind(tVeiwSucursalProductos.widthProperty().multiply(0.15));
 
-		sucursalProducto = FXCollections.observableArrayList(sps.getAllProductosSucursalActive(ss.getSucursalActive()));
-		tVSucursalProducto.setItems(sucursalProducto);
-		/* CheckBox por defaul chequeado */
-		cBoxVendible.setSelected(true);
-		/* HACEMPOS QUE SOLO ACEPTE NUMEROS EL PRECIO TEXT */
+		olsp = FXCollections.observableArrayList(sps.getAllProductosSucursalActive(ss.getSucursalActive()));
+		tVeiwSucursalProductos.setItems(olsp);
+
+	}
+
+	private void tablaLsitener() {
+		/* SE AGREGA N ESCUCHADOR A LA TABLA CSUCURSALPRODUCTO */
+		tVeiwSucursalProductos.setOnMouseClicked(event -> {
+			if (event.getClickCount() == 1) { // Doble clic
+				SucursalProducto productoSeleccionado = tVeiwSucursalProductos.getSelectionModel().getSelectedItem();
+				if (productoSeleccionado != null) {
+					tFieldDescripcion.setText(productoSeleccionado.getProducto().getNombreProducto());
+					tFieldPrecio.setText(productoSeleccionado.getPrecio() + "");
+					tFieldId.setText(productoSeleccionado.getIdSucursalProducto() + "");
+					cBoxCategoria.getSelectionModel().select(productoSeleccionado.getCategoria());
+					tFieldInventario.setText(productoSeleccionado.getInventario() + "");
+					cBoxVendible.setSelected(productoSeleccionado.isVendible());
+				}
+			}
+		});
+	}
+
+	private void limpiarCampos() {
+		tFieldId.setText(null);
+		tFieldDescripcion.setText(null);
+		tFieldInventario.setText(null);
+		tFieldPrecio.setText(null);
+		tVeiwSucursalProductos.getSelectionModel().clearSelection();
+	}
+
+	private void seleccionarTextoAlHacerClick(TextField textField) {
+		textField.setOnMouseClicked(event -> textField.selectAll());
+	}
+
+	private void textFielNumeros() {
 		TextFormatter<String> formatter = new TextFormatter<>(change -> {
 			String newText = change.getControlNewText();
 
@@ -162,67 +224,8 @@ public class ProductoController implements Initializable {
 			}
 			return null; // Rechazar el cambio
 		});
-
-		// Asignar el TextFormatter al TextField
-		textPrecio.setTextFormatter(formatter);
-		textPrecio2.setTextFormatter(formatter2);
-		/* SE AGREGA N ESCUCHADOR A LA TABLA CSUCURSALPRODUCTO */
-		tVSucursalProducto.setOnMouseClicked(event -> {
-			if (event.getClickCount() == 2) { // Doble clic
-				SucursalProducto productoSeleccionado = tVSucursalProducto.getSelectionModel().getSelectedItem();
-				if (productoSeleccionado != null) {
-					textDescripcion.setText(productoSeleccionado.getProducto().getNombreProducto());
-					textPrecio2.setText(productoSeleccionado.getPrecio() + "");
-					textId.setText(productoSeleccionado.getIdSucursalProducto() + "");
-					cbCategoria2.getSelectionModel().select(productoSeleccionado.getCategoria());
-					cBoxVendible2.setSelected(productoSeleccionado.isVendible());
-				}
-			}
-		});
-	}
-
-	@FXML
-	void agergarProductoSucursal(ActionEvent event) {
-		try {
-			Producto p = pTViewProductos.getSelectionModel().getSelectedItem();
-			if (p == null) {
-				throw new Exception("Selecciona un producto");
-			}
-			if (textPrecio.getText().isEmpty()) {
-				throw new Exception("Ingresa Cantidad");
-			}
-			float precio = Float.parseFloat(textPrecio.getText());
-			boolean vendibe = cBoxVendible.isSelected();
-			Categoria c = cbCategoria.getValue();
-			boolean existe = sucursalProducto.stream().anyMatch(sp -> sp.getProducto().getIdProducto() == p.getIdProducto());
-			if (existe) {
-				throw new Exception("El producto ya está agregado a la sucursal.");
-			}
-
-			sucursalProducto.add(sps.saveSucursalProducto(precio, vendibe, c, p, ss.getSucursalActive()));
-		} catch (
-
-		Exception e) {
-			Alert error = new Alert(AlertType.ERROR);
-			error.setTitle("Producto Controller Error!!!");
-			error.setHeaderText("Hay error al asignar el producto a la sucursal");
-			error.setContentText(e.getMessage() + "\n" + e.getCause());
-			error.show();
-		}
-	}
-
-	@FXML
-	void cancelar(ActionEvent event) {
-	}
-
-	@FXML
-	void cancelar2(ActionEvent event) {
-
-	}
-
-	@FXML
-	void editar(ActionEvent event) {
-
+		tFieldPrecio.setTextFormatter(formatter2);
+		tFieldInventario.setTextFormatter(formatter);
 	}
 
 }

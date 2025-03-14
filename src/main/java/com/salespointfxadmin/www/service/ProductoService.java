@@ -20,4 +20,8 @@ public class ProductoService {
 		return pr.findAll();
 	}
 
+	public Producto save(Producto p) {
+		return pr.save(p);
+	}
+
 }

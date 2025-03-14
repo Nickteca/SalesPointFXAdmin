@@ -28,7 +28,7 @@ public class StarterController {
 
 	@FXML
 	void productos(ActionEvent event) {
-		cargarVista("/fxml/producto2.fxml");
+		cargarVista("/fxml/productos.fxml");
 	}
 
 	private void cargarVista(String fxmlPath) {

@@ -1,10 +1,10 @@
 .menuIzquierdo {
-	-fx-background-color: linear-gradient(to bottom right, #c97525, #9e0303);
+	-fx-background-color: linear-gradient(to bottom right, #2E2E2E, #9e0303);
 }
 
 .boton-fuego {
     -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #FF4500, #FF8C00);
-    -fx-text-fill: rgb(0, 0, 0);
+    -fx-text-fill: rgb(255, 255, 255);
     -fx-font-size: 14px;
     -fx-padding: 8 16;
     -fx-background-radius: 5;
