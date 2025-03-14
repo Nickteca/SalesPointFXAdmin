@@ -15,6 +15,8 @@ import com.salespointfxadmin.www.service.SucursalService;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -61,6 +63,8 @@ public class ProductoController implements Initializable {
 	private TableColumn<SucursalProducto, Float> columnPrecio;
 	@FXML
 	private TableColumn<SucursalProducto, Boolean> columnVendible;
+	@FXML
+	private TextField tFieldBuscar;
 	@FXML
 	private TextField tFieldDescripcion;
 	@FXML
@@ -148,6 +152,38 @@ public class ProductoController implements Initializable {
 		seleccionarTextoAlHacerClick(tFieldId);
 
 		tFieldPrecio.setOnAction(event -> buttonGuardar.fire());
+		filtro();
+	}
+
+	private void filtro() {
+		FilteredList<SucursalProducto> filteredData = new FilteredList<>(olsp, p -> true);
+		// Asociar el filtro con el TextField
+		tFieldBuscar.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(producto -> {
+				// Si el campo de búsqueda está vacío, muestra todo
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+
+				// Convierte el texto a minúsculas para una búsqueda sin distinción de
+				// mayúsculas/minúsculas
+				String lowerCaseFilter = newValue.toLowerCase();
+
+				// Compara con el nombre y la categoría del producto
+				if (producto.getProducto().getNombreProducto().toLowerCase().contains(lowerCaseFilter)) {
+					return true;
+				} else if (producto.getCategoria().getNombreCategoria().toLowerCase().contains(lowerCaseFilter)) {
+					return true;
+				}
+				return false; // No coincide
+			});
+		});
+		// Crear un SortedList a partir del FilteredList
+		SortedList<SucursalProducto> sortedData = new SortedList<>(filteredData);
+		sortedData.comparatorProperty().bind(tVeiwSucursalProductos.comparatorProperty());
+
+		// Asignar los datos filtrados y ordenados a la tabla
+		tVeiwSucursalProductos.setItems(sortedData);
 	}
 
 	private void inicarTabla() {

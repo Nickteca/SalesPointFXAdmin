@@ -9,8 +9,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductoPaquete implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -30,7 +36,11 @@ public class ProductoPaquete implements Serializable {
 	@ManyToOne(optional = false)
 	private Producto productoPaquete;
 
-	@JoinColumn(name = "paqueteProducto", referencedColumnName = "idProducto")
-	@ManyToOne(optional = false)
-	private Producto paqueteProducto;
+	public ProductoPaquete(Producto paquete, float cantidad, Producto productoPaquete) {
+		super();
+		this.paquete = paquete;
+		this.cantidad = cantidad;
+		this.productoPaquete = productoPaquete;
+	}
+
 }

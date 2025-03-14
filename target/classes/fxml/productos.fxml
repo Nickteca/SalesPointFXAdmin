@@ -23,6 +23,19 @@
          <center>
             <VBox spacing="10.0" BorderPane.alignment="CENTER">
                <children>
+                  <HBox alignment="CENTER_LEFT" spacing="20.0">
+                     <children>
+                        <Label text="BUSCAR:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="tFieldBuscar" prefHeight="25.0" prefWidth="217.0" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </HBox>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
                         <TableView fx:id="tVeiwSucursalProductos" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

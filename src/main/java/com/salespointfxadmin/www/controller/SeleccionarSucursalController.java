@@ -55,11 +55,19 @@ public class SeleccionarSucursalController implements Initializable {
 				Stage currenstage = (Stage) buttonSeleccionar.getScene().getWindow();
 				currenstage.close();
 				if (mcs.getLastMovmientoCaja() != null) {
+					FXMLLoader loader = springFXMLLoader.load("/fxml/starter" + ".fxml");// new
+					// FXMLLoader(getClass().getResource("/fxml/movimientocaja.fxml"));
+// loader.setControllerFactory(context::getBean);
+					Parent root = loader.load();
 
+					Stage newStage = new Stage();
+					newStage.setScene(new Scene(root));
+					newStage.setTitle("Movimiento de Caja");
+					newStage.showAndWait();
 				} else {
 					// Abrir la ventana de Movimiento Caja
-					FXMLLoader loader = springFXMLLoader.load("/fxml/movimientocaja" + ".fxml");// new
-																								// FXMLLoader(getClass().getResource("/fxml/movimientocaja.fxml"));
+					FXMLLoader loader = springFXMLLoader.load("/fxml/starter" + ".fxml");// new
+																							// FXMLLoader(getClass().getResource("/fxml/movimientocaja.fxml"));
 					// loader.setControllerFactory(context::getBean);
 					Parent root = loader.load();
 
