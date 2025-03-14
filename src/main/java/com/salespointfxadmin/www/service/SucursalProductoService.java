@@ -29,6 +29,12 @@ public class SucursalProductoService {
 		return spr.save(sp);
 	}
 
+	public SucursalProducto saveSucursalProducto(SucursalProducto sp) {
+		// SucursalProducto sp = new SucursalProducto(0, precio, vendible, p,
+		// categporia, sucursal);
+		return spr.save(sp);
+	}
+
 	@Transactional
 	public void insertarSucursalProductos(Sucursal sucursal) {
 		List<Producto> productos = ps.getAllProductos();
