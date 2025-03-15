@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -11,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="768.0" prefWidth="824.0" stylesheets="@../css/productos.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.PaqueteController">
+<AnchorPane prefHeight="768.0" prefWidth="824.0" stylesheets="@../css/productos.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.PaqueteController">
    <children>
       <BorderPane layoutX="451.0" layoutY="258.0" prefHeight="768.0" prefWidth="824.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -34,6 +35,7 @@
                               <TextField layoutX="87.0" layoutY="98.0" />
                               <Label layoutX="236.0" layoutY="102.0" text="CATEGORIA:" />
                               <ChoiceBox prefWidth="150.0" />
+                              <Button mnemonicParsing="false" text="Guardar" />
                            </children>
                         </HBox>
                      </children>
@@ -50,12 +52,20 @@
                   </AnchorPane>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="183.0" layoutY="-14.0" prefHeight="200.0" prefWidth="824.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <columns>
-                            <TableColumn prefWidth="75.0" text="C1" />
-                            <TableColumn prefWidth="75.0" text="C2" />
-                          </columns>
-                        </TableView>
+                        <HBox prefHeight="200.0" prefWidth="824.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TableView fx:id="tViewPaquetes" HBox.hgrow="ALWAYS">
+                                <columns>
+                                  <TableColumn fx:id="columnId" prefWidth="75.0" text="ID" />
+                                  <TableColumn fx:id="columnDescripcion" prefWidth="124.0" text="DESCRIPCION" />
+                                    <TableColumn fx:id="columnCategoria" prefWidth="75.0" text="CATEGORIA" />
+                                    <TableColumn fx:id="columnPrecio" prefWidth="75.0" text="PRECIO" />
+                                    <TableColumn fx:id="columnVendible" prefWidth="75.0" text="VENDIBLE" />
+                                </columns>
+                              </TableView>
+                              <ListView fx:id="lViewProductosPaquete" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
                      </children>
                   </AnchorPane>
                </children>

@@ -8,5 +8,9 @@ import com.salespointfxadmin.www.model.Sucursal;
 import com.salespointfxadmin.www.model.SucursalProducto;
 
 public interface SucursalProductoRepo extends JpaRepository<SucursalProducto, Short> {
-	List<SucursalProducto> findBySucursal(Sucursal sucursal);
+	List<SucursalProducto> findBySucursalAndProductoEsPaqueteFalse(Sucursal sucursal);
+
+	List<SucursalProducto> findBySucursalAndVendibleTrue(Sucursal sucursal);
+
+	List<SucursalProducto> findBySucursalAndProductoEsPaqueteTrue(Sucursal sucursal);
 }

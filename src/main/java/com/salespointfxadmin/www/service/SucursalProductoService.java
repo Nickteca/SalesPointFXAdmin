@@ -20,8 +20,16 @@ public class SucursalProductoService {
 	private final ProductoService ps;
 	// private final SucursalService ss;
 
-	public List<SucursalProducto> getAllProductosSucursalActive(Sucursal sucursal) {
-		return spr.findBySucursal(sucursal);
+	public List<SucursalProducto> findBySucursalAndProductoEsPaqueteFalse(Sucursal sucursal) {
+		return spr.findBySucursalAndProductoEsPaqueteFalse(sucursal);
+	}
+
+	public List<SucursalProducto> findBySucursalAndProductoEsPaqueteTrue(Sucursal sucursal) {
+		return spr.findBySucursalAndProductoEsPaqueteTrue(sucursal);
+	}
+
+	public List<SucursalProducto> findBySucursalAndVendibleTrue(Sucursal sucursal) {
+		return spr.findBySucursalAndVendibleTrue(sucursal);
 	}
 
 	public SucursalProducto saveSucursalProducto(float precio, boolean vendible, Categoria categporia, Producto p, Sucursal sucursal) {
@@ -41,7 +49,5 @@ public class SucursalProductoService {
 		for (Producto producto : productos) {
 			spr.save(new SucursalProducto(0, 0, true, producto, new Categoria((short) 1), sucursal));
 		}
-
 	}
-
 }

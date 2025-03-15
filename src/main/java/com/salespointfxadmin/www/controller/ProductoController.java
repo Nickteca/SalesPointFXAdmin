@@ -206,7 +206,7 @@ public class ProductoController implements Initializable {
 		columnVendible.setCellValueFactory(new PropertyValueFactory<>("vendible"));
 		columnVendible.prefWidthProperty().bind(tVeiwSucursalProductos.widthProperty().multiply(0.15));
 
-		olsp = FXCollections.observableArrayList(sps.getAllProductosSucursalActive(ss.getSucursalActive()));
+		olsp = FXCollections.observableArrayList(sps.findBySucursalAndProductoEsPaqueteFalse(ss.getSucursalActive()));
 		tVeiwSucursalProductos.setItems(olsp);
 
 	}
@@ -223,6 +223,7 @@ public class ProductoController implements Initializable {
 					cBoxCategoria.getSelectionModel().select(productoSeleccionado.getCategoria());
 					tFieldInventario.setText(productoSeleccionado.getInventario() + "");
 					cBoxVendible.setSelected(productoSeleccionado.isVendible());
+					tFieldPrecio.requestFocus();
 				}
 			}
 		});

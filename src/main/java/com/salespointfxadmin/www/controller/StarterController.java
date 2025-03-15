@@ -26,17 +26,18 @@ public class StarterController {
 	@FXML
 	private Button btnProductos;
 
-    @FXML
-    private Button btnPaquetes;
+	@FXML
+	private Button btnPaquetes;
 
 	@FXML
 	void productos(ActionEvent event) {
 		cargarVista("/fxml/productos.fxml");
 	}
-	  @FXML
-	    void paquetes(ActionEvent event) {
-		  cargarVista("/fxml/paquetes.fxml");
-	    }
+
+	@FXML
+	void paquetes(ActionEvent event) {
+		cargarVista("/fxml/paquetes2.fxml");
+	}
 
 	private void cargarVista(String fxmlPath) {
 		try {
