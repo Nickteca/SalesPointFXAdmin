@@ -19,6 +19,14 @@ public class ProductoService {
 	public List<Producto> getAllProductos() {
 		return pr.findAll();
 	}
+	
+	public List<Producto> getProductos(){
+		return pr.findByEsPaqueteFalse();
+	}
+	
+	public List<Producto> getPaquetes(){
+		return pr.findByEsPaqueteFalse();
+	}
 
 	public Producto save(Producto p) {
 		return pr.save(p);

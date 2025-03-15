@@ -11,10 +11,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class SucursalProducto implements Serializable {
@@ -53,5 +56,11 @@ public class SucursalProducto implements Serializable {
 		this.categoria = categoria;
 		this.sucursal = sucursal;
 	}
+
+	@Override
+	public String toString() {
+		return  idSucursalProducto + " "+producto.getNombreProducto();
+	}
+	
 
 }

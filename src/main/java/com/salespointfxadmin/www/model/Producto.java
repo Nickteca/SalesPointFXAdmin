@@ -33,7 +33,7 @@ public class Producto implements Serializable {
 	private String nombreProducto;
 
 	@Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
-	private Boolean esPaquete;
+	private boolean esPaquete;
 
 	@Column(nullable = false)
 	private LocalDateTime createdAt;
