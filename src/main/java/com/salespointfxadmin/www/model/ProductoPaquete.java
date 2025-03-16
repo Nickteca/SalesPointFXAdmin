@@ -43,4 +43,13 @@ public class ProductoPaquete implements Serializable {
 		this.productoPaquete = productoPaquete;
 	}
 
+	public ProductoPaquete(float cantidad, Producto productoPaquete) {
+		super();
+		this.cantidad = cantidad;
+		this.productoPaquete = productoPaquete;
+	}
+
+	
+	
+
 }

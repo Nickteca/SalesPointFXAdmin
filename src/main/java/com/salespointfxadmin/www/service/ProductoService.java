@@ -25,7 +25,7 @@ public class ProductoService {
 	}
 	
 	public List<Producto> getPaquetes(){
-		return pr.findByEsPaqueteFalse();
+		return pr.findByEsPaqueteTrue();
 	}
 
 	public Producto save(Producto p) {

@@ -90,6 +90,7 @@ public class DataInitialed implements CommandLineRunner {
 			cr.save(new Categoria("BOTANAS"));
 			cr.save(new Categoria("EXTRAS"));
 			cr.save(new Categoria("BEBIDAS"));
+			cr.save(new Categoria("PEDIDO"));
 		}
 	}
 

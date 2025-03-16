@@ -27,7 +27,7 @@ public class StarterController {
 	private Button btnProductos;
 
 	@FXML
-	private Button btnPaquetes;
+	private Button btnCrearPaquetes;
 
 	@FXML
 	void productos(ActionEvent event) {
@@ -35,8 +35,8 @@ public class StarterController {
 	}
 
 	@FXML
-	void paquetes(ActionEvent event) {
-		cargarVista("/fxml/paquetes2.fxml");
+	void crearPaquetes(ActionEvent event) {
+		cargarVista("/fxml/crearpaquetes.fxml");
 	}
 
 	private void cargarVista(String fxmlPath) {
