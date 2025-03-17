@@ -1,7 +1,5 @@
 package com.salespointfxadmin.www.DTO;
 
-import com.salespointfxadmin.www.model.Producto;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,15 +9,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PaqueteProductoDto {
 	private Integer idPaquetProducto;
-	private Short idSucursalProducto;
+	private Short idProducto;
 	private String descripcion;
 	private Float cantidad;
-	public PaqueteProductoDto(Short idSucursalProducto, String descripcion, Float cantidad) {
+
+	public PaqueteProductoDto(Short idProducto, String descripcion, Float cantidad) {
 		super();
-		this.idSucursalProducto = idSucursalProducto;
+		this.idProducto = idProducto;
 		this.descripcion = descripcion;
 		this.cantidad = cantidad;
 	}
-	
-	
+
 }

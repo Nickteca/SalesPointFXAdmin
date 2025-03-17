@@ -36,7 +36,7 @@ public class StarterController {
 
 	@FXML
 	void crearPaquetes(ActionEvent event) {
-		cargarVista("/fxml/crearpaquetes.fxml");
+		cargarVista("/fxml/paquetes.fxml");
 	}
 
 	private void cargarVista(String fxmlPath) {

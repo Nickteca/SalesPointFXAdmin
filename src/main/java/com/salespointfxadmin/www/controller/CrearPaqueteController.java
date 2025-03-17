@@ -1,6 +1,8 @@
 package com.salespointfxadmin.www.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.springframework.stereotype.Component;
@@ -8,8 +10,10 @@ import org.springframework.stereotype.Component;
 import com.salespointfxadmin.www.DTO.PaqueteProductoDto;
 import com.salespointfxadmin.www.model.Categoria;
 import com.salespointfxadmin.www.model.Producto;
+import com.salespointfxadmin.www.model.ProductoPaquete;
 import com.salespointfxadmin.www.model.SucursalProducto;
 import com.salespointfxadmin.www.service.CategoriaService;
+import com.salespointfxadmin.www.service.ProductoService;
 import com.salespointfxadmin.www.service.SucursalProductoService;
 import com.salespointfxadmin.www.service.SucursalService;
 
@@ -28,6 +32,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.ClipboardContent;
@@ -45,6 +50,7 @@ public class CrearPaqueteController implements Initializable {
 	private final SucursalProductoService sps;
 	private final SucursalService ss;
 	private final CategoriaService cs;
+	private final ProductoService ps;
 
 	@FXML
 	private Button btnCancelar;
@@ -60,13 +66,13 @@ public class CrearPaqueteController implements Initializable {
 	private TableColumn<PaqueteProductoDto, Float> columnCantidadPP;
 
 	@FXML
-	private TableColumn<SucursalProducto, ?> columnDescripcion;
+	private TableColumn<SucursalProducto, Producto> columnDescripcion;
 
 	@FXML
 	private TableColumn<PaqueteProductoDto, String> columnDescripcionPP;
 
 	@FXML
-	private TableColumn<SucursalProducto, ?> columnId;
+	private TableColumn<SucursalProducto, Short> columnId;
 
 	@FXML
 	private TableColumn<PaqueteProductoDto, Integer> columnIdPP;
@@ -111,27 +117,37 @@ public class CrearPaqueteController implements Initializable {
 	 */
 	@FXML
 	void cancelar(ActionEvent event) {
-		
+		ol.clear();
+		tFieldDescripcion.setText(null);
+		tFieldId.setText(null);
+		tFieldPrecio.setText(null);
+		cBoxCategoria.getSelectionModel().selectFirst();
 	}
 
 	@FXML
 	void guardarPaquete(ActionEvent event) {
 		try {
+			Producto p = new Producto(null, tFieldDescripcion.getText(), true);
+			List<ProductoPaquete> lpp = new ArrayList<ProductoPaquete>();
 			for (PaqueteProductoDto producto : ol) {
-				int idSucursalProducto = producto.getIdSucursalProducto();
-				String descripcion = producto.getDescripcion();
-				float cantidad = producto.getCantidad();
-
-				System.out.println("ID Producto: " + idSucursalProducto);
-				System.out.println("Descripción: " + descripcion);
-				System.out.println("Cantidad: " + cantidad);
-				System.out.println("-----");
+				ProductoPaquete pp = new ProductoPaquete(producto.getCantidad(), new Producto(producto.getIdProducto()));
+				lpp.add(pp);
 			}
+			p = ps.saveProductoPaquete(p, lpp, Float.parseFloat(tFieldPrecio.getText()), cBoxCategoria.getSelectionModel().getSelectedItem(), ss.getSucursalActive());
+
+			Alert confirmacion = new Alert(AlertType.CONFIRMATION);
+			confirmacion.setTitle("Crear Paquete Confirmacion!!!!");
+			confirmacion.setHeaderText("Se creo correctamente!!");
+			confirmacion.setContentText("Dado de alta correctamente emn, producto, productopaquete y sucursalproducto");
+			confirmacion.showAndWait();
+			cancelar(event);
+
 		} catch (Exception e) {
 			Alert error = new Alert(AlertType.ERROR);
 			error.setTitle("Crear Paquete Errro!!!!");
-			error.setHeaderText("error al extraer el producto de la tabla");
+			error.setHeaderText("Error al crear el producto, paquete y sucursalpaquete");
 			error.setContentText(e.getMessage() + "\n" + e.getCause());
+			error.showAndWait();
 		}
 	}
 
@@ -160,14 +176,12 @@ public class CrearPaqueteController implements Initializable {
 			String idProducto = dragboard.getString();
 
 			// Buscar el producto en la lista observable de productos (olsp)
-			SucursalProducto productoArrastrado = olsp.stream()
-					.filter(sp -> String.valueOf(sp.getIdSucursalProducto()).equals(idProducto)).findFirst()
-					.orElse(null);
+			SucursalProducto productoArrastrado = olsp.stream().filter(sp -> String.valueOf(sp.getIdSucursalProducto()).equals(idProducto)).findFirst().orElse(null);
 
 			if (productoArrastrado != null) {
 				// Crear un nuevo objeto ProductoPaquete con los datos arrastrados
-				PaqueteProductoDto nuevoProducto = new PaqueteProductoDto(productoArrastrado.getIdSucursalProducto(),
-						productoArrastrado.getProducto().getNombreProducto(), // O el nombre del producto
+				PaqueteProductoDto nuevoProducto = new PaqueteProductoDto(productoArrastrado.getProducto().getIdProducto(), productoArrastrado.getProducto().getNombreProducto(), // O el nombre del
+																																													// producto
 						1.0f // Cantidad por defecto, se puede modificar luego
 				);
 
@@ -197,6 +211,7 @@ public class CrearPaqueteController implements Initializable {
 		// inciarTablaPaquetes();
 		cargarCategoria();
 		configurarMenuContextual(); // Activa el menú contextual para eliminación
+		textFielNumeros();
 		limpiarListaProductos();
 	}
 
@@ -240,7 +255,7 @@ public class CrearPaqueteController implements Initializable {
 
 	private void iniciartabalaProductosPaquete() {
 		/* SE INICIA TODO DE LOS PRODUCTO SUCURSAL */
-		columnIdPP.setCellValueFactory(new PropertyValueFactory<>("idSucursalProducto"));
+		columnIdPP.setCellValueFactory(new PropertyValueFactory<>("idProducto"));
 		columnIdPP.prefWidthProperty().bind(tViewProductos.widthProperty().multiply(0.1));
 
 		columnDescripcionPP.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
@@ -317,6 +332,19 @@ public class CrearPaqueteController implements Initializable {
 			// Si tienes una tabla asociada, asegúrate de actualizarla
 			tViewProductosPaquete.setItems(ol); // Asegura que la tabla esté vacía
 		}
+	}
+
+	private void textFielNumeros() {
+		TextFormatter<String> formatter = new TextFormatter<>(change -> {
+			String newText = change.getControlNewText();
+
+			// Permitir solo números que no inicien con '0', excepto si es solo '0'
+			if (newText.matches("[1-9][0-9]*|0|")) {
+				return change; // Aceptar el cambio
+			}
+			return null; // Rechazar el cambio
+		});
+		tFieldPrecio.setTextFormatter(formatter);
 	}
 
 }

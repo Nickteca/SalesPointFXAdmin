@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="768.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.CrearPaqueteController">
+<AnchorPane prefHeight="768.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.CrearPaqueteController">
    <children>
       <BorderPane layoutX="312.0" layoutY="136.0" prefHeight="768.0" prefWidth="824.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -31,7 +31,7 @@
                               <HBox alignment="CENTER_LEFT" spacing="20.0">
                                  <children>
                                     <Label text="ID:" />
-                                    <TextField fx:id="tFieldId" prefHeight="25.0" prefWidth="83.0" />
+                                    <TextField fx:id="tFieldId" editable="false" prefHeight="25.0" prefWidth="83.0" />
                                     <Label text="DESCRIPCION:" />
                                     <TextField fx:id="tFieldDescripcion" layoutX="25.0" layoutY="10.0" prefHeight="25.0" prefWidth="240.0" />
                                     <Label layoutX="108.0" layoutY="10.0" text="PRECIO:" />

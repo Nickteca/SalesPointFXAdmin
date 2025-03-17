@@ -60,4 +60,9 @@ public class Producto implements Serializable {
 		return nombreProducto;
 	}
 
+	public Producto(Short idProducto) {
+		super();
+		this.idProducto = idProducto;
+	}
+
 }

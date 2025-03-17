@@ -17,11 +17,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
@@ -40,6 +43,18 @@ public class PaqueteController implements Initializable {
 	private final SucursalService ss;
 
 	@FXML
+	private Button btnCancelat;
+
+	@FXML
+	private Button btnGuardar;
+
+	@FXML
+	private ChoiceBox<?> cBoxCategoria;
+
+	@FXML
+	private CheckBox cBoxVendible;
+
+	@FXML
 	private TableColumn<SucursalProducto, Categoria> columnCategoria;
 
 	@FXML
@@ -55,7 +70,7 @@ public class PaqueteController implements Initializable {
 	private TableColumn<SucursalProducto, Boolean> columnVendible;
 
 	@FXML
-	private ListView<SucursalProducto> lViewPaquetes;
+	private ListView<SucursalProducto> lViewProductos;
 
 	@FXML
 	private ListView<?> lViewProductosPaquete;
@@ -69,11 +84,20 @@ public class PaqueteController implements Initializable {
 	private ObservableList<SucursalProducto> oLSucursalProducto;
 
 	@FXML
+	private TextField tFieldDescripcion;
+
+	@FXML
+	private TextField tFieldId;
+
+	@FXML
+	private TextField tFieldPrecio;
+
+	@FXML
 	void setOnDragDetected(MouseEvent event) {
-		if (!lViewPaquetes.getSelectionModel().isEmpty()) {
-			Dragboard db = lViewPaquetes.startDragAndDrop(TransferMode.MOVE);
+		if (!lViewProductos.getSelectionModel().isEmpty()) {
+			Dragboard db = lViewProductos.startDragAndDrop(TransferMode.MOVE);
 			ClipboardContent content = new ClipboardContent();
-			content.putString(lViewPaquetes.getSelectionModel().getSelectedItem().toString());
+			content.putString(lViewProductos.getSelectionModel().getSelectedItem().toString());
 			db.setContent(content);
 			event.consume();
 		}
@@ -102,7 +126,7 @@ public class PaqueteController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		oLSucursalProducto = FXCollections.observableArrayList(sps.findBySucursalAndProductoEsPaqueteFalse(ss.getSucursalActive()));
-		lViewPaquetes.setItems(oLSucursalProducto);
+		lViewProductos.setItems(oLSucursalProducto);
 		iniciatViewPaquetes();
 	}
 
@@ -116,7 +140,17 @@ public class PaqueteController implements Initializable {
 		Label label = new Label(nombreProducto);
 		label.setPrefWidth(100);
 		TextField cantidadTextField = new TextField("1"); // Cantidad por defecto
+		TextFormatter<String> formatter = new TextFormatter<>(change -> {
+			String newText = change.getControlNewText();
+
+			// Permitir solo números que no inicien con '0', excepto si es solo '0'
+			if (newText.matches("[1-9][0-9]*|0|")) {
+				return change; // Aceptar el cambio
+			}
+			return null; // Rechazar el cambio
+		});
 		cantidadTextField.setPrefWidth(150);
+		cantidadTextField.setTextFormatter(formatter);
 
 		Button eliminarBtn = new Button("❌");
 		eliminarBtn.setOnAction(e -> vBoxProductos.getChildren().remove(hbox));
@@ -147,5 +181,25 @@ public class PaqueteController implements Initializable {
 
 		olsp = FXCollections.observableArrayList(sps.findBySucursalAndProductoEsPaqueteTrue(ss.getSucursalActive()));
 		tViewPaquetes.setItems(olsp);
+	}
+
+	private void agregarDobleClickTablapaquetes() {
+		/* SE AGREGA N ESCUCHADOR A LA TABLA CSUCURSALPRODUCTO */
+		tViewPaquetes.setOnMouseClicked(event -> {
+			if (event.getClickCount() == 2) { // Doble clic
+				SucursalProducto productoSeleccionado = tViewPaquetes.getSelectionModel().getSelectedItem();
+				if (productoSeleccionado != null) {
+					/*
+					 * tFieldDescripcion.setText(productoSeleccionado.getProducto().
+					 * getNombreProducto()); tFieldPrecio.setText(productoSeleccionado.getPrecio() +
+					 * ""); tFieldId.setText(productoSeleccionado.getIdSucursalProducto() + "");
+					 * cBoxCategoria.getSelectionModel().select(productoSeleccionado.getCategoria())
+					 * ; tFieldInventario.setText(productoSeleccionado.getInventario() + "");
+					 * cBoxVendible.setSelected(productoSeleccionado.isVendible());
+					 * tFieldPrecio.requestFocus();
+					 */
+				}
+			}
+		});
 	}
 }
