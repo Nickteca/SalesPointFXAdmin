@@ -42,8 +42,8 @@
                                  <children>
                                     <Label text="CATEGORIA" />
                                     <ChoiceBox fx:id="cBoxCategoria" prefWidth="150.0" />
-                                    <Button fx:id="btnGuardar" mnemonicParsing="false" text="GUARDAR" />
-                                    <Button fx:id="btnCancelar" mnemonicParsing="false" text="CANCELAR" />
+                                    <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardarPaquete" text="GUARDAR" />
+                                    <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelar" text="CANCELAR" />
                                  </children>
                               </HBox>
                            </children>

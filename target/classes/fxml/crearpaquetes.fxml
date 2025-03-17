@@ -42,25 +42,25 @@
                                  <children>
                                     <Label text="CATEGORIA" />
                                     <ChoiceBox fx:id="cBoxCategoria" prefWidth="150.0" />
-                                    <Button fx:id="btnGuardar" mnemonicParsing="false" text="GUARDAR" />
-                                    <Button fx:id="btnCancelar" mnemonicParsing="false" text="CANCELAR" />
+                                    <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardarPaquete" text="GUARDAR" />
+                                    <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelar" text="CANCELAR" />
                                  </children>
                               </HBox>
                            </children>
                         </VBox>
                      </children>
                   </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                  <AnchorPane>
                      <children>
-                        <HBox alignment="CENTER" layoutX="274.0" layoutY="86.0" prefHeight="200.0" prefWidth="824.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <HBox alignment="CENTER" layoutX="274.0" layoutY="86.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <TableView fx:id="tViewProductos" onDragDetected="#setOnDragDetected" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                              <TableView fx:id="tViewProductos" onDragDetected="#setOnDragDetected" HBox.hgrow="ALWAYS">
                                 <columns>
                                   <TableColumn fx:id="columnId" editable="false" prefWidth="75.0" sortable="false" text="ID" />
                                   <TableColumn fx:id="columnDescripcion" editable="false" prefWidth="132.0" sortable="false" text="DESCRIPCION" />
                                 </columns>
                               </TableView>
-                              <TableView fx:id="tViewProductosPaquete" onDragDropped="#setOnDragDropped" onDragOver="#setOnDragOver" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                              <TableView fx:id="tViewProductosPaquete" onDragDropped="#setOnDragDropped" onDragOver="#setOnDragOver" HBox.hgrow="ALWAYS">
                                 <columns>
                                   <TableColumn fx:id="columnIdPP" editable="false" prefWidth="75.0" sortable="false" text="ID" />
                                   <TableColumn fx:id="columnDescripcionPP" editable="false" prefWidth="122.0" sortable="false" text="DESCRIPCION" />
@@ -71,32 +71,10 @@
                         </HBox>
                      </children>
                   </AnchorPane>
-                  <AnchorPane>
-                     <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="398.0" layoutY="92.0" text="PAQUETES DE LA SUCURSAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
+                  <AnchorPane />
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <HBox alignment="CENTER" layoutX="155.0" layoutY="44.0" prefHeight="200.0" prefWidth="824.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <TableView fx:id="tViewPaquetes" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-                                <columns>
-                                  <TableColumn fx:id="columnIdPaquete" prefWidth="75.0" text="ID" />
-                                  <TableColumn fx:id="columnDescroipcionPaquete" prefWidth="75.0" text="DESCIPCION" />
-                                    <TableColumn fx:id="columnPrecioPaquete" prefWidth="75.0" text="PRECIO" />
-                                    <TableColumn fx:id="columnVendiblePaquete" prefWidth="75.0" text="VENDIBLE" />
-                                </columns>
-                              </TableView>
-                              <TableView fx:id="tViewProductosdelPaquete" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-                                <columns>
-                                  <TableColumn fx:id="columnIdpdp" prefWidth="75.0" text="ID" />
-                                  <TableColumn fx:id="columnDescropcionpdp" prefWidth="112.0" text="DESCRIPCION" />
-                                    <TableColumn fx:id="columnCantidadpdp" prefWidth="75.0" text="CANTIDAD" />
-                                </columns>
-                              </TableView>
-                           </children>
-                        </HBox>
+                        <HBox alignment="CENTER" layoutX="155.0" layoutY="44.0" prefHeight="200.0" prefWidth="824.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
                </children>

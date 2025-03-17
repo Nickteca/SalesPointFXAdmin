@@ -15,8 +15,11 @@ import com.salespointfxadmin.www.service.SucursalService;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContextMenu;
@@ -85,27 +88,53 @@ public class CrearPaqueteController implements Initializable {
 	private TableView<PaqueteProductoDto> tViewProductosPaquete;
 	private ObservableList<PaqueteProductoDto> ol = FXCollections.observableArrayList();
 
-	/*@FXML
-	private TableColumn<SucursalProducto, Short> columnIdPaquete;
+	/*
+	 * @FXML private TableColumn<SucursalProducto, Short> columnIdPaquete;
+	 * 
+	 * @FXML private TableColumn<SucursalProducto, Float> columnPrecioPaquete;
+	 * 
+	 * @FXML private TableColumn<SucursalProducto, Boolean> columnVendiblePaquete;
+	 * 
+	 * @FXML private TableColumn<SucursalProducto, Producto>
+	 * columnDescroipcionPaquete;
+	 * 
+	 * @FXML private TableView<SucursalProducto> tViewPaquetes; private
+	 * ObservableList<SucursalProducto> olspp;
+	 * 
+	 * @FXML private TableColumn<PaqueteProductoDto, Float> columnCantidadpdp;
+	 * 
+	 * @FXML private TableColumn<PaqueteProductoDto, String> columnDescropcionpdp;
+	 * 
+	 * @FXML private TableColumn<PaqueteProductoDto, Short> columnIdpdp;
+	 * 
+	 * @FXML private TableView<PaqueteProductoDto> tViewProductosdelPaquete;
+	 */
 	@FXML
-	private TableColumn<SucursalProducto, Float> columnPrecioPaquete;
-	@FXML
-	private TableColumn<SucursalProducto, Boolean> columnVendiblePaquete;
-	@FXML
-	private TableColumn<SucursalProducto, Producto> columnDescroipcionPaquete;
-	@FXML
-	private TableView<SucursalProducto> tViewPaquetes;
-	private ObservableList<SucursalProducto> olspp;
+	void cancelar(ActionEvent event) {
+		
+	}
 
 	@FXML
-	private TableColumn<PaqueteProductoDto, Float> columnCantidadpdp;
-	@FXML
-	private TableColumn<PaqueteProductoDto, String> columnDescropcionpdp;
-	@FXML
-	private TableColumn<PaqueteProductoDto, Short> columnIdpdp;
-	@FXML
-	private TableView<PaqueteProductoDto> tViewProductosdelPaquete;
-*/
+	void guardarPaquete(ActionEvent event) {
+		try {
+			for (PaqueteProductoDto producto : ol) {
+				int idSucursalProducto = producto.getIdSucursalProducto();
+				String descripcion = producto.getDescripcion();
+				float cantidad = producto.getCantidad();
+
+				System.out.println("ID Producto: " + idSucursalProducto);
+				System.out.println("Descripción: " + descripcion);
+				System.out.println("Cantidad: " + cantidad);
+				System.out.println("-----");
+			}
+		} catch (Exception e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Crear Paquete Errro!!!!");
+			error.setHeaderText("error al extraer el producto de la tabla");
+			error.setContentText(e.getMessage() + "\n" + e.getCause());
+		}
+	}
+
 	@FXML
 	void setOnDragDetected(MouseEvent event) {
 		SucursalProducto selectedProducto = tViewProductos.getSelectionModel().getSelectedItem();
@@ -165,7 +194,7 @@ public class CrearPaqueteController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		iniciarTablaProductos();
 		iniciartabalaProductosPaquete();
-		//inciarTablaPaquetes();
+		// inciarTablaPaquetes();
 		cargarCategoria();
 		configurarMenuContextual(); // Activa el menú contextual para eliminación
 		limpiarListaProductos();
@@ -183,22 +212,31 @@ public class CrearPaqueteController implements Initializable {
 		tViewProductos.setItems(olsp);
 	}
 
-	/*private void inciarTablaPaquetes() {
-		columnIdPaquete.setCellValueFactory(new PropertyValueFactory<>("idSucursalProducto"));
-		columnIdPaquete.prefWidthProperty().bind(tViewProductos.widthProperty().multiply(0.1));
-
-		columnPrecioPaquete.setCellValueFactory(new PropertyValueFactory<>("precio"));
-		columnPrecioPaquete.prefWidthProperty().bind(tViewProductos.widthProperty().multiply(0.2));
-
-		columnVendiblePaquete.setCellValueFactory(new PropertyValueFactory<>("vendible"));
-		columnVendiblePaquete.prefWidthProperty().bind(tViewProductos.widthProperty().multiply(0.2));
-
-		columnDescroipcionPaquete.setCellValueFactory(new PropertyValueFactory<>("producto"));
-		columnDescroipcionPaquete.prefWidthProperty().bind(tViewProductos.widthProperty().multiply(0.5));
-		
-		olspp = FXCollections.observableArrayList(sps.findBySucursalAndProductoEsPaqueteTrue(ss.getSucursalActive()));
-		tViewPaquetes.setItems(olspp);
-	}*/
+	/*
+	 * private void inciarTablaPaquetes() { columnIdPaquete.setCellValueFactory(new
+	 * PropertyValueFactory<>("idSucursalProducto"));
+	 * columnIdPaquete.prefWidthProperty().bind(tViewProductos.widthProperty().
+	 * multiply(0.1));
+	 * 
+	 * columnPrecioPaquete.setCellValueFactory(new
+	 * PropertyValueFactory<>("precio"));
+	 * columnPrecioPaquete.prefWidthProperty().bind(tViewProductos.widthProperty().
+	 * multiply(0.2));
+	 * 
+	 * columnVendiblePaquete.setCellValueFactory(new
+	 * PropertyValueFactory<>("vendible"));
+	 * columnVendiblePaquete.prefWidthProperty().bind(tViewProductos.widthProperty()
+	 * .multiply(0.2));
+	 * 
+	 * columnDescroipcionPaquete.setCellValueFactory(new
+	 * PropertyValueFactory<>("producto"));
+	 * columnDescroipcionPaquete.prefWidthProperty().bind(tViewProductos.
+	 * widthProperty().multiply(0.5));
+	 * 
+	 * olspp =
+	 * FXCollections.observableArrayList(sps.findBySucursalAndProductoEsPaqueteTrue(
+	 * ss.getSucursalActive())); tViewPaquetes.setItems(olspp); }
+	 */
 
 	private void iniciartabalaProductosPaquete() {
 		/* SE INICIA TODO DE LOS PRODUCTO SUCURSAL */
@@ -228,9 +266,9 @@ public class CrearPaqueteController implements Initializable {
 			return cell;
 		});
 		columnCantidadPP.setOnEditCommit(event -> {
-		    PaqueteProductoDto productoEditado = event.getRowValue();
-		    productoEditado.setCantidad(event.getNewValue()); // Actualiza el modelo con el nuevo valor
-		    tViewProductosPaquete.refresh(); // Refresca la tabla para mostrar el cambio
+			PaqueteProductoDto productoEditado = event.getRowValue();
+			productoEditado.setCantidad(event.getNewValue()); // Actualiza el modelo con el nuevo valor
+			tViewProductosPaquete.refresh(); // Refresca la tabla para mostrar el cambio
 		});
 		// Habilitar edición en la tabla
 		tViewProductosPaquete.setEditable(true);
@@ -271,13 +309,14 @@ public class CrearPaqueteController implements Initializable {
 			return fila;
 		});
 	}
+
 	// Método para limpiar la lista
 	public void limpiarListaProductos() {
-	    if (ol != null) {
-	        ol.clear(); // Limpia la lista observable
-	        // Si tienes una tabla asociada, asegúrate de actualizarla
-	        tViewProductosPaquete.setItems(ol); // Asegura que la tabla esté vacía
-	    }
+		if (ol != null) {
+			ol.clear(); // Limpia la lista observable
+			// Si tienes una tabla asociada, asegúrate de actualizarla
+			tViewProductosPaquete.setItems(ol); // Asegura que la tabla esté vacía
+		}
 	}
 
 }
