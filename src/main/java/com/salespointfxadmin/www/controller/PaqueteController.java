@@ -1,22 +1,33 @@
 package com.salespointfxadmin.www.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.springframework.stereotype.Component;
 
 import com.salespointfxadmin.www.model.Categoria;
+import com.salespointfxadmin.www.model.Producto;
+import com.salespointfxadmin.www.model.ProductoPaquete;
 import com.salespointfxadmin.www.model.SucursalProducto;
+import com.salespointfxadmin.www.service.CategoriaService;
+import com.salespointfxadmin.www.service.ProductoPaqueteService;
 import com.salespointfxadmin.www.service.ProductoService;
 import com.salespointfxadmin.www.service.SucursalProductoService;
 import com.salespointfxadmin.www.service.SucursalService;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -41,6 +52,8 @@ public class PaqueteController implements Initializable {
 	private final ProductoService ps;
 	private final SucursalProductoService sps;
 	private final SucursalService ss;
+	private final ProductoPaqueteService pps;
+	private final CategoriaService cs;
 
 	@FXML
 	private Button btnCancelat;
@@ -49,7 +62,9 @@ public class PaqueteController implements Initializable {
 	private Button btnGuardar;
 
 	@FXML
-	private ChoiceBox<?> cBoxCategoria;
+	private ChoiceBox<Categoria> cBoxCategoria;
+
+	private ObservableList<Categoria> olc;
 
 	@FXML
 	private CheckBox cBoxVendible;
@@ -73,7 +88,8 @@ public class PaqueteController implements Initializable {
 	private ListView<SucursalProducto> lViewProductos;
 
 	@FXML
-	private ListView<?> lViewProductosPaquete;
+	private ListView<ProductoPaquete> lViewProductosPaquete;
+	private ObservableList<ProductoPaquete> olp;
 
 	@FXML
 	private TableView<SucursalProducto> tViewPaquetes;
@@ -93,11 +109,93 @@ public class PaqueteController implements Initializable {
 	private TextField tFieldPrecio;
 
 	@FXML
+	void cancelar(ActionEvent event) {
+		limpiarCampos();
+	}
+
+	@FXML
+	void guardar(ActionEvent event) {
+		try {
+			SucursalProducto productoSeleccionado = tViewPaquetes.getSelectionModel().getSelectedItem();
+			if (productoSeleccionado != null) {
+				Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+				confirmacion.setTitle("Confirmar actualización");
+				confirmacion.setHeaderText("¿Deseas actualizar el producto?");
+				confirmacion.setContentText("Producto: " + productoSeleccionado.getProducto().getNombreProducto());
+				// Esperar la respuesta del usuario
+				var resultado = confirmacion.showAndWait();
+				// Actualizar el producto con los valores de los campos de texto y selección
+				if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+					productoSeleccionado.getProducto().setNombreProducto(tFieldDescripcion.getText());
+					productoSeleccionado.setPrecio(Float.parseFloat(tFieldPrecio.getText()));
+					productoSeleccionado.setInventario(0);
+					productoSeleccionado.setCategoria(cBoxCategoria.getSelectionModel().getSelectedItem());
+					productoSeleccionado.setVendible(cBoxVendible.isSelected());
+					sps.saveSucursalProducto(productoSeleccionado);
+					tViewPaquetes.refresh();
+					limpiarCampos();
+				} else {
+					limpiarCampos();
+				}
+			} else {
+				List<ProductoPaquete> lpp = new ArrayList<ProductoPaquete>();
+				for (Node node : vBoxProductos.getChildren()) {
+					if (node instanceof HBox) {
+						HBox hbox = (HBox) node;
+
+						// Asumiendo que el HBox tiene exactamente: Label, TextField, Button (en ese
+						// orden)
+						Label label = (Label) hbox.getChildren().get(0);
+						TextField cantidadTextField = (TextField) hbox.getChildren().get(1);
+
+						// Obtener los valores
+						String nombreProducto = label.getText();
+						String cantidadTexto = cantidadTextField.getText();
+						ProductoPaquete pp = new ProductoPaquete(Float.parseFloat(cantidadTexto),
+								ps.findByProducto(nombreProducto));
+						lpp.add(pp);
+					}
+				}
+				if (lpp.size() <= 0) {
+					throw new Exception("No hay productos en el paquete!!");
+				}
+				if(tFieldDescripcion.getText().isEmpty()) {
+					throw new Exception("Agrega Descripcion");
+				}
+				if(Float.parseFloat(tFieldPrecio.getText())<=0) {
+					throw new NumberFormatException("Preio est amal o vacio");
+				}
+				Producto p = new Producto(null, tFieldDescripcion.getText(), true);
+				SucursalProducto sp = ps.saveProductoPaquete(p, lpp, Float.parseFloat(tFieldPrecio.getText()),
+						cBoxCategoria.getSelectionModel().getSelectedItem(), cBoxVendible.isSelected(),
+						ss.getSucursalActive());
+				if (sp != null) {
+					olsp.add(sp);
+					tViewPaquetes.refresh();
+					limpiarCampos();
+				}
+			}
+		} catch (NumberFormatException e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Paquete controller Guardar Error!!!");
+			error.setHeaderText("No se dio de alta hay un error");
+			error.setContentText(e.getMessage() + "\n" + e.getCause() + "\n" + e.getStackTrace());
+			error.show();
+		} catch (Exception e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Paquete controller Guardar Error!!!");
+			error.setHeaderText("No se dio de alta hay un error");
+			error.setContentText(e.getMessage() + "\n" + e.getCause() + "\n" + e.getStackTrace());
+			error.show();
+		}
+	}
+
+	@FXML
 	void setOnDragDetected(MouseEvent event) {
 		if (!lViewProductos.getSelectionModel().isEmpty()) {
 			Dragboard db = lViewProductos.startDragAndDrop(TransferMode.MOVE);
 			ClipboardContent content = new ClipboardContent();
-			content.putString(lViewProductos.getSelectionModel().getSelectedItem().toString());
+			content.putString(lViewProductos.getSelectionModel().getSelectedItem().getProducto().getNombreProducto());
 			db.setContent(content);
 			event.consume();
 		}
@@ -125,12 +223,25 @@ public class PaqueteController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		oLSucursalProducto = FXCollections.observableArrayList(sps.findBySucursalAndProductoEsPaqueteFalse(ss.getSucursalActive()));
+		oLSucursalProducto = FXCollections
+				.observableArrayList(sps.findBySucursalAndProductoEsPaqueteFalse(ss.getSucursalActive()));
 		lViewProductos.setItems(oLSucursalProducto);
 		iniciatViewPaquetes();
+		cargarCategorias();
+		agregarDobleClickTablapaquetes();
+		textFielNumeros();
 	}
 
 	private void agregarProductoAlContenedor(String nombreProducto) {
+		// Verificamos si el producto ya existe en el VBox
+		if (existeProductoEnVBox(nombreProducto)) {
+			Alert warning = new Alert(AlertType.WARNING);
+			warning.setTitle("ÑProducto ya agregado!!");
+			warning.setHeaderText("El producto");
+			warning.setContentText(nombreProducto + " ya existe!!");
+			warning.show();
+			return; // No agregar duplicados
+		}
 		// HBox para contener el producto y la cantidad
 		HBox hbox = new HBox(10);
 		hbox.setAlignment(Pos.CENTER_LEFT);
@@ -186,20 +297,81 @@ public class PaqueteController implements Initializable {
 	private void agregarDobleClickTablapaquetes() {
 		/* SE AGREGA N ESCUCHADOR A LA TABLA CSUCURSALPRODUCTO */
 		tViewPaquetes.setOnMouseClicked(event -> {
-			if (event.getClickCount() == 2) { // Doble clic
+			if (event.getClickCount() == 1) { // Doble clic
 				SucursalProducto productoSeleccionado = tViewPaquetes.getSelectionModel().getSelectedItem();
 				if (productoSeleccionado != null) {
-					/*
-					 * tFieldDescripcion.setText(productoSeleccionado.getProducto().
-					 * getNombreProducto()); tFieldPrecio.setText(productoSeleccionado.getPrecio() +
-					 * ""); tFieldId.setText(productoSeleccionado.getIdSucursalProducto() + "");
-					 * cBoxCategoria.getSelectionModel().select(productoSeleccionado.getCategoria())
-					 * ; tFieldInventario.setText(productoSeleccionado.getInventario() + "");
-					 * cBoxVendible.setSelected(productoSeleccionado.isVendible());
-					 * tFieldPrecio.requestFocus();
-					 */
+
+					tFieldDescripcion.setText(productoSeleccionado.getProducto().getNombreProducto());
+					tFieldPrecio.setText(String.valueOf(productoSeleccionado.getPrecio()));
+					tFieldId.setText(productoSeleccionado.getIdSucursalProducto() + "");
+					cBoxCategoria.getSelectionModel().select(productoSeleccionado.getCategoria());
+					cBoxVendible.setSelected(productoSeleccionado.isVendible());
+					tFieldPrecio.requestFocus();
+					cargarProductosDelPaquete(productoSeleccionado);
 				}
 			}
 		});
 	}
+
+	private void cargarProductosDelPaquete(SucursalProducto sp) {
+		List<ProductoPaquete> lpp = pps.findByPaquete(sp.getProducto());
+		olp = FXCollections.observableArrayList(lpp);
+		lViewProductosPaquete.setItems(olp);
+	}
+
+	private boolean existeProductoEnVBox(String nombreProducto) {
+		for (Node node : vBoxProductos.getChildren()) {
+			if (node instanceof HBox) {
+				HBox hbox = (HBox) node;
+				Label label = (Label) hbox.getChildren().get(0);
+
+				if (label.getText().equalsIgnoreCase(nombreProducto)) {
+					return true; // Producto ya existe
+				}
+			}
+		}
+		return false; // Producto no existe
+	}
+
+	private void limpiarCampos() {
+		try {
+			if (!olp.isEmpty()) {
+				olp.clear();
+			}
+			tFieldDescripcion.setText(null);
+			tFieldId.setText(null);
+			tFieldPrecio.setText(null);
+			cBoxCategoria.getSelectionModel().selectFirst();
+			tViewPaquetes.getSelectionModel().clearSelection();
+			vBoxProductos.getChildren().clear();
+		} catch (Exception e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Paquete Controller, Limpiar Error!!!");
+			error.setHeaderText("No se puede limpiar por algun error");
+			error.setContentText(e.getMessage() + "\n" + e.getCause());
+			error.show();
+		}
+
+	}
+
+	private void cargarCategorias() {
+		olc = FXCollections.observableArrayList(cs.getAllCategorias());
+		cBoxCategoria.setItems(olc);
+		cBoxCategoria.getSelectionModel().selectFirst();
+	}
+
+	private void textFielNumeros() {
+		TextFormatter<String> formatter = new TextFormatter<>(change -> {
+			String newText = change.getControlNewText();
+
+			// Permitir solo números que no inicien con '0', excepto si es solo '0'
+			if (newText.matches("[1-9][0-9]*|0|")) {
+				return change; // Aceptar el cambio
+			}
+			return null; // Rechazar el cambio
+		});
+		tFieldPrecio.setTextFormatter(formatter);
+
+	}
+
 }

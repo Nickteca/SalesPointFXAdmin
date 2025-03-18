@@ -122,6 +122,7 @@ public class CrearPaqueteController implements Initializable {
 		tFieldId.setText(null);
 		tFieldPrecio.setText(null);
 		cBoxCategoria.getSelectionModel().selectFirst();
+		tViewProductos.getSelectionModel().clearSelection();
 	}
 
 	@FXML
@@ -133,7 +134,7 @@ public class CrearPaqueteController implements Initializable {
 				ProductoPaquete pp = new ProductoPaquete(producto.getCantidad(), new Producto(producto.getIdProducto()));
 				lpp.add(pp);
 			}
-			p = ps.saveProductoPaquete(p, lpp, Float.parseFloat(tFieldPrecio.getText()), cBoxCategoria.getSelectionModel().getSelectedItem(), ss.getSucursalActive());
+			//p = ps.saveProductoPaquete(p, lpp, Float.parseFloat(tFieldPrecio.getText()), cBoxCategoria.getSelectionModel().getSelectedItem(), ss.getSucursalActive());
 
 			Alert confirmacion = new Alert(AlertType.CONFIRMATION);
 			confirmacion.setTitle("Crear Paquete Confirmacion!!!!");

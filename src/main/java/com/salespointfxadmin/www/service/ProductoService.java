@@ -37,16 +37,21 @@ public class ProductoService {
 	public Producto save(Producto p) {
 		return pr.save(p);
 	}
+	
+	public Producto findByProducto(String np) {
+		return pr.findByNombreProducto(np);
+	}
 
 	@Transactional
-	public Producto saveProductoPaquete(Producto p, List<ProductoPaquete> lpp, float precio, Categoria categoria, Sucursal sucursal) {
+	public SucursalProducto saveProductoPaquete(Producto p, List<ProductoPaquete> lpp, float precio, Categoria categoria,boolean vendible, Sucursal sucursal) {
 		Producto producto = save(p);
 		for (ProductoPaquete productoPaquete : lpp) {
 			productoPaquete.setPaquete(p);
 			pps.saveProductoPaqute(productoPaquete);
 
 		}
-		spr.save(new SucursalProducto(0, precio, true, producto, categoria, sucursal));
-		return producto;
+		
+		return spr.save(new SucursalProducto(0, precio, vendible, producto, categoria, sucursal));
 	}
+	
 }

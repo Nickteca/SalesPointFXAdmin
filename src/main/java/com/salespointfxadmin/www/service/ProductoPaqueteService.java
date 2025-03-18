@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.salespointfxadmin.www.model.Producto;
 import com.salespointfxadmin.www.model.ProductoPaquete;
 import com.salespointfxadmin.www.repositorie.ProductoPaqueteRepo;
 
@@ -20,5 +21,9 @@ public class ProductoPaqueteService {
 
 	public List<ProductoPaquete> saveAllProductoPaquete(List<ProductoPaquete> lpp) {
 		return ppr.saveAll(lpp);
+	}
+	
+	public List<ProductoPaquete> findByPaquete(Producto paquet){
+		return ppr.findByPaquete(paquet);
 	}
 }

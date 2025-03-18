@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="768.0" prefWidth="824.0" stylesheets="@../css/productos.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.PaqueteController">
+<AnchorPane prefHeight="768.0" prefWidth="824.0" stylesheets="@../css/productos.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.PaqueteController">
    <children>
       <BorderPane layoutX="451.0" layoutY="258.0" prefHeight="768.0" prefWidth="824.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -45,8 +45,8 @@
                                     <Label text="CATEGORIA:" />
                                     <ChoiceBox fx:id="cBoxCategoria" prefWidth="150.0" />
                                     <CheckBox fx:id="cBoxVendible" mnemonicParsing="false" text="Vendible" />
-                                    <Button fx:id="btnGuardar" mnemonicParsing="false" text="Guardar" />
-                                    <Button fx:id="btnCancelat" mnemonicParsing="false" text="CANCELAR" />
+                                    <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardar" text="Guardar" />
+                                    <Button fx:id="btnCancelat" mnemonicParsing="false" onAction="#cancelar" text="CANCELAR" />
                                  </children>
                               </HBox>
                            </children>
