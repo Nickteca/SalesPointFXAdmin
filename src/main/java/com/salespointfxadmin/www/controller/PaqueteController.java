@@ -89,7 +89,7 @@ public class PaqueteController implements Initializable {
 
 	@FXML
 	private ListView<ProductoPaquete> lViewProductosPaquete;
-	private ObservableList<ProductoPaquete> olp;
+	private ObservableList<ProductoPaquete> olp = FXCollections.observableArrayList();
 
 	@FXML
 	private TableView<SucursalProducto> tViewPaquetes;
@@ -151,23 +151,21 @@ public class PaqueteController implements Initializable {
 						// Obtener los valores
 						String nombreProducto = label.getText();
 						String cantidadTexto = cantidadTextField.getText();
-						ProductoPaquete pp = new ProductoPaquete(Float.parseFloat(cantidadTexto),
-								ps.findByProducto(nombreProducto));
+						ProductoPaquete pp = new ProductoPaquete(Float.parseFloat(cantidadTexto), ps.findByProducto(nombreProducto));
 						lpp.add(pp);
 					}
 				}
 				if (lpp.size() <= 0) {
 					throw new Exception("No hay productos en el paquete!!");
 				}
-				if(tFieldDescripcion.getText().isEmpty()) {
+				if (tFieldDescripcion.getText().isEmpty()) {
 					throw new Exception("Agrega Descripcion");
 				}
-				if(Float.parseFloat(tFieldPrecio.getText())<=0) {
+				if (Float.parseFloat(tFieldPrecio.getText()) <= 0) {
 					throw new NumberFormatException("Preio est amal o vacio");
 				}
 				Producto p = new Producto(null, tFieldDescripcion.getText(), true);
-				SucursalProducto sp = ps.saveProductoPaquete(p, lpp, Float.parseFloat(tFieldPrecio.getText()),
-						cBoxCategoria.getSelectionModel().getSelectedItem(), cBoxVendible.isSelected(),
+				SucursalProducto sp = ps.saveProductoPaquete(p, lpp, Float.parseFloat(tFieldPrecio.getText()), cBoxCategoria.getSelectionModel().getSelectedItem(), cBoxVendible.isSelected(),
 						ss.getSucursalActive());
 				if (sp != null) {
 					olsp.add(sp);
@@ -223,8 +221,7 @@ public class PaqueteController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		oLSucursalProducto = FXCollections
-				.observableArrayList(sps.findBySucursalAndProductoEsPaqueteFalse(ss.getSucursalActive()));
+		oLSucursalProducto = FXCollections.observableArrayList(sps.findBySucursalAndProductoEsPaqueteFalse(ss.getSucursalActive()));
 		lViewProductos.setItems(oLSucursalProducto);
 		iniciatViewPaquetes();
 		cargarCategorias();
@@ -243,12 +240,14 @@ public class PaqueteController implements Initializable {
 			return; // No agregar duplicados
 		}
 		// HBox para contener el producto y la cantidad
-		HBox hbox = new HBox(10);
+		HBox hbox = new HBox();
 		hbox.setAlignment(Pos.CENTER_LEFT);
+		hbox.getStyleClass().add("producto-item"); // Aplicar clase CSS
 		// Estilo opcional para el HBox (bordes visibles para depuración)
-		hbox.setStyle("-fx-padding: 5; -fx-border-color: lightgray;");
+		// hbox.setStyle("-fx-padding: 5; -fx-border-color: lightgray;");
 
 		Label label = new Label(nombreProducto);
+		label.getStyleClass().add("producto-label"); // Aplicar clase CSS
 		label.setPrefWidth(100);
 		TextField cantidadTextField = new TextField("1"); // Cantidad por defecto
 		TextFormatter<String> formatter = new TextFormatter<>(change -> {
@@ -260,10 +259,12 @@ public class PaqueteController implements Initializable {
 			}
 			return null; // Rechazar el cambio
 		});
-		cantidadTextField.setPrefWidth(150);
+		cantidadTextField.getStyleClass().add("cantidad-field"); // Aplicar clase CSS
+		cantidadTextField.setPrefWidth(50);
 		cantidadTextField.setTextFormatter(formatter);
 
 		Button eliminarBtn = new Button("❌");
+		eliminarBtn.getStyleClass().add("eliminar-btn"); // Aplicar clase CSS
 		eliminarBtn.setOnAction(e -> vBoxProductos.getChildren().remove(hbox));
 
 		hbox.getChildren().add(label);
@@ -335,7 +336,7 @@ public class PaqueteController implements Initializable {
 
 	private void limpiarCampos() {
 		try {
-			if (!olp.isEmpty()) {
+			if (!olp.isEmpty() || olp != null || olp.equals(null)) {
 				olp.clear();
 			}
 			tFieldDescripcion.setText(null);
@@ -347,7 +348,7 @@ public class PaqueteController implements Initializable {
 		} catch (Exception e) {
 			Alert error = new Alert(AlertType.ERROR);
 			error.setTitle("Paquete Controller, Limpiar Error!!!");
-			error.setHeaderText("No se puede limpiar por algun error");
+			error.setHeaderText("No se puede limpiar por algun error: ");
 			error.setContentText(e.getMessage() + "\n" + e.getCause());
 			error.show();
 		}
