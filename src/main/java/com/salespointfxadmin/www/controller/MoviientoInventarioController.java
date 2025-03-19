@@ -35,6 +35,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
@@ -92,7 +93,7 @@ public class MoviientoInventarioController implements Initializable {
 
     @FXML
     void cancelar(ActionEvent event) {
-
+    	
     }
 
     @FXML
@@ -103,8 +104,10 @@ public class MoviientoInventarioController implements Initializable {
 
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED); // Ventana sin bordes
             stage.setTitle("Nuevo Movimiento de Inventario");
             stage.setScene(new Scene(root));
+            stage.setResizable(false);
             stage.showAndWait();
             
             // Recargar la tabla después de que se cierre la ventana

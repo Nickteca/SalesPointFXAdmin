@@ -33,6 +33,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -124,7 +125,8 @@ public class MovimientoInventarioDetalleController implements Initializable {
 
 	@FXML
 	void cancelar(ActionEvent event) {
-
+		Stage estaa = (Stage) btnCancelar.getScene().getWindow();
+    	estaa.close();
 	}
 
 	@FXML

@@ -9,7 +9,7 @@
 .list-cell {
 	-fx-background-color: transparent;
 	-fx-text-fill: #00FF00;
-	/* Verde brillante */
+	-fx-font-size: 14px;
 	-fx-font-family: "Consolas", "Courier New", monospace;
 }
 

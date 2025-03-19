@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="700.0" prefWidth="700.0" styleClass="anchor-pane" stylesheets="@../css/movimientoinventariodetalle.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.MovimientoInventarioDetalleController">
    <children>
@@ -21,7 +21,10 @@
                      <children>
                         <HBox alignment="CENTER">
                            <children>
-                              <Label text="MOVIMIENTO INVENTARIO DETALLE" />
+                              <Label text="MOVIMIENTO INVENTARIO DETALLE">
+                                 <font>
+                                    <Font name="System Italic" size="18.0" />
+                                 </font></Label>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
@@ -36,8 +39,8 @@
                            <children>
                               <Label text="Descripcion" />
                               <TextField editable="false" prefHeight="25.0" prefWidth="279.0" promptText="Alguan descripcion o motivo" />
-                              <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
                               <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardar" text="Guardar" />
+                              <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
                            </children>
                         </HBox>
                      </children>
@@ -54,7 +57,7 @@
                            <children>
                               <BorderPane layoutX="6.0" prefHeight="551.0" prefWidth="475.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="0.0">
                                  <center>
-                                    <ListView fx:id="lViewProductos" onDragDetected="#setOnDragDetected" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                                    <ListView fx:id="lViewProductos" onDragDetected="#setOnDragDetected" BorderPane.alignment="CENTER" />
                                  </center>
                                  <top>
                                     <Label text="PRODUCTOS" BorderPane.alignment="CENTER" />
