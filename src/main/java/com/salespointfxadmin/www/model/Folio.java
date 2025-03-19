@@ -14,10 +14,13 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "folio", uniqueConstraints = { @UniqueConstraint(columnNames = "idFolio") })
@@ -30,28 +33,42 @@ public class Folio implements Serializable {
 	@Column(nullable = false)
 	private Short idFolio;
 
-	@Basic(optional = false)
 	@Column(nullable = false, length = 4)
 	private String acronimoFolio;
 
-	@Basic(optional = false)
 	@Column(nullable = false)
 	private int numeroFolio;
 
-	@Basic(optional = false)
-	@Column(nullable = false, length = 1)
-	private Character naturalezaFolio;
+	@Column(nullable = false)
+	private Naturaleza naturalezaFolio;
+
+	@Column(nullable = false)
+	private NombreFolio nombreFolio;
 
 	@JoinColumn(name = "sucursal", referencedColumnName = "idSucursal")
 	@ManyToOne(optional = false)
 	private Sucursal sucursal;
 
-	public Folio(String acronimoFolio, int numeroFolio, Character naturalezaFolio, Sucursal sucursal) {
+	public Folio(String acronimoFolio, int numeroFolio, Naturaleza naturalezaFolio, Sucursal sucursal,NombreFolio nombreFolio) {
 		super();
 		this.acronimoFolio = acronimoFolio;
 		this.numeroFolio = numeroFolio;
 		this.naturalezaFolio = naturalezaFolio;
 		this.sucursal = sucursal;
+		this.nombreFolio=nombreFolio;
+	}
+
+	@Override
+	public String toString() {
+		return idFolio+" "+nombreFolio;
+	}
+
+	public enum Naturaleza {
+		E, S
+	}
+
+	public enum NombreFolio {
+		Ajuste_Entrada, Ajuste_salida, Traspaso_Entrada, Trspaso_Salida, Venta, Devolucion_Venta, Cancelacion_Venta
 	}
 
 }

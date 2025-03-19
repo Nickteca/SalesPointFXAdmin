@@ -28,10 +28,17 @@ public class StarterController {
 
 	@FXML
 	private Button btnCrearPaquetes;
+	@FXML
+	private Button btnMovimientoInventario;
 
 	@FXML
 	void productos(ActionEvent event) {
 		cargarVista("/fxml/productos.fxml");
+	}
+
+	@FXML
+	void movimiento(ActionEvent event) {
+		cargarVista("/fxml/movimientoinventario.fxml");
 	}
 
 	@FXML

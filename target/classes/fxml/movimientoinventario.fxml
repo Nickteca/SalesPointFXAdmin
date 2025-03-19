@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.MoviientoInventarioController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.MoviientoInventarioController">
    <children>
       <BorderPane layoutX="273.0" layoutY="215.0" prefHeight="768.0" prefWidth="824.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -37,27 +37,27 @@
                                     <HBox alignment="CENTER_LEFT" spacing="10.0">
                                        <children>
                                           <Label text="Fecha incio:" />
-                                          <DatePicker />
+                                          <DatePicker fx:id="dPickerInicio" />
                                           <Label text="Fecha Fin:" />
-                                          <DatePicker />
-                                          <ChoiceBox prefWidth="150.0" />
+                                          <DatePicker fx:id="dPicketFin" />
+                                          <ChoiceBox fx:id="cBoxSelecionar" prefWidth="150.0" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER_RIGHT" spacing="10.0">
                                        <children>
-                                          <Button mnemonicParsing="false" text="Buscar" />
-                                          <Button mnemonicParsing="false" text="Nuevo" />
-                                          <Button mnemonicParsing="false" text="Cancelar" />
+                                          <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#buscar" text="Buscar" />
+                                          <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" text="Nuevo" />
+                                          <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
                                        </children>
                                     </HBox>
-                                    <TableView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                    <TableView fx:id="tViewMovimientoInventario" VBox.vgrow="ALWAYS">
                                       <columns>
-                                        <TableColumn editable="false" prefWidth="75.0" sortable="false" text="ID" />
-                                        <TableColumn editable="false" prefWidth="75.0" sortable="false" text="FOLIO" />
-                                          <TableColumn editable="false" prefWidth="178.0" sortable="false" text="NATURALEZA" />
-                                          <TableColumn editable="false" prefWidth="75.0" sortable="false" text="FECHA" />
-                                          <TableColumn prefWidth="165.0" text="SUCURSAL DESTINO" />
-                                          <TableColumn prefWidth="209.0" text="DESCRIPCION" />
+                                        <TableColumn fx:id="columnId" editable="false" prefWidth="75.0" sortable="false" text="ID" />
+                                        <TableColumn fx:id="columnFolio" editable="false" prefWidth="75.0" sortable="false" text="FOLIO" />
+                                          <TableColumn fx:id="columnTipoMovimiento" editable="false" prefWidth="178.0" sortable="false" text="NATURALEZA" />
+                                          <TableColumn fx:id="columnFecha" editable="false" prefWidth="75.0" sortable="false" text="FECHA" />
+                                          <TableColumn fx:id="columnSucursalDestino" prefWidth="165.0" text="SUCURSAL DESTINO" />
+                                          <TableColumn fx:id="columnDescripcion" prefWidth="209.0" text="DESCRIPCION" />
                                       </columns>
                                     </TableView>
                                  </children>

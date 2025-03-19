@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" stylesheets="@../css/starter.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.StarterController">
+<StackPane minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" stylesheets="@../css/starter.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.StarterController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -30,7 +30,7 @@
                                        <children>
                                           <Button fx:id="btnProductos" mnemonicParsing="false" onAction="#productos" styleClass="boton-fuego" text="Productos" textFill="#141414" VBox.vgrow="ALWAYS" />
                                           <Button fx:id="btnCrearPaquetes" mnemonicParsing="false" onAction="#crearPaquetes" styleClass="boton-fuego" text="Crear Paquetes" VBox.vgrow="ALWAYS" />
-                                          <Button mnemonicParsing="false" styleClass="boton-fuego" text="Paquetes" VBox.vgrow="ALWAYS" />
+                                          <Button fx:id="btnMovimientoInventario" mnemonicParsing="false" onAction="#movimiento" styleClass="boton-fuego" text="Movimientos" VBox.vgrow="ALWAYS" />
                                           <Button mnemonicParsing="false" styleClass="boton-fuego" text="Button" VBox.vgrow="ALWAYS" />
                                           <Button mnemonicParsing="false" styleClass="boton-fuego" text="Button" VBox.vgrow="ALWAYS" />
                                           <Button mnemonicParsing="false" styleClass="boton-fuego" text="Button" VBox.vgrow="ALWAYS" />
