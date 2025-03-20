@@ -37,4 +37,14 @@ public class MovimientoInventarioDetalle implements Serializable {
 	@ManyToOne(optional = false)
 	private SucursalProducto sucursalProducto;
 
+	public MovimientoInventarioDetalle(Integer idMovimientoInventarioDetalle, short unidades,
+			SucursalProducto sucursalProducto) {
+		super();
+		this.idMovimientoInventarioDetalle = idMovimientoInventarioDetalle;
+		this.unidades = unidades;
+		this.sucursalProducto = sucursalProducto;
+	}
+	
+	
+
 }

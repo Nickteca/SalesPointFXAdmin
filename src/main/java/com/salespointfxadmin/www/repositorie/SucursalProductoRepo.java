@@ -13,4 +13,6 @@ public interface SucursalProductoRepo extends JpaRepository<SucursalProducto, Sh
 	List<SucursalProducto> findBySucursalAndVendibleTrue(Sucursal sucursal);
 
 	List<SucursalProducto> findBySucursalAndProductoEsPaqueteTrue(Sucursal sucursal);
+	
+	SucursalProducto findBySucursalAndProductoNombreProducto(Sucursal sucursal, String nombreProducto);
 }

@@ -34,7 +34,7 @@ public class MovimientoInventario implements Serializable {
 	private String folio;
 
 	@Column(nullable = false)
-	private TipoMovimiento tipoMovimiento;
+	private Naturaleza naturaleza;
 
 	@Column(nullable = false)
 	private LocalDateTime createdAt;
@@ -55,9 +55,22 @@ public class MovimientoInventario implements Serializable {
 
 	@OneToMany(mappedBy = "movimientoInventario", cascade = CascadeType.ALL)
 	private List<MovimientoInventarioDetalle> listMovimientoInventarioDetalle;
+	
+	
 
-	public enum TipoMovimiento {
-		E, S
+	public MovimientoInventario(Integer idMovimientoInventario, String folio, Naturaleza naturaleza,
+			String decripcion, List<MovimientoInventarioDetalle> listMovimientoInventarioDetalle) {
+		super();
+		this.idMovimientoInventario = idMovimientoInventario;
+		this.folio = folio;
+		this.naturaleza = naturaleza;
+		this.decripcion = decripcion;
+		this.listMovimientoInventarioDetalle = listMovimientoInventarioDetalle;
+		this.createdAt = LocalDateTime.now();
 	}
+
+
+
+
 
 }

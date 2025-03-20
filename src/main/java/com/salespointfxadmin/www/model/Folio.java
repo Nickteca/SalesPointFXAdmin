@@ -57,15 +57,16 @@ public class Folio implements Serializable {
 		this.sucursal = sucursal;
 		this.nombreFolio=nombreFolio;
 	}
+	
+	public String folioCompuesto () {
+		return acronimoFolio+""+sucursal.getIdSucursal()+"-"+numeroFolio+"";
+	}
 
 	@Override
 	public String toString() {
 		return idFolio+" "+nombreFolio;
 	}
 
-	public enum Naturaleza {
-		E, S
-	}
 
 	public enum NombreFolio {
 		Ajuste_Entrada, Ajuste_salida, Traspaso_Entrada, Trspaso_Salida, Venta, Devolucion_Venta, Cancelacion_Venta

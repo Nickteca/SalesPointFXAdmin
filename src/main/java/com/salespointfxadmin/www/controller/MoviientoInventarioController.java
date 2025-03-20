@@ -31,6 +31,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
@@ -57,6 +58,9 @@ public class MoviientoInventarioController implements Initializable {
     @FXML
     private ChoiceBox<Folio> cBoxSelecionar;
     private ObservableList<Folio> olf;
+    
+    @FXML
+    private TextField tFieldDescripcion;
 
     @FXML
     private TableColumn<MovimientoInventario, String> columnDescripcion;
@@ -104,14 +108,14 @@ public class MoviientoInventarioController implements Initializable {
 
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.UNDECORATED); // Ventana sin bordes
+            //stage.initStyle(StageStyle.UNDECORATED); // Ventana sin bordes
             stage.setTitle("Nuevo Movimiento de Inventario");
             stage.setScene(new Scene(root));
             stage.setResizable(false);
             stage.showAndWait();
             
             // Recargar la tabla después de que se cierre la ventana
-            iniciarTablaMovimientoInventario();
+            //iniciarTablaMovimientoInventario();
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -154,6 +158,7 @@ public class MoviientoInventarioController implements Initializable {
 		olf= FXCollections.observableArrayList(fs.findBySucursal(ss.getSucursalActive()));
 		cBoxSelecionar.setItems(olf);
 		cBoxSelecionar.getSelectionModel().selectFirst();
+		
 	}
 
 }

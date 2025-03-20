@@ -1,13 +1,21 @@
 package com.salespointfxadmin.www.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.springframework.stereotype.Component;
 
 import com.salespointfxadmin.www.model.Folio;
+import com.salespointfxadmin.www.model.MovimientoInventario;
+import com.salespointfxadmin.www.model.MovimientoInventarioDetalle;
+import com.salespointfxadmin.www.model.Producto;
+import com.salespointfxadmin.www.model.ProductoPaquete;
+import com.salespointfxadmin.www.model.Sucursal;
 import com.salespointfxadmin.www.model.SucursalProducto;
 import com.salespointfxadmin.www.service.FolioService;
+import com.salespointfxadmin.www.service.ProductoService;
 import com.salespointfxadmin.www.service.SucursalProductoService;
 import com.salespointfxadmin.www.service.SucursalService;
 
@@ -42,6 +50,7 @@ public class MovimientoInventarioDetalleController implements Initializable {
 	private final SucursalProductoService sps;
 	private final SucursalService ss;
 	private final FolioService fs;
+	
 
 	@FXML
 	private Button btnCancelar;
@@ -54,7 +63,14 @@ public class MovimientoInventarioDetalleController implements Initializable {
 	private ObservableList<Folio> olf;
 
 	@FXML
+	private ChoiceBox<Sucursal> cBoxSucursal;
+	private ObservableList<Sucursal> ols;
+
+	@FXML
 	private ListView<SucursalProducto> lViewProductos;
+
+	@FXML
+	private TextField tFieldDescripcion;
 
 	@FXML
 	private VBox vBoxProductosSeleccionados;
@@ -126,12 +142,49 @@ public class MovimientoInventarioDetalleController implements Initializable {
 	@FXML
 	void cancelar(ActionEvent event) {
 		Stage estaa = (Stage) btnCancelar.getScene().getWindow();
-    	estaa.close();
+		estaa.close();
 	}
 
 	@FXML
 	void guardar(ActionEvent event) {
+		try {
+			List<MovimientoInventarioDetalle> lmid = new ArrayList<MovimientoInventarioDetalle>();
+			for (Node node : vBoxProductosSeleccionados.getChildren()) {
+				if (node instanceof HBox) {
+					HBox hbox = (HBox) node;
 
+					// Asumiendo que el HBox tiene exactamente: Label, TextField, Button (en ese
+					// orden)
+					Label label = (Label) hbox.getChildren().get(0);
+					TextField cantidadTextField = (TextField) hbox.getChildren().get(1);
+
+					// Obtener los valores
+					String nombreProducto = label.getText();
+					String cantidadTexto = cantidadTextField.getText();
+					MovimientoInventarioDetalle mid = new MovimientoInventarioDetalle(null, Short.parseShort(cantidadTexto), sps.findBySucursalAndProductoNombreProducto(ss.getSucursalActive(), nombreProducto));
+					lmid.add(mid);
+				}
+			}
+			if (lmid.size() <= 0) {
+				throw new Exception("No hay productos en el Movimiento!!");
+			}
+			if (!tFieldDescripcion.isDisable() && tFieldDescripcion.getText().isEmpty()) {
+				throw new Exception("Agrega algo en la descripcion del movimiento");
+			}
+			if (!cBoxSucursal.isDisable()) {
+				throw new NumberFormatException("Preio est amal o vacio");
+			}Folio f = cBoxFolio.getSelectionModel().getSelectedItem();
+			MovimientoInventario mi = new MovimientoInventario(null, f.folioCompuesto(), f.getNaturalezaFolio(), null, lmid);
+			
+			System.out.println(f.folioCompuesto());
+			
+		} catch (Exception e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Movimiento inventario detalle error!!!");
+			error.setHeaderText("Error al insertar");
+			error.setContentText(e.getMessage()+" "+e.getCause());
+			error.show();
+		}
 	}
 
 	@FXML
@@ -174,13 +227,35 @@ public class MovimientoInventarioDetalleController implements Initializable {
 		olf = FXCollections.observableArrayList(fs.findBySucursal(ss.getSucursalActive()));
 		cBoxFolio.setItems(olf);
 		cBoxFolio.getSelectionModel().selectFirst();
+		// Listener para detectar cambios en la selección del ChoiceBox
+		cBoxFolio.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			if (Folio.NombreFolio.Traspaso_Entrada.equals(newValue.getNombreFolio())
+					|| Folio.NombreFolio.Trspaso_Salida.equals(newValue.getNombreFolio())) { // Reemplaza con el nombre
+																								// que deseas activar
+				tFieldDescripcion.setDisable(false); // Habilitar el TextField
+				cBoxSucursal.setDisable(false);
+			} else {
+				tFieldDescripcion.setDisable(true); // Deshabilitar el TextField
+				cBoxSucursal.setDisable(true);
+			}
+		});
+	}
+
+	private void iniciarCBoxSucursal() {
+		ols = FXCollections.observableArrayList(ss.getAllSucursales());
+		cBoxSucursal.setItems(ols);
+		cBoxSucursal.getSelectionModel().selectFirst();
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		iniciarlVieeProductos();
 		inicirFolios();
+		iniciarCBoxSucursal();
+		tFieldDescripcion.setDisable(true);
 
 	}
+
+	
 
 }
