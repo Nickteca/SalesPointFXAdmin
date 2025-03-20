@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.salespointfxadmin.www.enums.Naturaleza;
+import com.salespointfxadmin.www.enums.NombreFolio;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,6 +40,9 @@ public class MovimientoInventario implements Serializable {
 	private Naturaleza naturaleza;
 
 	@Column(nullable = false)
+	private NombreFolio nombreFolio;
+
+	@Column(nullable = false)
 	private LocalDateTime createdAt;
 
 	@Column(nullable = true, length = 50)
@@ -55,22 +61,27 @@ public class MovimientoInventario implements Serializable {
 
 	@OneToMany(mappedBy = "movimientoInventario", cascade = CascadeType.ALL)
 	private List<MovimientoInventarioDetalle> listMovimientoInventarioDetalle;
-	
-	
 
-	public MovimientoInventario(Integer idMovimientoInventario, String folio, Naturaleza naturaleza,
-			String decripcion, List<MovimientoInventarioDetalle> listMovimientoInventarioDetalle) {
+	public MovimientoInventario(Integer idMovimientoInventario, String folio, Naturaleza naturaleza, NombreFolio nombreFolio, String decripcion, Sucursal sucursal, Sucursal sucursaldestino) {
 		super();
 		this.idMovimientoInventario = idMovimientoInventario;
 		this.folio = folio;
 		this.naturaleza = naturaleza;
+		this.nombreFolio = nombreFolio;
 		this.decripcion = decripcion;
-		this.listMovimientoInventarioDetalle = listMovimientoInventarioDetalle;
+		this.sucursal = sucursal;
+		this.sucursalDestino = sucursaldestino;
 		this.createdAt = LocalDateTime.now();
+		this.updatedAt = LocalDateTime.now();
 	}
 
-
-
-
+	public MovimientoInventario(Integer idMovimientoInventario, String folio, Naturaleza naturaleza) {
+		super();
+		this.idMovimientoInventario = idMovimientoInventario;
+		this.folio = folio;
+		this.naturaleza = naturaleza;
+		this.createdAt = LocalDateTime.now();
+		this.updatedAt = LocalDateTime.now();
+	}
 
 }

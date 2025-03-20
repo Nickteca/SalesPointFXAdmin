@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.MoviientoInventarioController">
+<AnchorPane prefHeight="768.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.MoviientoInventarioController">
    <children>
       <BorderPane layoutX="273.0" layoutY="215.0" prefHeight="768.0" prefWidth="824.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -40,7 +40,7 @@
                                           <DatePicker fx:id="dPickerInicio" />
                                           <Label text="Fecha Fin:" />
                                           <DatePicker fx:id="dPicketFin" />
-                                          <ChoiceBox fx:id="cBoxSelecionar" prefWidth="150.0" />
+                                          <ChoiceBox fx:id="cBoxFolio" prefWidth="150.0" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER_RIGHT" spacing="10.0">

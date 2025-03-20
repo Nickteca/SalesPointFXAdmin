@@ -2,6 +2,9 @@ package com.salespointfxadmin.www.model;
 
 import java.io.Serializable;
 
+import com.salespointfxadmin.www.enums.Naturaleza;
+import com.salespointfxadmin.www.enums.NombreFolio;
+
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,7 +16,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -49,27 +51,22 @@ public class Folio implements Serializable {
 	@ManyToOne(optional = false)
 	private Sucursal sucursal;
 
-	public Folio(String acronimoFolio, int numeroFolio, Naturaleza naturalezaFolio, Sucursal sucursal,NombreFolio nombreFolio) {
+	public Folio(String acronimoFolio, int numeroFolio, Naturaleza naturalezaFolio, Sucursal sucursal, NombreFolio nombreFolio) {
 		super();
 		this.acronimoFolio = acronimoFolio;
 		this.numeroFolio = numeroFolio;
 		this.naturalezaFolio = naturalezaFolio;
 		this.sucursal = sucursal;
-		this.nombreFolio=nombreFolio;
+		this.nombreFolio = nombreFolio;
 	}
-	
-	public String folioCompuesto () {
-		return acronimoFolio+""+sucursal.getIdSucursal()+"-"+numeroFolio+"";
+
+	public String folioCompuesto() {
+		return acronimoFolio + "" + sucursal.getIdSucursal() + "-" + numeroFolio + "";
 	}
 
 	@Override
 	public String toString() {
-		return idFolio+" "+nombreFolio;
-	}
-
-
-	public enum NombreFolio {
-		Ajuste_Entrada, Ajuste_salida, Traspaso_Entrada, Trspaso_Salida, Venta, Devolucion_Venta, Cancelacion_Venta
+		return idFolio + " " + nombreFolio;
 	}
 
 }

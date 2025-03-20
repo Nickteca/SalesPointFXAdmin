@@ -4,17 +4,16 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.springframework.stereotype.Component;
 
 import com.salespointfxadmin.www.component.SpringFXMLLoader;
+import com.salespointfxadmin.www.enums.Naturaleza;
 import com.salespointfxadmin.www.model.Folio;
-import com.salespointfxadmin.www.model.MovimientoCaja.TipoMovimiento;
 import com.salespointfxadmin.www.model.MovimientoInventario;
 import com.salespointfxadmin.www.model.Sucursal;
-import com.salespointfxadmin.www.repositorie.FolioRepo;
-import com.salespointfxadmin.www.repositorie.MovimientoInventarioRepo;
 import com.salespointfxadmin.www.service.FolioService;
 import com.salespointfxadmin.www.service.MovimientoInventarioService;
 import com.salespointfxadmin.www.service.SucursalService;
@@ -26,6 +25,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -36,8 +37,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import lombok.RequiredArgsConstructor;
+
 @Component
 @RequiredArgsConstructor
 public class MoviientoInventarioController implements Initializable {
@@ -46,81 +47,100 @@ public class MoviientoInventarioController implements Initializable {
 	private final FolioService fs;
 	private final SpringFXMLLoader springFXMLLoader;
 
-    @FXML
-    private Button btnBuscar;
+	@FXML
+	private Button btnBuscar;
 
-    @FXML
-    private Button btnCancelar;
+	@FXML
+	private Button btnCancelar;
 
-    @FXML
-    private Button btnNuevo;
+	@FXML
+	private Button btnNuevo;
 
-    @FXML
-    private ChoiceBox<Folio> cBoxSelecionar;
-    private ObservableList<Folio> olf;
-    
-    @FXML
-    private TextField tFieldDescripcion;
+	@FXML
+	private ChoiceBox<Folio> cBoxFolio;
+	private ObservableList<Folio> olf;
 
-    @FXML
-    private TableColumn<MovimientoInventario, String> columnDescripcion;
+	@FXML
+	private TextField tFieldDescripcion;
 
-    @FXML
-    private TableColumn<MovimientoInventario, LocalDateTime> columnFecha;
+	@FXML
+	private TableColumn<MovimientoInventario, String> columnDescripcion;
 
-    @FXML
-    private TableColumn<MovimientoInventario, String> columnFolio;
+	@FXML
+	private TableColumn<MovimientoInventario, LocalDateTime> columnFecha;
 
-    @FXML
-    private TableColumn<MovimientoInventario, Integer> columnId;
+	@FXML
+	private TableColumn<MovimientoInventario, String> columnFolio;
 
-    @FXML
-    private TableColumn<MovimientoInventario, TipoMovimiento> columnTipoMovimiento;
+	@FXML
+	private TableColumn<MovimientoInventario, Integer> columnId;
 
-    @FXML
-    private TableColumn<MovimientoInventario, Sucursal> columnSucursalDestino;
+	@FXML
+	private TableColumn<MovimientoInventario, Naturaleza> columnTipoMovimiento;
 
-    @FXML
-    private DatePicker dPickerInicio;
+	@FXML
+	private TableColumn<MovimientoInventario, Sucursal> columnSucursalDestino;
 
-    @FXML
-    private DatePicker dPicketFin;
+	@FXML
+	private DatePicker dPickerInicio;
 
-    @FXML
-    private TableView<MovimientoInventario> tViewMovimientoInventario;
-    private ObservableList<MovimientoInventario> olmi;
+	@FXML
+	private DatePicker dPicketFin;
 
-    @FXML
-    void buscar(ActionEvent event) {
+	@FXML
+	private TableView<MovimientoInventario> tViewMovimientoInventario;
+	private ObservableList<MovimientoInventario> olmi;
 
-    }
+	@FXML
+	void buscar(ActionEvent event) {
+		try {
+			Folio f = cBoxFolio.getSelectionModel().getSelectedItem();
+			List<MovimientoInventario> lmi = mis.findBySucursalAndCreatedAtBetweenAndNombreFolio(ss.getSucursalActive(), dPickerInicio.getValue().atStartOfDay(),
+					dPicketFin.getValue().atTime(23, 59, 59), f.getNombreFolio());
+			// for (MovimientoInventario movimientoInventario : lmi) {
+			System.out.println(dPickerInicio.getValue().atStartOfDay() + " " + dPicketFin.getValue().atTime(23, 59, 59));
+			// }
+			if (lmi.isEmpty()) {
+				throw new Exception("Esta vacia la lista");
+			}
+			olmi = FXCollections.observableArrayList(lmi);
+			tViewMovimientoInventario.setItems(olmi);
 
-    @FXML
-    void cancelar(ActionEvent event) {
-    	
-    }
+		} catch (Exception e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Error Movimienmto invetarii Controller!!!");
+			error.setHeaderText("Buscando algo");
+			error.setContentText(e.getMessage() + "\n" + e.getCause());
+			error.show();
+		}
+	}
 
-    @FXML
-    void nuevo(ActionEvent event) {
-    	try {
-            FXMLLoader loader = springFXMLLoader.load("/fxml/movimientoinventariodetalle.fxml");
-            AnchorPane root = loader.load();
+	@FXML
+	void cancelar(ActionEvent event) {
 
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            //stage.initStyle(StageStyle.UNDECORATED); // Ventana sin bordes
-            stage.setTitle("Nuevo Movimiento de Inventario");
-            stage.setScene(new Scene(root));
-            stage.setResizable(false);
-            stage.showAndWait();
-            
-            // Recargar la tabla después de que se cierre la ventana
-            //iniciarTablaMovimientoInventario();
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+	}
+
+	@FXML
+	void nuevo(ActionEvent event) {
+		try {
+			FXMLLoader loader = springFXMLLoader.load("/fxml/movimientoinventariodetalle.fxml");
+			AnchorPane root = loader.load();
+
+			Stage stage = new Stage();
+			stage.initModality(Modality.APPLICATION_MODAL);
+			// stage.initStyle(StageStyle.UNDECORATED); // Ventana sin bordes
+			stage.setTitle("Nuevo Movimiento de Inventario");
+			stage.setScene(new Scene(root));
+			stage.setResizable(false);
+			stage.showAndWait();
+
+			// Recargar la tabla después de que se cierre la ventana
+			// iniciarTablaMovimientoInventario();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -129,7 +149,7 @@ public class MoviientoInventarioController implements Initializable {
 		iniciarTablaMovimientoInventario();
 		iniciarChoiceBox();
 	}
-	
+
 	private void iniciarTablaMovimientoInventario() {
 		/* SE INICIA TODO DE LOS PRODUCTO SUCURSAL */
 		columnId.setCellValueFactory(new PropertyValueFactory<>("idMovimientoInventario"));
@@ -139,26 +159,57 @@ public class MoviientoInventarioController implements Initializable {
 		columnDescripcion.prefWidthProperty().bind(tViewMovimientoInventario.widthProperty().multiply(0.3));
 
 		columnFecha.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
-		columnFecha.prefWidthProperty().bind(tViewMovimientoInventario.widthProperty().multiply(0.1));
+		columnFecha.prefWidthProperty().bind(tViewMovimientoInventario.widthProperty().multiply(0.2));
 
 		columnFolio.setCellValueFactory(new PropertyValueFactory<>("folio"));
-		columnFolio.prefWidthProperty().bind(tViewMovimientoInventario.widthProperty().multiply(0.2));
+		columnFolio.prefWidthProperty().bind(tViewMovimientoInventario.widthProperty().multiply(0.1));
 
-		columnTipoMovimiento.setCellValueFactory(new PropertyValueFactory<>("tipoMovimiento"));
-		columnTipoMovimiento.prefWidthProperty().bind(tViewMovimientoInventario.widthProperty().multiply(0.15));
+		columnTipoMovimiento.setCellValueFactory(new PropertyValueFactory<>("naturaleza"));
+		columnTipoMovimiento.prefWidthProperty().bind(tViewMovimientoInventario.widthProperty().multiply(0.2));
 
 		columnSucursalDestino.setCellValueFactory(new PropertyValueFactory<>("sucursalDestino"));
-		columnSucursalDestino.prefWidthProperty().bind(tViewMovimientoInventario.widthProperty().multiply(0.15));
-		
-		olmi = FXCollections.observableArrayList(mis.findByCreatedAtBetween(LocalDateTime.now(), LocalDateTime.now()));
-		tViewMovimientoInventario.setItems(olmi);
+		columnSucursalDestino.prefWidthProperty().bind(tViewMovimientoInventario.widthProperty().multiply(0.1));
+
+		tViewMovimientoInventario.setOnMouseClicked(event -> {
+			if (event.getClickCount() == 2) { // Doble clic
+				MovimientoInventario mis = tViewMovimientoInventario.getSelectionModel().getSelectedItem();
+				if (mis != null) {
+					mostrarMovimiento(mis);
+				}
+			}
+		});
+
 	}
-	
+
 	private void iniciarChoiceBox() {
-		olf= FXCollections.observableArrayList(fs.findBySucursal(ss.getSucursalActive()));
-		cBoxSelecionar.setItems(olf);
-		cBoxSelecionar.getSelectionModel().selectFirst();
-		
+		olf = FXCollections.observableArrayList(fs.findBySucursal(ss.getSucursalActive()));
+		cBoxFolio.setItems(olf);
+		cBoxFolio.getSelectionModel().selectFirst();
+
+	}
+
+	private void mostrarMovimiento(MovimientoInventario mi) {
+		try {
+			FXMLLoader loader = springFXMLLoader.load("/fxml/movimientoinventariodetalle.fxml");
+			AnchorPane root = loader.load();
+			MovimientoInventarioDetalleController midc = loader.getController();
+			midc.mostrarRegistro(mi);
+
+			Stage stage = new Stage();
+			stage.initModality(Modality.APPLICATION_MODAL);
+			// stage.initStyle(StageStyle.UNDECORATED); // Ventana sin bordes
+			stage.setTitle("Nuevo Movimiento de Inventario");
+			stage.setScene(new Scene(root));
+			stage.setResizable(false);
+
+			stage.showAndWait();
+
+			// Recargar la tabla después de que se cierre la ventana
+			// iniciarTablaMovimientoInventario();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
