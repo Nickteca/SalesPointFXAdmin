@@ -13,7 +13,9 @@ import com.salespointfxadmin.www.model.MovimientoInventario;
 import com.salespointfxadmin.www.model.MovimientoInventarioDetalle;
 import com.salespointfxadmin.www.model.Sucursal;
 import com.salespointfxadmin.www.model.SucursalProducto;
+import com.salespointfxadmin.www.repositorie.MovimientoInventarioDetalleRepo;
 import com.salespointfxadmin.www.service.FolioService;
+import com.salespointfxadmin.www.service.MovimientoInventarioDetalleService;
 import com.salespointfxadmin.www.service.MovimientoInventarioService;
 import com.salespointfxadmin.www.service.SucursalProductoService;
 import com.salespointfxadmin.www.service.SucursalService;
@@ -50,6 +52,7 @@ public class MovimientoInventarioDetalleController implements Initializable {
 	private final SucursalService ss;
 	private final FolioService fs;
 	private final MovimientoInventarioService mis;
+	private final MovimientoInventarioDetalleService mids;
 
 	@FXML
 	private Button btnCancelar;
@@ -160,7 +163,8 @@ public class MovimientoInventarioDetalleController implements Initializable {
 					// Obtener los valores
 					String nombreProducto = label.getText();
 					String cantidadTexto = cantidadTextField.getText();
-					MovimientoInventarioDetalle mid = new MovimientoInventarioDetalle(null, Short.parseShort(cantidadTexto),
+					MovimientoInventarioDetalle mid = new MovimientoInventarioDetalle(null,
+							Short.parseShort(cantidadTexto),
 							sps.findBySucursalAndProductoNombreProducto(ss.getSucursalActive(), nombreProducto));
 					lmid.add(mid);
 				}
@@ -175,7 +179,8 @@ public class MovimientoInventarioDetalleController implements Initializable {
 				throw new Exception("Sucursal no seleccionbada, debe seleccionar destino o de donde vienen");
 			}
 			Folio f = cBoxFolio.getSelectionModel().getSelectedItem();
-			MovimientoInventario mi = new MovimientoInventario(null, f.folioCompuesto(), f.getNaturalezaFolio(), f.getNombreFolio(), tFieldDescripcion.getText(), ss.getSucursalActive(),
+			MovimientoInventario mi = new MovimientoInventario(null, f.folioCompuesto(), f.getNaturalezaFolio(),
+					f.getNombreFolio(), tFieldDescripcion.getText(), ss.getSucursalActive(),
 					cBoxSucursal.getSelectionModel().getSelectedItem());
 			if (mis.save(mi, lmid) == null) {
 				throw new Exception("Es probabel que n este abierta la caja");
@@ -234,8 +239,9 @@ public class MovimientoInventarioDetalleController implements Initializable {
 		cBoxFolio.getSelectionModel().selectFirst();
 		// Listener para detectar cambios en la selección del ChoiceBox
 		cBoxFolio.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-			if (NombreFolio.Traspaso_Entrada.equals(newValue.getNombreFolio()) || NombreFolio.Trspaso_Salida.equals(newValue.getNombreFolio())) { // Reemplaza con el nombre
-																																					// que deseas activar
+			if (NombreFolio.Traspaso_Entrada.equals(newValue.getNombreFolio())
+					|| NombreFolio.Trspaso_Salida.equals(newValue.getNombreFolio())) { // Reemplaza con el nombre
+																						// que deseas activar
 				tFieldDescripcion.setDisable(false); // Habilitar el TextField
 				cBoxSucursal.setDisable(false);
 			} else {
@@ -262,45 +268,39 @@ public class MovimientoInventarioDetalleController implements Initializable {
 	public void mostrarRegistro(MovimientoInventario mi) {
 		tFieldDescripcion.setText(mi.getDecripcion());
 		cBoxSucursal.getSelectionModel().select(mi.getSucursal());
-		System.out.println(mi.getFolio() + " " + mi.getNaturaleza());
-		if (mi.getListMovimientoInventarioDetalle() != null && !mi.getListMovimientoInventarioDetalle().isEmpty()) {
-			System.out.println("La lista existe y tiene elementos.");
-		} else {
-			System.out.println("La lista es null o está vacía.");
+		List<MovimientoInventarioDetalle> lmid = mids.findByMovimiento(mi);
+		for (MovimientoInventarioDetalle mid : lmid) {
+			// HBox para contener el producto y la cantidad
+			HBox hbox = new HBox();
+			hbox.setAlignment(Pos.CENTER_LEFT);
+			hbox.getStyleClass().add("item-hbox");
+
+			// Estilo opcional para el HBox (bordes visibles para depuración)
+			// hbox.setStyle("-fx-padding: 5; -fx-border-color: lightgray;");
+
+			Label label = new Label(mid.getSucursalProducto().getProducto().getNombreProducto());
+			label.getStyleClass().add("item-label");
+			label.setPrefWidth(100);
+			TextField cantidadTextField = new TextField("1"); // Cantidad por defecto
+			cantidadTextField.getStyleClass().add("item-textfield");
+			
+			cantidadTextField.setOnMouseClicked(event -> {
+				cantidadTextField.selectAll(); // Selecciona todo el texto al hacer clic
+			});
+			cantidadTextField.setText(mid.getUnidades()+"");
+			cantidadTextField.setEditable(false);
+			cantidadTextField.setPrefWidth(50);
+
+			Button eliminarBtn = new Button("❌");
+			eliminarBtn.getStyleClass().add("button-eliminar");
+			eliminarBtn.setOnAction(e -> vBoxProductosSeleccionados.getChildren().remove(hbox));
+
+			hbox.getChildren().add(label);
+			hbox.getChildren().add(cantidadTextField);
+			hbox.getChildren().add(eliminarBtn);
+
+			vBoxProductosSeleccionados.getChildren().add(hbox);
 		}
-		/*
-		 * for (MovimientoInventarioDetalle mid :
-		 * mi.getListMovimientoInventarioDetalle()) { HBox hbox = new HBox();
-		 * hbox.setAlignment(Pos.CENTER_LEFT); hbox.getStyleClass().add("item-hbox");
-		 * 
-		 * // Estilo opcional para el HBox (bordes visibles para depuración) //
-		 * hbox.setStyle("-fx-padding: 5; -fx-border-color: lightgray;");
-		 * 
-		 * Label label = new Label(mid.getMovimientoInventario() + "");
-		 * label.getStyleClass().add("item-label"); label.setPrefWidth(100); TextField
-		 * cantidadTextField = new TextField("1"); // Cantidad por defecto
-		 * cantidadTextField.getStyleClass().add("item-textfield");
-		 * TextFormatter<String> formatter = new TextFormatter<>(change -> { String
-		 * newText = change.getControlNewText();
-		 * 
-		 * // Permitir solo números que no inicien con '0', excepto si es solo '0' if
-		 * (newText.matches("[1-9][0-9]*|0|")) { return change; // Aceptar el cambio }
-		 * return null; // Rechazar el cambio });
-		 * cantidadTextField.setOnMouseClicked(event -> { cantidadTextField.selectAll();
-		 * // Selecciona todo el texto al hacer clic });
-		 * cantidadTextField.setPrefWidth(50);
-		 * cantidadTextField.setText(mid.getUnidades() + "");
-		 * cantidadTextField.setTextFormatter(formatter);
-		 * 
-		 * Button eliminarBtn = new Button("❌");
-		 * eliminarBtn.getStyleClass().add("button-eliminar"); eliminarBtn.setOnAction(e
-		 * -> vBoxProductosSeleccionados.getChildren().remove(hbox));
-		 * 
-		 * hbox.getChildren().add(label); hbox.getChildren().add(cantidadTextField);
-		 * hbox.getChildren().add(eliminarBtn);
-		 * 
-		 * vBoxProductosSeleccionados.getChildren().add(hbox); }
-		 */
 
 	}
 

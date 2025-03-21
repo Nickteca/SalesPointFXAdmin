@@ -28,18 +28,19 @@ public class MovimientoInventarioService {
 	@Transactional
 	public MovimientoInventario save(MovimientoInventario mi, List<MovimientoInventarioDetalle> mid) {
 		MovimientoCaja mc = mcr.findFirstBySucursalEstatusSucursalTrueOrderByIdMovimientoCajaDesc().orElse(null);
-		if (mc != null && mc.getTipoMovimientoCaja().equals(TipoMovimiento.APERTURA)) {
+		/*if (mc != null && mc.getTipoMovimientoCaja().equals(TipoMovimiento.APERTURA)) {*/
 			mi = mir.save(mi);
 			for (MovimientoInventarioDetalle movimientoInventarioDetalle : mid) {
 				movimientoInventarioDetalle.setMovimientoInventario(mi);
 				midr.save(movimientoInventarioDetalle);
 			}
 			return mi;
-		} else {
+		/*} else {
 			return null;
-		}
+		}*/
 
 	}
+
 
 	public List<MovimientoInventario> findBySucursalAndCreatedAtBetweenAndNombreFolio(Sucursal sucursal, LocalDateTime startTime, LocalDateTime endTime, NombreFolio nombreFolio) {
 		return mir.findBySucursalAndCreatedAtBetweenAndNombreFolio(sucursal, startTime, endTime, nombreFolio);
