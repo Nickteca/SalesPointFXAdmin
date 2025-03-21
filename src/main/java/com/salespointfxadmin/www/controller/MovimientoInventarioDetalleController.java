@@ -13,7 +13,6 @@ import com.salespointfxadmin.www.model.MovimientoInventario;
 import com.salespointfxadmin.www.model.MovimientoInventarioDetalle;
 import com.salespointfxadmin.www.model.Sucursal;
 import com.salespointfxadmin.www.model.SucursalProducto;
-import com.salespointfxadmin.www.repositorie.MovimientoInventarioDetalleRepo;
 import com.salespointfxadmin.www.service.FolioService;
 import com.salespointfxadmin.www.service.MovimientoInventarioDetalleService;
 import com.salespointfxadmin.www.service.MovimientoInventarioService;
@@ -73,6 +72,8 @@ public class MovimientoInventarioDetalleController implements Initializable {
 
 	@FXML
 	private TextField tFieldDescripcion;
+	@FXML
+	private TextField tFieldFolio;
 
 	@FXML
 	private VBox vBoxProductosSeleccionados;
@@ -163,8 +164,7 @@ public class MovimientoInventarioDetalleController implements Initializable {
 					// Obtener los valores
 					String nombreProducto = label.getText();
 					String cantidadTexto = cantidadTextField.getText();
-					MovimientoInventarioDetalle mid = new MovimientoInventarioDetalle(null,
-							Short.parseShort(cantidadTexto),
+					MovimientoInventarioDetalle mid = new MovimientoInventarioDetalle(null, Short.parseShort(cantidadTexto),
 							sps.findBySucursalAndProductoNombreProducto(ss.getSucursalActive(), nombreProducto));
 					lmid.add(mid);
 				}
@@ -179,8 +179,7 @@ public class MovimientoInventarioDetalleController implements Initializable {
 				throw new Exception("Sucursal no seleccionbada, debe seleccionar destino o de donde vienen");
 			}
 			Folio f = cBoxFolio.getSelectionModel().getSelectedItem();
-			MovimientoInventario mi = new MovimientoInventario(null, f.folioCompuesto(), f.getNaturalezaFolio(),
-					f.getNombreFolio(), tFieldDescripcion.getText(), ss.getSucursalActive(),
+			MovimientoInventario mi = new MovimientoInventario(null, f.folioCompuesto(), f.getNaturalezaFolio(), f.getNombreFolio(), tFieldDescripcion.getText(), ss.getSucursalActive(),
 					cBoxSucursal.getSelectionModel().getSelectedItem());
 			if (mis.save(mi, lmid) == null) {
 				throw new Exception("Es probabel que n este abierta la caja");
@@ -237,14 +236,15 @@ public class MovimientoInventarioDetalleController implements Initializable {
 		olf = FXCollections.observableArrayList(fs.findBySucursal(ss.getSucursalActive()));
 		cBoxFolio.setItems(olf);
 		cBoxFolio.getSelectionModel().selectFirst();
+		tFieldFolio.setText(cBoxFolio.getSelectionModel().getSelectedItem().folioCompuesto());
 		// Listener para detectar cambios en la selección del ChoiceBox
 		cBoxFolio.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-			if (NombreFolio.Traspaso_Entrada.equals(newValue.getNombreFolio())
-					|| NombreFolio.Trspaso_Salida.equals(newValue.getNombreFolio())) { // Reemplaza con el nombre
-																						// que deseas activar
+			if (NombreFolio.Traspaso_Entrada.equals(newValue.getNombreFolio()) || NombreFolio.Trspaso_Salida.equals(newValue.getNombreFolio())) { // Reemplaza con el nombre
+				tFieldFolio.setText(cBoxFolio.getSelectionModel().getSelectedItem().folioCompuesto());
 				tFieldDescripcion.setDisable(false); // Habilitar el TextField
 				cBoxSucursal.setDisable(false);
 			} else {
+				tFieldFolio.setText(cBoxFolio.getSelectionModel().getSelectedItem().folioCompuesto());
 				tFieldDescripcion.setDisable(true); // Deshabilitar el TextField
 				cBoxSucursal.setDisable(true);
 			}
@@ -267,7 +267,8 @@ public class MovimientoInventarioDetalleController implements Initializable {
 
 	public void mostrarRegistro(MovimientoInventario mi) {
 		tFieldDescripcion.setText(mi.getDecripcion());
-		cBoxSucursal.getSelectionModel().select(mi.getSucursal());
+		tFieldFolio.setText(mi.getFolio());
+		cBoxSucursal.getSelectionModel().select(mi.getSucursalDestino());
 		List<MovimientoInventarioDetalle> lmid = mids.findByMovimiento(mi);
 		for (MovimientoInventarioDetalle mid : lmid) {
 			// HBox para contener el producto y la cantidad
@@ -281,13 +282,13 @@ public class MovimientoInventarioDetalleController implements Initializable {
 			Label label = new Label(mid.getSucursalProducto().getProducto().getNombreProducto());
 			label.getStyleClass().add("item-label");
 			label.setPrefWidth(100);
-			TextField cantidadTextField = new TextField("1"); // Cantidad por defecto
+			TextField cantidadTextField = new TextField(); // Cantidad por defecto
 			cantidadTextField.getStyleClass().add("item-textfield");
-			
+
 			cantidadTextField.setOnMouseClicked(event -> {
 				cantidadTextField.selectAll(); // Selecciona todo el texto al hacer clic
 			});
-			cantidadTextField.setText(mid.getUnidades()+"");
+			cantidadTextField.setText(mid.getUnidades() + "");
 			cantidadTextField.setEditable(false);
 			cantidadTextField.setPrefWidth(50);
 

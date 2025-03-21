@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.MovimientoInventarioDetalleController">
+<AnchorPane prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.MovimientoInventarioDetalleController">
    <children>
       <BorderPane layoutX="287.0" layoutY="201.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -29,6 +29,8 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                            <children>
+                              <Label text="FOLIO:" />
+                              <TextField fx:id="tFieldFolio" editable="false" prefHeight="25.0" prefWidth="111.0" />
                               <Label text="Tipo Mpvimiento" />
                               <ChoiceBox fx:id="cBoxFolio" prefWidth="150.0" />
                               <Label text="Sucursal" />
