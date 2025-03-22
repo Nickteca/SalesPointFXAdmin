@@ -27,7 +27,7 @@ public class MovimientoInventarioDetalle implements Serializable {
 	private Integer idMovimientoInventarioDetalle;
 
 	@Column(nullable = false)
-	private short unidades;
+	private float unidades;
 
 	@JoinColumn(name = "movimientoInventario", referencedColumnName = "idMovimientoInventario")
 	@ManyToOne(optional = false)
@@ -37,14 +37,16 @@ public class MovimientoInventarioDetalle implements Serializable {
 	@ManyToOne(optional = false)
 	private SucursalProducto sucursalProducto;
 
-	public MovimientoInventarioDetalle(Integer idMovimientoInventarioDetalle, short unidades,
-			SucursalProducto sucursalProducto) {
+	public MovimientoInventarioDetalle(Integer idMovimientoInventarioDetalle, float unidades, SucursalProducto sucursalProducto) {
 		super();
 		this.idMovimientoInventarioDetalle = idMovimientoInventarioDetalle;
 		this.unidades = unidades;
 		this.sucursalProducto = sucursalProducto;
 	}
-	
-	
+
+	public MovimientoInventarioDetalle(Integer idMovimientoInventarioDetalle) {
+		super();
+		this.idMovimientoInventarioDetalle = idMovimientoInventarioDetalle;
+	}
 
 }

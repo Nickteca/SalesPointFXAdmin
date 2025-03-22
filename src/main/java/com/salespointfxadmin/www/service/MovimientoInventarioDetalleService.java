@@ -14,12 +14,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MovimientoInventarioDetalleService {
 	private final MovimientoInventarioDetalleRepo midr;
-	
-	public List<MovimientoInventarioDetalle> findByMovimiento(MovimientoInventario mi){
+
+	public List<MovimientoInventarioDetalle> findByMovimiento(MovimientoInventario mi) {
 		return midr.findByMovimientoInventario(mi);
 	}
-	
+
 	public MovimientoInventarioDetalle save(MovimientoInventarioDetalle mid) {
 		return midr.save(mid);
+	}
+
+	public void dalete(MovimientoInventarioDetalle mid) {
+		midr.delete(mid);
 	}
 }
