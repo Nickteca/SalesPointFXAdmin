@@ -148,6 +148,7 @@ public class MovimientoInventarioController implements Initializable {
 		dPicketFin.setValue(LocalDate.now());
 		iniciarTablaMovimientoInventario();
 		iniciarChoiceBox();
+		//tFieldDescripcion.setText(null);
 	}
 
 	private void iniciarTablaMovimientoInventario() {

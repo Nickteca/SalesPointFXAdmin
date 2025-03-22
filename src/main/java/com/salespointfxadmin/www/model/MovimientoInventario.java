@@ -77,6 +77,20 @@ public class MovimientoInventario implements Serializable {
 		this.createdAt = LocalDateTime.now();
 		this.updatedAt = LocalDateTime.now();
 	}
+	
+	public MovimientoInventario(Integer idMovimientoInventario, String folio, Naturaleza naturaleza, NombreFolio nombreFolio, String decripcion, Sucursal sucursal, Sucursal sucursaldestino, List<MovimientoInventarioDetalle> listMovimientoInventarioDetalle) {
+		super();
+		this.idMovimientoInventario = idMovimientoInventario;
+		this.folio = folio;
+		this.naturaleza = naturaleza;
+		this.nombreFolio = nombreFolio;
+		this.decripcion = decripcion;
+		this.sucursal = sucursal;
+		this.sucursalDestino = sucursaldestino;
+		this.createdAt = LocalDateTime.now();
+		this.updatedAt = LocalDateTime.now();
+		this.listMovimientoInventarioDetalle = listMovimientoInventarioDetalle;
+	}
 
 	public MovimientoInventario(Integer idMovimientoInventario, String folio, Naturaleza naturaleza) {
 		super();

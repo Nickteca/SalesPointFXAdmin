@@ -74,6 +74,8 @@ public class MovimientoInventarioDetalleController implements Initializable {
 	private TextField tFieldDescripcion;
 	@FXML
 	private TextField tFieldFolio;
+    @FXML
+    private TextField tFieldId;
 
 	@FXML
 	private VBox vBoxProductosSeleccionados;
@@ -269,6 +271,14 @@ public class MovimientoInventarioDetalleController implements Initializable {
 		tFieldDescripcion.setText(mi.getDecripcion());
 		tFieldFolio.setText(mi.getFolio());
 		cBoxSucursal.getSelectionModel().select(mi.getSucursalDestino());
+		// Buscar el Folio cuyo 'naturaleza' coincida con 'mi.getNaturaleza()'
+		tFieldId.setText(mi.getIdMovimientoInventario()+"");
+		for (Folio folio : olf) {
+		    if (folio.getNaturalezaFolio().equals(mi.getNaturaleza())) {
+		        cBoxFolio.getSelectionModel().select(folio);
+		        break;  // Sale del ciclo una vez que haya encontrado el folio
+		    }
+		}
 		List<MovimientoInventarioDetalle> lmid = mids.findByMovimiento(mi);
 		for (MovimientoInventarioDetalle mid : lmid) {
 			// HBox para contener el producto y la cantidad

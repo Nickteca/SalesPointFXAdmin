@@ -18,4 +18,8 @@ public class MovimientoInventarioDetalleService {
 	public List<MovimientoInventarioDetalle> findByMovimiento(MovimientoInventario mi){
 		return midr.findByMovimientoInventario(mi);
 	}
+	
+	public MovimientoInventarioDetalle save(MovimientoInventarioDetalle mid) {
+		return midr.save(mid);
+	}
 }
