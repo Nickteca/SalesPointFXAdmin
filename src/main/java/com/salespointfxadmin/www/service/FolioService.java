@@ -32,4 +32,8 @@ public class FolioService {
 	public List<Folio> findBySucursal(Sucursal sucursal) {
 		return fr.findBySucursal(sucursal);
 	}
+
+	public Folio findByFolioSucursalEstatisTrue(NombreFolio nf) {
+		return fr.findByNombreFolioAndSucursalEstatusSucursalTrue(nf);
+	}
 }

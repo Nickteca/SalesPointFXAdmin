@@ -4,6 +4,7 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import org.springframework.stereotype.Component;
@@ -35,6 +36,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -94,45 +96,74 @@ public class MovimientoInventarioDetalleController implements Initializable {
 			warning.show();
 			return; // No agregar duplicados
 		}
-		// HBox para contener el producto y la cantidad
-		HBox hbox = new HBox();
-		hbox.setAlignment(Pos.CENTER_LEFT);
-		hbox.getStyleClass().add("item-hbox");
+		// Crear el diálogo
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setTitle("Entrada de Cantidad");
+		dialog.setHeaderText(nombreProducto + ":");
+		dialog.setContentText("Cantidad:");
 
-		// Estilo opcional para el HBox (bordes visibles para depuración)
-		// hbox.setStyle("-fx-padding: 5; -fx-border-color: lightgray;");
+		// Mostrar el diálogo y esperar la respuesta
+		Optional<String> result = dialog.showAndWait();
+		result.ifPresentOrElse(cantidad -> {
+			try {
+				float valor = Float.parseFloat(cantidad);
+				// HBox para contener el producto y la cantidad
+				HBox hbox = new HBox(10);
+				hbox.setAlignment(Pos.CENTER_LEFT);
+				hbox.getStyleClass().add("item-hbox");
 
-		Label labelId = new Label(null);
-		Label label = new Label(nombreProducto);
-		label.getStyleClass().add("item-label");
-		label.setPrefWidth(100);
-		TextField cantidadTextField = new TextField("1"); // Cantidad por defecto
-		cantidadTextField.getStyleClass().add("item-textfield");
-		TextFormatter<String> formatter = new TextFormatter<>(change -> {
-			String newText = change.getControlNewText();
+				// Estilo opcional para el HBox (bordes visibles para depuración)
+				// hbox.setStyle("-fx-padding: 5; -fx-border-color: lightgray;");
 
-			// Permitir solo números que no inicien con '0', excepto si es solo '0'
-			if (newText.matches("[1-9][0-9]*|0|")) {
-				return change; // Aceptar el cambio
+				Label labelId = new Label(null);
+				labelId.setMinWidth(20);
+				labelId.setPrefWidth(20);
+				labelId.setMaxWidth(20);
+				Label label = new Label(nombreProducto);
+				label.getStyleClass().add("item-label");
+				label.setPrefWidth(100);
+				TextField cantidadTextField = new TextField(formato.format(valor)); // Cantidad por defecto
+				cantidadTextField.getStyleClass().add("item-textfield");
+				TextFormatter<String> formatter = new TextFormatter<>(change -> {
+					String newText = change.getControlNewText();
+
+					// Permitir solo números que no inicien con '0', excepto si es solo '0'
+					if (newText.matches("[1-9][0-9]*|0|")) {
+						return change; // Aceptar el cambio
+					}
+					return null; // Rechazar el cambio
+				});
+				cantidadTextField.setOnMouseClicked(event -> {
+					cantidadTextField.selectAll(); // Selecciona todo el texto al hacer clic
+				});
+				cantidadTextField.setPrefWidth(50);
+				cantidadTextField.setTextFormatter(formatter);
+
+				Button eliminarBtn = new Button("❌");
+				eliminarBtn.getStyleClass().add("button-eliminar");
+				eliminarBtn.setOnAction(e -> vBoxProductosSeleccionados.getChildren().remove(hbox));
+
+				hbox.getChildren().add(labelId);
+				hbox.getChildren().add(label);
+				hbox.getChildren().add(cantidadTextField);
+				hbox.getChildren().add(eliminarBtn);
+
+				vBoxProductosSeleccionados.getChildren().add(hbox);
+			} catch (NumberFormatException e) {
+				Alert error = new Alert(AlertType.ERROR);
+				error.setTitle("Error numerico!!!");
+				error.setContentText("Entrada inválida. Por favor ingrese un número.");
+				error.setContentText(e.getMessage() + "\n" + e.getCause());
+				error.show();
 			}
-			return null; // Rechazar el cambio
+		}, () -> {
+			Alert error2 = new Alert(AlertType.ERROR);
+			error2.setTitle("Error!!!");
+			error2.setContentText("Entrada inválida. Por favor ingrese un número.");
+			error2.setContentText("Al parece rno as introducido nada");
+			error2.show();
 		});
-		cantidadTextField.setOnMouseClicked(event -> {
-			cantidadTextField.selectAll(); // Selecciona todo el texto al hacer clic
-		});
-		cantidadTextField.setPrefWidth(50);
-		cantidadTextField.setTextFormatter(formatter);
 
-		Button eliminarBtn = new Button("❌");
-		eliminarBtn.getStyleClass().add("button-eliminar");
-		eliminarBtn.setOnAction(e -> vBoxProductosSeleccionados.getChildren().remove(hbox));
-
-		hbox.getChildren().add(labelId);
-		hbox.getChildren().add(label);
-		hbox.getChildren().add(cantidadTextField);
-		hbox.getChildren().add(eliminarBtn);
-
-		vBoxProductosSeleccionados.getChildren().add(hbox);
 	}
 
 	private boolean existeProductoEnVBox(String nombreProducto) {
@@ -196,8 +227,8 @@ public class MovimientoInventarioDetalleController implements Initializable {
 				throw new Exception("Sucursal no seleccionbada, debe seleccionar destino o de donde vienen");
 			}
 			mi.setListMovimientoInventarioDetalle(lmid);
-			if (mis.save(mi) == null) {
-				throw new Exception("Es probabel que n este abierta la caja");
+			if (mis.save(mi, f) == null) {
+				throw new Exception("no se ha abierto Caja!!");
 			} else {
 				btnCancelar.fire();
 			}
@@ -297,12 +328,14 @@ public class MovimientoInventarioDetalleController implements Initializable {
 		cBoxSucursal.getSelectionModel().select(mi.getSucursalDestino());
 		// Buscar el Folio cuyo 'naturaleza' coincida con 'mi.getNaturaleza()'
 		tFieldId.setText(mi.getIdMovimientoInventario() + "");
-		for (Folio folio : olf) {
-			if (folio.getNaturalezaFolio().equals(mi.getNaturaleza())) {
-				cBoxFolio.getSelectionModel().select(folio);
-				break; // Sale del ciclo una vez que haya encontrado el folio
-			}
-		}
+		olf.clear();
+		olf = FXCollections.observableArrayList(fs.findByFolioSucursalEstatisTrue(mi.getNombreFolio()));
+		/*
+		 * for (Folio folio : olf) { if
+		 * (folio.getNaturalezaFolio().equals(mi.getNaturaleza())) {
+		 * cBoxFolio.getSelectionModel().select(folio); break; // Sale del ciclo una vez
+		 * que haya encontrado el folio } }
+		 */
 		List<MovimientoInventarioDetalle> lmid = mids.findByMovimiento(mi);
 		for (MovimientoInventarioDetalle mid : lmid) {
 			// HBox para contener el producto y la cantidad
@@ -313,7 +346,9 @@ public class MovimientoInventarioDetalleController implements Initializable {
 			// Estilo opcional para el HBox (bordes visibles para depuración)
 			// hbox.setStyle("-fx-padding: 5; -fx-border-color: lightgray;");
 			Label labelId = new Label(mid.getIdMovimientoInventarioDetalle() + "");
-			labelId.setPrefWidth(100);
+			labelId.setMinWidth(20);
+			labelId.setPrefWidth(20);
+			labelId.setMaxWidth(20);
 
 			Label label = new Label(mid.getSucursalProducto().getProducto().getNombreProducto());
 			label.getStyleClass().add("item-label");
