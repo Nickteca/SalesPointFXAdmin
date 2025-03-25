@@ -35,7 +35,7 @@ public class MovimientoInventarioService {
 		MovimientoCaja mc = mcr.findFirstBySucursalEstatusSucursalTrueOrderByIdMovimientoCajaDesc().orElse(null);
 		// if (mc != null && mc.getTipoMovimientoCaja().equals(TipoMovimiento.APERTURA))
 		// {
-		if (mir.findByFolio(mi.getFolio()) == null) {
+		if (mir.findByfolioCompuesto(mi.getFolioCompuesto()) == null) {
 			mi = mir.save(mi);
 			for (MovimientoInventarioDetalle mid : mi.getListMovimientoInventarioDetalle()) {
 				Optional<SucursalProducto> osp = spr.findBySucursalAndProducto(mi.getSucursal(),
@@ -61,6 +61,11 @@ public class MovimientoInventarioService {
 							mid.getSucursalProducto().getProducto());
 					if (osp.isPresent()) {
 						SucursalProducto sp = osp.get();
+						if (mi.getNaturaleza().equals(Naturaleza.E)) {
+							sp.setInventario(sp.getInventario() + mid.getUnidades());
+						} else {
+							sp.setInventario(sp.getInventario() - mid.getUnidades());
+						}
 						spr.save(sp);
 					}
 					System.out.println("el id es: "+mid.getIdMovimientoInventarioDetalle());
@@ -78,9 +83,8 @@ public class MovimientoInventarioService {
 					}
 					System.out.println("el id es que no lo trae: "+mid.getIdMovimientoInventarioDetalle());
 				}
-
 			}
-			
+			mi = mir.save(mi);
 		}
 
 		return mi;

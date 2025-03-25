@@ -44,7 +44,7 @@ public class Sucursal implements Serializable {
 	private String ciudadSucursal;
 
 	@Column(length = 30, nullable = false)
-	private String estadosucursal;
+	private String estadoSucursal;
 
 	@Column(length = 15, nullable = false)
 	private String telefonoSucursal;
@@ -77,13 +77,13 @@ public class Sucursal implements Serializable {
 	@OneToMany(mappedBy = "sucursalDestino", cascade = CascadeType.ALL)
 	private List<MovimientoInventario> listSucursalDestino;
 
-	public Sucursal(Integer idSucursal, String nombreSucursal, String calleSucursal, String ciudadSucursal, String estadosucursal, String telefonoSucursal, boolean estatusSucursal, Empresa empresa) {
+	public Sucursal(Integer idSucursal, String nombreSucursal, String calleSucursal, String ciudadSucursal, String estadoSucursal, String telefonoSucursal, boolean estatusSucursal, Empresa empresa) {
 		super();
 		this.idSucursal = idSucursal;
 		this.nombreSucursal = nombreSucursal;
 		this.calleSucursal = calleSucursal;
 		this.ciudadSucursal = ciudadSucursal;
-		this.estadosucursal = estadosucursal;
+		this.estadoSucursal = estadoSucursal;
 		this.telefonoSucursal = telefonoSucursal;
 		this.estatusSucursal = estatusSucursal;
 		this.cretaedAt = LocalDateTime.now();

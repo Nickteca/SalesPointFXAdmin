@@ -78,7 +78,7 @@ public class MovimientoInventarioDetalleController implements Initializable {
 	@FXML
 	private TextField tFieldDescripcion;
 	@FXML
-	private TextField tFieldFolio;
+	private TextField tFieldFolioCompuesto;
 	@FXML
 	private TextField tFieldId;
 
@@ -191,8 +191,13 @@ public class MovimientoInventarioDetalleController implements Initializable {
 		try {
 			Folio f = cBoxFolio.getSelectionModel().getSelectedItem();
 			List<MovimientoInventarioDetalle> lmid = new ArrayList<MovimientoInventarioDetalle>();
-			MovimientoInventario mi = new MovimientoInventario((tFieldId.getText() != null && !tFieldId.getText().trim().isEmpty()) ? Integer.parseInt(tFieldId.getText()) : null, tFieldFolio.getText(),
-					f.getNaturalezaFolio(), f.getNombreFolio(), tFieldDescripcion.getText(), ss.getSucursalActive(), cBoxSucursal.getSelectionModel().getSelectedItem());
+			MovimientoInventario mi = new MovimientoInventario(
+					(tFieldId.getText() != null && !tFieldId.getText().trim().isEmpty())
+							? Integer.parseInt(tFieldId.getText())
+							: null,
+					tFieldFolioCompuesto.getText(), f.getNaturalezaFolio(), f.getNombreFolio(),
+					tFieldDescripcion.getText(), ss.getSucursalActive(),
+					cBoxSucursal.getSelectionModel().getSelectedItem());
 			for (Node node : vBoxProductosSeleccionados.getChildren()) {
 				if (node instanceof HBox) {
 					HBox hbox = (HBox) node;
@@ -212,8 +217,12 @@ public class MovimientoInventarioDetalleController implements Initializable {
 					 * sps.findBySucursalAndProductoNombreProducto(ss.getSucursalActive(),
 					 * nombreProducto), mi);
 					 */
-					MovimientoInventarioDetalle mid = new MovimientoInventarioDetalle((labelId.getText() != null && !labelId.getText().trim().isEmpty()) ? Integer.parseInt(labelId.getText()) : null,
-							Float.parseFloat(cantidadTexto), mi, sps.findBySucursalAndProductoNombreProducto(ss.getSucursalActive(), nombreProducto));
+					MovimientoInventarioDetalle mid = new MovimientoInventarioDetalle(
+							(labelId.getText() != null && !labelId.getText().trim().isEmpty())
+									? Integer.parseInt(labelId.getText())
+									: null,
+							Float.parseFloat(cantidadTexto), mi,
+							sps.findBySucursalAndProductoNombreProducto(ss.getSucursalActive(), nombreProducto));
 					lmid.add(mid);
 				}
 			}
@@ -280,24 +289,25 @@ public class MovimientoInventarioDetalleController implements Initializable {
 	}
 
 	private void iniciarlVieeProductos() {
-		olsp = FXCollections.observableArrayList(sps.findBySucursalAndProductoEsPaqueteFalse(ss.getSucursalActive()));
+		olsp = FXCollections.observableArrayList(sps.findBySucursalEstatusSucursalTrueAndProductoEsPaqueteFalse());
 		lViewProductos.setItems(olsp);
 	}
 
 	private void inicirFolios() {
-		olf = FXCollections.observableArrayList(fs.findBySucursal(ss.getSucursalActive()));
+		olf = FXCollections.observableArrayList(fs.findBySucursalEstatusSucursalTrue());
 		olf.remove(0);
 		cBoxFolio.setItems(olf);
 		cBoxFolio.getSelectionModel().selectFirst();
-		tFieldFolio.setText(cBoxFolio.getSelectionModel().getSelectedItem().folioCompuesto());
+		tFieldFolioCompuesto.setText(cBoxFolio.getSelectionModel().getSelectedItem().folioCompuesto());
 		// Listener para detectar cambios en la selección del ChoiceBox
 		cBoxFolio.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-			if (NombreFolio.Traspaso_Entrada.equals(newValue.getNombreFolio()) || NombreFolio.Trspaso_Salida.equals(newValue.getNombreFolio())) { // Reemplaza con el nombre
-				tFieldFolio.setText(cBoxFolio.getSelectionModel().getSelectedItem().folioCompuesto());
+			if (NombreFolio.Traspaso_Entrada.equals(newValue.getNombreFolio())
+					|| NombreFolio.Trspaso_Salida.equals(newValue.getNombreFolio())) { // Reemplaza con el nombre
+				tFieldFolioCompuesto.setText(cBoxFolio.getSelectionModel().getSelectedItem().folioCompuesto());
 				tFieldDescripcion.setDisable(false); // Habilitar el TextField
 				cBoxSucursal.setDisable(false);
 			} else {
-				tFieldFolio.setText(cBoxFolio.getSelectionModel().getSelectedItem().folioCompuesto());
+				tFieldFolioCompuesto.setText(cBoxFolio.getSelectionModel().getSelectedItem().folioCompuesto());
 				tFieldDescripcion.setDisable(true); // Deshabilitar el TextField
 				cBoxSucursal.setDisable(true);
 			}
@@ -325,23 +335,26 @@ public class MovimientoInventarioDetalleController implements Initializable {
 
 	public void mostrarRegistro(MovimientoInventario mi) {
 		tFieldDescripcion.setText(mi.getDecripcion());
-		//tFieldFolio.setText(mi.getFolio());
+		// tFieldFolio.setText(mi.getFolio());
 		cBoxSucursal.getSelectionModel().select(mi.getSucursalDestino());
 		// Buscar el Folio cuyo 'naturaleza' coincida con 'mi.getNaturaleza()'
 		tFieldId.setText(mi.getIdMovimientoInventario() + "");
-		//olf.clear();
-		/*olf = FXCollections.observableArrayList(fs.findByFolioSucursalEstatisTrue(mi.getNombreFolio()));
-		cBoxFolio.setItems(olf);
-		cBoxFolio.getSelectionModel().selectFirst();*/
+		// olf.clear();
+		/*
+		 * olf = FXCollections.observableArrayList(fs.findByFolioSucursalEstatisTrue(mi.
+		 * getNombreFolio())); cBoxFolio.setItems(olf);
+		 * cBoxFolio.getSelectionModel().selectFirst();
+		 */
 		cBoxFolio.setDisable(true);
-		
-		
-		  for (Folio folio : olf) { if
-		  (folio.getNaturalezaFolio().equals(mi.getNaturaleza())) {
-		  cBoxFolio.getSelectionModel().select(folio); break; // Sale del ciclo una vez que haya encontrado el folio 
-		  } }
-		  tFieldFolio.setText(mi.getFolio());
-		 
+
+		for (Folio folio : olf) {
+			if (folio.getNaturalezaFolio().equals(mi.getNaturaleza())) {
+				cBoxFolio.getSelectionModel().select(folio);
+				break; // Sale del ciclo una vez que haya encontrado el folio
+			}
+		}
+		tFieldFolioCompuesto.setText(mi.getFolioCompuesto());
+
 		List<MovimientoInventarioDetalle> lmid = mids.findByMovimiento(mi);
 		for (MovimientoInventarioDetalle mid : lmid) {
 			// HBox para contener el producto y la cantidad
@@ -373,7 +386,9 @@ public class MovimientoInventarioDetalleController implements Initializable {
 			eliminarBtn.getStyleClass().add("button-eliminar");
 			eliminarBtn.setOnAction(e -> {
 				vBoxProductosSeleccionados.getChildren().remove(hbox);
-				eliminarProducto((labelId.getText() != null && !labelId.getText().trim().isEmpty()) ? Integer.parseInt(labelId.getText()) : null);
+				eliminarProducto((labelId.getText() != null && !labelId.getText().trim().isEmpty())
+						? Integer.parseInt(labelId.getText())
+						: null);
 			});
 
 			hbox.getChildren().add(labelId);

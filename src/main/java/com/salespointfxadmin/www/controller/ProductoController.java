@@ -206,7 +206,7 @@ public class ProductoController implements Initializable {
 		columnVendible.setCellValueFactory(new PropertyValueFactory<>("vendible"));
 		columnVendible.prefWidthProperty().bind(tVeiwSucursalProductos.widthProperty().multiply(0.15));
 
-		olsp = FXCollections.observableArrayList(sps.findBySucursalAndProductoEsPaqueteFalse(ss.getSucursalActive()));
+		olsp = FXCollections.observableArrayList(sps.findBySucursalEstatusSucursalTrueAndProductoEsPaqueteFalse());
 		tVeiwSucursalProductos.setItems(olsp);
 
 	}

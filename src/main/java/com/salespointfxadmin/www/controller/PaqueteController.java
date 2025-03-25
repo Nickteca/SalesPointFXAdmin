@@ -221,7 +221,7 @@ public class PaqueteController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		oLSucursalProducto = FXCollections.observableArrayList(sps.findBySucursalAndProductoEsPaqueteFalse(ss.getSucursalActive()));
+		oLSucursalProducto = FXCollections.observableArrayList(sps.findBySucursalEstatusSucursalTrueAndProductoEsPaqueteFalse());
 		lViewProductos.setItems(oLSucursalProducto);
 		iniciatViewPaquetes();
 		cargarCategorias();

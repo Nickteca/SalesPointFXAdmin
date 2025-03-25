@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(indexes = { @Index(name = "indice", columnList = "folio"), @Index(name = "indice_fecha", columnList = "createdAt") })
+@Table(indexes = { @Index(name = "indice", columnList = "folioCompuesto"), @Index(name = "indice_fecha", columnList = "createdAt") })
 public class MovimientoInventario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -37,7 +37,7 @@ public class MovimientoInventario implements Serializable {
 	private Integer idMovimientoInventario;
 
 	@Column(nullable = false, length = 17, unique = true)
-	private String folio;
+	private String folioCompuesto;
 
 	@Column(nullable = false)
 	private Naturaleza naturaleza;
@@ -61,14 +61,18 @@ public class MovimientoInventario implements Serializable {
 	@JoinColumn(name = "sucursalDestino", referencedColumnName = "idSucursal")
 	@ManyToOne(optional = true)
 	private Sucursal sucursalDestino;
+	
+	@JoinColumn(name = "folio", referencedColumnName = "idFolio")
+	@ManyToOne(optional = true)
+	private Folio folio;
 
 	@OneToMany(mappedBy = "movimientoInventario", cascade = CascadeType.ALL)
 	private List<MovimientoInventarioDetalle> listMovimientoInventarioDetalle;
 
-	public MovimientoInventario(Integer idMovimientoInventario, String folio, Naturaleza naturaleza, NombreFolio nombreFolio, String decripcion, Sucursal sucursal, Sucursal sucursaldestino) {
+	public MovimientoInventario(Integer idMovimientoInventario, String folioCompuesto, Naturaleza naturaleza, NombreFolio nombreFolio, String decripcion, Sucursal sucursal, Sucursal sucursaldestino) {
 		super();
 		this.idMovimientoInventario = idMovimientoInventario;
-		this.folio = folio;
+		this.folioCompuesto = folioCompuesto;
 		this.naturaleza = naturaleza;
 		this.nombreFolio = nombreFolio;
 		this.decripcion = decripcion;
@@ -78,10 +82,10 @@ public class MovimientoInventario implements Serializable {
 		this.updatedAt = LocalDateTime.now();
 	}
 	
-	public MovimientoInventario(Integer idMovimientoInventario, String folio, Naturaleza naturaleza, NombreFolio nombreFolio, String decripcion, Sucursal sucursal, Sucursal sucursaldestino, List<MovimientoInventarioDetalle> listMovimientoInventarioDetalle) {
+	public MovimientoInventario(Integer idMovimientoInventario, String folioCompuesto, Naturaleza naturaleza, NombreFolio nombreFolio, String decripcion, Sucursal sucursal, Sucursal sucursaldestino, List<MovimientoInventarioDetalle> listMovimientoInventarioDetalle) {
 		super();
 		this.idMovimientoInventario = idMovimientoInventario;
-		this.folio = folio;
+		this.folioCompuesto = folioCompuesto;
 		this.naturaleza = naturaleza;
 		this.nombreFolio = nombreFolio;
 		this.decripcion = decripcion;
@@ -92,10 +96,10 @@ public class MovimientoInventario implements Serializable {
 		this.listMovimientoInventarioDetalle = listMovimientoInventarioDetalle;
 	}
 
-	public MovimientoInventario(Integer idMovimientoInventario, String folio, Naturaleza naturaleza) {
+	public MovimientoInventario(Integer idMovimientoInventario, String folioCompuesto, Naturaleza naturaleza) {
 		super();
 		this.idMovimientoInventario = idMovimientoInventario;
-		this.folio = folio;
+		this.folioCompuesto = folioCompuesto;
 		this.naturaleza = naturaleza;
 		this.createdAt = LocalDateTime.now();
 		this.updatedAt = LocalDateTime.now();

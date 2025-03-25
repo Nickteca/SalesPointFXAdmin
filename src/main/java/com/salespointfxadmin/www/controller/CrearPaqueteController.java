@@ -224,7 +224,7 @@ public class CrearPaqueteController implements Initializable {
 		columnDescripcion.setCellValueFactory(new PropertyValueFactory<>("producto"));
 		columnDescripcion.prefWidthProperty().bind(tViewProductos.widthProperty().multiply(0.4));
 
-		olsp = FXCollections.observableArrayList(sps.findBySucursalAndProductoEsPaqueteFalse(ss.getSucursalActive()));
+		olsp = FXCollections.observableArrayList(sps.findBySucursalEstatusSucursalTrueAndProductoEsPaqueteFalse());
 		tViewProductos.setItems(olsp);
 	}
 

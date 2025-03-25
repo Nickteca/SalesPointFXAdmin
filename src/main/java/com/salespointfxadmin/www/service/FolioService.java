@@ -29,8 +29,8 @@ public class FolioService {
 		fr.save(new Folio("CAN-", 1, Naturaleza.E, sucursal, NombreFolio.Cancelacion_Venta));
 	}
 
-	public List<Folio> findBySucursal(Sucursal sucursal) {
-		return fr.findBySucursal(sucursal);
+	public List<Folio> findBySucursalEstatusSucursalTrue() {
+		return fr.findBySucursalEstatusSucursalTrue();
 	}
 
 	public Folio findByFolioSucursalEstatisTrue(NombreFolio nf) {

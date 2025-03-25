@@ -20,8 +20,8 @@ public class SucursalProductoService {
 	private final ProductoService ps;
 	// private final SucursalService ss;
 
-	public List<SucursalProducto> findBySucursalAndProductoEsPaqueteFalse(Sucursal sucursal) {
-		return spr.findBySucursalAndProductoEsPaqueteFalse(sucursal);
+	public List<SucursalProducto> findBySucursalEstatusSucursalTrueAndProductoEsPaqueteFalse() {
+		return spr.findBySucursalEstatusSucursalTrueAndProductoEsPaqueteFalse();
 	}
 
 	public List<SucursalProducto> findBySucursalAndProductoEsPaqueteTrue(Sucursal sucursal) {

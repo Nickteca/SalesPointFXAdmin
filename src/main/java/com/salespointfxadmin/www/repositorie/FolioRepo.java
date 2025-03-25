@@ -9,7 +9,8 @@ import com.salespointfxadmin.www.model.Folio;
 import com.salespointfxadmin.www.model.Sucursal;
 
 public interface FolioRepo extends JpaRepository<Folio, Short> {
-	List<Folio> findBySucursal(Sucursal sucursal);
+	
+	List<Folio> findBySucursalEstatusSucursalTrue();
 
 	Folio findByNombreFolioAndSucursalEstatusSucursalTrue(NombreFolio nf);
 }

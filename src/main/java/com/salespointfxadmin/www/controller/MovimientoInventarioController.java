@@ -183,7 +183,7 @@ public class MovimientoInventarioController implements Initializable {
 	}
 
 	private void iniciarChoiceBox() {
-		olf = FXCollections.observableArrayList(fs.findBySucursal(ss.getSucursalActive()));
+		olf = FXCollections.observableArrayList(fs.findBySucursalEstatusSucursalTrue());
 		cBoxFolio.setItems(olf);
 		cBoxFolio.getSelectionModel().selectFirst();
 
@@ -193,8 +193,8 @@ public class MovimientoInventarioController implements Initializable {
 		try {
 			FXMLLoader loader = springFXMLLoader.load("/fxml/movimientoinventariodetalle.fxml");
 			AnchorPane root = loader.load();
-			MovimientoInventarioDetalleController midc = loader.getController();
-			midc.mostrarRegistro(mi);
+			//MovimientoInventarioDetalleController midc = loader.getController();
+			//midc.mostrarRegistro(mi);
 
 			Stage stage = new Stage();
 			stage.initModality(Modality.APPLICATION_MODAL);
