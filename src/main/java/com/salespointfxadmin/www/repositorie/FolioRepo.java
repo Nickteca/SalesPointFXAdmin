@@ -1,6 +1,7 @@
 package com.salespointfxadmin.www.repositorie;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,5 +13,5 @@ public interface FolioRepo extends JpaRepository<Folio, Short> {
 	
 	List<Folio> findBySucursalEstatusSucursalTrue();
 
-	Folio findByNombreFolioAndSucursalEstatusSucursalTrue(NombreFolio nf);
+	Optional<Folio> findByNombreFolioAndSucursalEstatusSucursalTrue(NombreFolio nf);
 }

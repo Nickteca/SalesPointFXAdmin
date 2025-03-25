@@ -2,6 +2,8 @@ package com.salespointfxadmin.www.controller;
 
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 import com.salespointfxadmin.www.enums.NombreFolio;
 import com.salespointfxadmin.www.model.Folio;
+import com.salespointfxadmin.www.model.MovimientoInventario;
+import com.salespointfxadmin.www.model.MovimientoInventarioDetalle;
 import com.salespointfxadmin.www.model.Sucursal;
 import com.salespointfxadmin.www.model.SucursalProducto;
 import com.salespointfxadmin.www.service.FolioService;
@@ -45,7 +49,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MovimientoInventarioDetalleController2 implements Initializable {
 	private final FolioService fs;
-	private final MovimientoInventarioService2 mis;
+	private final MovimientoInventarioService2 mis2;
 	private final SucursalService ss;
 	private final SucursalProductoService sps;
 
@@ -78,7 +82,7 @@ public class MovimientoInventarioDetalleController2 implements Initializable {
 
 	@FXML
 	private VBox vBoxProductosSeleccionados;
-	
+
 	DecimalFormat formato = new DecimalFormat("0.#"); // Mostrar entero si es entero, o un decimal si tiene decimales
 
 	@FXML
@@ -88,7 +92,69 @@ public class MovimientoInventarioDetalleController2 implements Initializable {
 
 	@FXML
 	void guardar(ActionEvent event) {
+		try {
+			MovimientoInventario mi = new MovimientoInventario();
+			mi.setIdMovimientoInventario((tFieldId.getText()!=null && !tFieldId.getText().trim().isEmpty())? Integer.parseInt(tFieldId.getText()): null);
+			mi.setFolio(cBoxFolio.getSelectionModel().getSelectedItem());
+			mi.setDecripcion(tFieldDescripcion.getText());
+			mi.setSucursalDestino(cBoxSucursal.getSelectionModel().getSelectedItem());
+			mi.setFolioCompuesto(tFieldFolioCompuesto.getText());
+			
+			List<MovimientoInventarioDetalle> lmid = new ArrayList<MovimientoInventarioDetalle>();
+			for (Node node : vBoxProductosSeleccionados.getChildren()) {
+				if (node instanceof HBox) {
+					HBox hbox = (HBox) node;
 
+					Label labelId = (Label) hbox.getChildren().get(0);
+					Label label = (Label) hbox.getChildren().get(1);
+					TextField cantidadTextField = (TextField) hbox.getChildren().get(2);
+
+					// Obtener los valores
+					String nombreProducto = label.getText();
+					String cantidadTexto = cantidadTextField.getText();
+					/*
+					 * MovimientoInventarioDetalle mid = new MovimientoInventarioDetalle(null,
+					 * Short.parseShort(cantidadTexto),
+					 * sps.findBySucursalAndProductoNombreProducto(ss.getSucursalActive(),
+					 * nombreProducto), mi);
+					 */
+					MovimientoInventarioDetalle mid = new MovimientoInventarioDetalle(
+							(labelId.getText() != null && !labelId.getText().trim().isEmpty())
+									? Integer.parseInt(labelId.getText())
+									: null,
+							Float.parseFloat(cantidadTexto), 
+							sps.findBySucursalAndProductoNombreProducto(ss.getSucursalActive(), nombreProducto));
+					lmid.add(mid);
+				}
+				if (lmid.size() <= 0) {
+					throw new Exception("No hay productos en el Movimiento!!");
+				}
+				if (!tFieldDescripcion.isDisable() && tFieldDescripcion.getText().isEmpty()) {
+					throw new Exception("Agrega algo en la descripcion del movimiento");
+				}
+				if (!cBoxSucursal.isDisable() && cBoxSucursal.getSelectionModel().getSelectedItem() == null) {
+					throw new Exception("Sucursal no seleccionbada, debe seleccionar destino o de donde vienen");
+				}
+				mi.setListMovimientoInventarioDetalle(lmid);
+				if (mis2.save(mi, lmid) == null) {
+					throw new Exception("no se ha abierto Caja!!");
+				} else {
+					btnCancelar.fire();
+				}
+			}
+		} catch (NumberFormatException e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Movimiento inventario detalle error!!!");
+			error.setHeaderText("Error numerico");
+			error.setContentText(e.getMessage() + " " + e.getCause());
+			error.show();
+		} catch (Exception e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Movimiento inventario detalle error!!!");
+			error.setHeaderText("Error al insertar");
+			error.setContentText(e.getMessage() + " " + e.getCause());
+			error.show();
+		}
 	}
 
 	@FXML
@@ -151,15 +217,15 @@ public class MovimientoInventarioDetalleController2 implements Initializable {
 	private void cargarSucursal() {
 		ols = FXCollections.observableArrayList(ss.getAllSucursales());
 		cBoxSucursal.setItems(ols);
-		cBoxSucursal.getSelectionModel().selectFirst();
 		cBoxSucursal.setDisable(true);
 	}
-	
+
 	private void cargarProductos() {
 		olsp = FXCollections.observableArrayList(sps.findBySucursalEstatusSucursalTrueAndProductoEsPaqueteFalse());
 		lViewProductos.setItems(olsp);
-		
+
 	}
+
 	private void agregarProductoAlContenedor(String nombreProducto) {
 		// Verificamos si el producto ya existe en el VBox
 		if (existeProductoEnVBox(nombreProducto)) {
@@ -189,7 +255,7 @@ public class MovimientoInventarioDetalleController2 implements Initializable {
 				// Estilo opcional para el HBox (bordes visibles para depuración)
 				// hbox.setStyle("-fx-padding: 5; -fx-border-color: lightgray;");
 
-				Label labelId = new Label(null);
+				Label labelId = new Label();
 				labelId.setMinWidth(20);
 				labelId.setPrefWidth(20);
 				labelId.setMaxWidth(20);
@@ -239,6 +305,7 @@ public class MovimientoInventarioDetalleController2 implements Initializable {
 		});
 
 	}
+
 	private boolean existeProductoEnVBox(String nombreProducto) {
 		for (Node node : vBoxProductosSeleccionados.getChildren()) {
 			if (node instanceof HBox) {
