@@ -35,30 +35,62 @@ public class MovimientoInventarioService {
 		MovimientoCaja mc = mcr.findFirstBySucursalEstatusSucursalTrueOrderByIdMovimientoCajaDesc().orElse(null);
 		// if (mc != null && mc.getTipoMovimientoCaja().equals(TipoMovimiento.APERTURA))
 		// {
-
-		mi = mir.save(mi);
-		for (MovimientoInventarioDetalle mid : mi.getListMovimientoInventarioDetalle()) {
-			Optional<SucursalProducto> osp = spr.findBySucursalAndProducto(mi.getSucursal(), mid.getSucursalProducto().getProducto());
-			if (osp.isPresent()) {
-				SucursalProducto sp = osp.get();
-				if (mi.getNaturaleza().equals(Naturaleza.E)) {
-					sp.setInventario(sp.getInventario() + mid.getUnidades());
-				} else {
-					sp.setInventario(sp.getInventario() - mid.getUnidades());
+		if (mir.findByFolio(mi.getFolio()) == null) {
+			mi = mir.save(mi);
+			for (MovimientoInventarioDetalle mid : mi.getListMovimientoInventarioDetalle()) {
+				Optional<SucursalProducto> osp = spr.findBySucursalAndProducto(mi.getSucursal(),
+						mid.getSucursalProducto().getProducto());
+				if (osp.isPresent()) {
+					SucursalProducto sp = osp.get();
+					if (mi.getNaturaleza().equals(Naturaleza.E)) {
+						sp.setInventario(sp.getInventario() + mid.getUnidades());
+					} else {
+						sp.setInventario(sp.getInventario() - mid.getUnidades());
+					}
+					spr.save(sp);
+				}
+			}
+			f.setNumeroFolio(f.getNumeroFolio() + 1);
+			fr.save(f);
+		} else {
+			//mi = mir.save(mi);
+			for (MovimientoInventarioDetalle mid : mi.getListMovimientoInventarioDetalle()) {
+				System.out.println("El id de de los productos es: "+mid.getIdMovimientoInventarioDetalle());
+				if ( mid.getIdMovimientoInventarioDetalle()!=null) {
+					Optional<SucursalProducto> osp = spr.findBySucursalAndProducto(mi.getSucursal(),
+							mid.getSucursalProducto().getProducto());
+					if (osp.isPresent()) {
+						SucursalProducto sp = osp.get();
+						spr.save(sp);
+					}
+					System.out.println("el id es: "+mid.getIdMovimientoInventarioDetalle());
+				}else {
+					Optional<SucursalProducto> osp = spr.findBySucursalAndProducto(mi.getSucursal(),
+							mid.getSucursalProducto().getProducto());
+					if (osp.isPresent()) {
+						SucursalProducto sp = osp.get();
+						if (mi.getNaturaleza().equals(Naturaleza.E)) {
+							sp.setInventario(sp.getInventario() + mid.getUnidades());
+						} else {
+							sp.setInventario(sp.getInventario() - mid.getUnidades());
+						}
+						spr.save(sp);
+					}
+					System.out.println("el id es que no lo trae: "+mid.getIdMovimientoInventarioDetalle());
 				}
 
-				spr.save(sp);
 			}
+			
 		}
-		f.setNumeroFolio(f.getNumeroFolio() + 1);
-		fr.save(f);
+
 		return mi;
 		// } else {
 		// return null;
 		// }
 	}
 
-	public List<MovimientoInventario> findBySucursalAndCreatedAtBetweenAndNombreFolio(Sucursal sucursal, LocalDateTime startTime, LocalDateTime endTime, NombreFolio nombreFolio) {
+	public List<MovimientoInventario> findBySucursalAndCreatedAtBetweenAndNombreFolio(Sucursal sucursal,
+			LocalDateTime startTime, LocalDateTime endTime, NombreFolio nombreFolio) {
 		return mir.findBySucursalAndCreatedAtBetweenAndNombreFolio(sucursal, startTime, endTime, nombreFolio);
 	}
 }

@@ -222,6 +222,7 @@ public class ProductoController implements Initializable {
 					tFieldId.setText(productoSeleccionado.getIdSucursalProducto() + "");
 					cBoxCategoria.getSelectionModel().select(productoSeleccionado.getCategoria());
 					tFieldInventario.setText(productoSeleccionado.getInventario() + "");
+					tFieldInventario.setEditable(false);
 					cBoxVendible.setSelected(productoSeleccionado.isVendible());
 					tFieldPrecio.requestFocus();
 				}
@@ -242,16 +243,6 @@ public class ProductoController implements Initializable {
 	}
 
 	private void textFielNumeros() {
-		TextFormatter<String> formatter = new TextFormatter<>(change -> {
-			String newText = change.getControlNewText();
-
-			// Permitir solo números que no inicien con '0', excepto si es solo '0'
-			if (newText.matches("[1-9][0-9]*|0|")) {
-				return change; // Aceptar el cambio
-			}
-			return null; // Rechazar el cambio
-		});
-
 		TextFormatter<String> formatter2 = new TextFormatter<>(change -> {
 			String newText = change.getControlNewText();
 
@@ -262,7 +253,6 @@ public class ProductoController implements Initializable {
 			return null; // Rechazar el cambio
 		});
 		tFieldPrecio.setTextFormatter(formatter2);
-		tFieldInventario.setTextFormatter(formatter);
 	}
 
 }

@@ -63,6 +63,10 @@ public class Folio implements Serializable {
 	public String folioCompuesto() {
 		return acronimoFolio + "" + sucursal.getIdSucursal() + "-" + numeroFolio + "";
 	}
+	
+	public String folioCompuestoEditing() {
+		return acronimoFolio + "" + sucursal.getIdSucursal() + "-" + (numeroFolio-1) + "";
+	}
 
 	@Override
 	public String toString() {

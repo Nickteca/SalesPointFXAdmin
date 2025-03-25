@@ -191,7 +191,7 @@ public class MovimientoInventarioDetalleController implements Initializable {
 		try {
 			Folio f = cBoxFolio.getSelectionModel().getSelectedItem();
 			List<MovimientoInventarioDetalle> lmid = new ArrayList<MovimientoInventarioDetalle>();
-			MovimientoInventario mi = new MovimientoInventario((tFieldId.getText() != null && !tFieldId.getText().trim().isEmpty()) ? Integer.parseInt(tFieldId.getText()) : null, f.folioCompuesto(),
+			MovimientoInventario mi = new MovimientoInventario((tFieldId.getText() != null && !tFieldId.getText().trim().isEmpty()) ? Integer.parseInt(tFieldId.getText()) : null, tFieldFolio.getText(),
 					f.getNaturalezaFolio(), f.getNombreFolio(), tFieldDescripcion.getText(), ss.getSucursalActive(), cBoxSucursal.getSelectionModel().getSelectedItem());
 			for (Node node : vBoxProductosSeleccionados.getChildren()) {
 				if (node instanceof HBox) {
@@ -286,6 +286,7 @@ public class MovimientoInventarioDetalleController implements Initializable {
 
 	private void inicirFolios() {
 		olf = FXCollections.observableArrayList(fs.findBySucursal(ss.getSucursalActive()));
+		olf.remove(0);
 		cBoxFolio.setItems(olf);
 		cBoxFolio.getSelectionModel().selectFirst();
 		tFieldFolio.setText(cBoxFolio.getSelectionModel().getSelectedItem().folioCompuesto());
@@ -324,18 +325,23 @@ public class MovimientoInventarioDetalleController implements Initializable {
 
 	public void mostrarRegistro(MovimientoInventario mi) {
 		tFieldDescripcion.setText(mi.getDecripcion());
-		tFieldFolio.setText(mi.getFolio());
+		//tFieldFolio.setText(mi.getFolio());
 		cBoxSucursal.getSelectionModel().select(mi.getSucursalDestino());
 		// Buscar el Folio cuyo 'naturaleza' coincida con 'mi.getNaturaleza()'
 		tFieldId.setText(mi.getIdMovimientoInventario() + "");
-		olf.clear();
-		olf = FXCollections.observableArrayList(fs.findByFolioSucursalEstatisTrue(mi.getNombreFolio()));
-		/*
-		 * for (Folio folio : olf) { if
-		 * (folio.getNaturalezaFolio().equals(mi.getNaturaleza())) {
-		 * cBoxFolio.getSelectionModel().select(folio); break; // Sale del ciclo una vez
-		 * que haya encontrado el folio } }
-		 */
+		//olf.clear();
+		/*olf = FXCollections.observableArrayList(fs.findByFolioSucursalEstatisTrue(mi.getNombreFolio()));
+		cBoxFolio.setItems(olf);
+		cBoxFolio.getSelectionModel().selectFirst();*/
+		cBoxFolio.setDisable(true);
+		
+		
+		  for (Folio folio : olf) { if
+		  (folio.getNaturalezaFolio().equals(mi.getNaturaleza())) {
+		  cBoxFolio.getSelectionModel().select(folio); break; // Sale del ciclo una vez que haya encontrado el folio 
+		  } }
+		  tFieldFolio.setText(mi.getFolio());
+		 
 		List<MovimientoInventarioDetalle> lmid = mids.findByMovimiento(mi);
 		for (MovimientoInventarioDetalle mid : lmid) {
 			// HBox para contener el producto y la cantidad

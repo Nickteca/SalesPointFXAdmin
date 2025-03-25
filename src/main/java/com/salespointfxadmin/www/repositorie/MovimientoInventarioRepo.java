@@ -11,4 +11,5 @@ import com.salespointfxadmin.www.model.Sucursal;
 
 public interface MovimientoInventarioRepo extends JpaRepository<MovimientoInventario, Integer> {
 	List<MovimientoInventario> findBySucursalAndCreatedAtBetweenAndNombreFolio(Sucursal sucursal, LocalDateTime startDate, LocalDateTime endDate, NombreFolio nombreFolio);
+	MovimientoInventario findByFolio(String folio);
 }
