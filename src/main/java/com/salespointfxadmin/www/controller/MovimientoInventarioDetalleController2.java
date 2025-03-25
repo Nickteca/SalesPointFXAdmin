@@ -28,6 +28,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -35,7 +36,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -93,13 +93,10 @@ public class MovimientoInventarioDetalleController2 implements Initializable {
 	@FXML
 	void guardar(ActionEvent event) {
 		try {
-			MovimientoInventario mi = new MovimientoInventario();
-			mi.setIdMovimientoInventario((tFieldId.getText()!=null && !tFieldId.getText().trim().isEmpty())? Integer.parseInt(tFieldId.getText()): null);
-			mi.setFolio(cBoxFolio.getSelectionModel().getSelectedItem());
-			mi.setDecripcion(tFieldDescripcion.getText());
-			mi.setSucursalDestino(cBoxSucursal.getSelectionModel().getSelectedItem());
-			mi.setFolioCompuesto(tFieldFolioCompuesto.getText());
-			
+			MovimientoInventario mi = new MovimientoInventario((tFieldId.getText() != null && !tFieldId.getText().trim().isEmpty()) ? Integer.parseInt(tFieldId.getText()) : null,
+					tFieldFolioCompuesto.getText(), cBoxFolio.getSelectionModel().getSelectedItem().getNaturalezaFolio(), cBoxFolio.getSelectionModel().getSelectedItem().getNombreFolio(),
+					tFieldDescripcion.getText(), ss.getSucursalActive(), cBoxSucursal.getSelectionModel().getSelectedItem(), cBoxFolio.getSelectionModel().getSelectedItem());
+
 			List<MovimientoInventarioDetalle> lmid = new ArrayList<MovimientoInventarioDetalle>();
 			for (Node node : vBoxProductosSeleccionados.getChildren()) {
 				if (node instanceof HBox) {
@@ -118,12 +115,8 @@ public class MovimientoInventarioDetalleController2 implements Initializable {
 					 * sps.findBySucursalAndProductoNombreProducto(ss.getSucursalActive(),
 					 * nombreProducto), mi);
 					 */
-					MovimientoInventarioDetalle mid = new MovimientoInventarioDetalle(
-							(labelId.getText() != null && !labelId.getText().trim().isEmpty())
-									? Integer.parseInt(labelId.getText())
-									: null,
-							Float.parseFloat(cantidadTexto), 
-							sps.findBySucursalAndProductoNombreProducto(ss.getSucursalActive(), nombreProducto));
+					MovimientoInventarioDetalle mid = new MovimientoInventarioDetalle((labelId.getText() != null && !labelId.getText().trim().isEmpty()) ? Integer.parseInt(labelId.getText()) : null,
+							Float.parseFloat(cantidadTexto), sps.findBySucursalAndProductoNombreProducto(ss.getSucursalActive(), nombreProducto));
 					lmid.add(mid);
 				}
 				if (lmid.size() <= 0) {
@@ -135,8 +128,8 @@ public class MovimientoInventarioDetalleController2 implements Initializable {
 				if (!cBoxSucursal.isDisable() && cBoxSucursal.getSelectionModel().getSelectedItem() == null) {
 					throw new Exception("Sucursal no seleccionbada, debe seleccionar destino o de donde vienen");
 				}
-				mi.setListMovimientoInventarioDetalle(lmid);
-				if (mis2.save(mi, lmid) == null) {
+				// mi.setListMovimientoInventarioDetalle(lmid);
+				if (mis2.save(mi, lmid, cBoxFolio.getSelectionModel().getSelectedItem()) == null) {
 					throw new Exception("no se ha abierto Caja!!");
 				} else {
 					btnCancelar.fire();
@@ -154,6 +147,7 @@ public class MovimientoInventarioDetalleController2 implements Initializable {
 			error.setHeaderText("Error al insertar");
 			error.setContentText(e.getMessage() + " " + e.getCause());
 			error.show();
+			e.printStackTrace();
 		}
 	}
 
@@ -200,8 +194,7 @@ public class MovimientoInventarioDetalleController2 implements Initializable {
 		olf.remove(0);
 		cBoxFolio.setItems(olf);
 		cBoxFolio.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-			if (NombreFolio.Traspaso_Entrada.equals(newValue.getNombreFolio())
-					|| NombreFolio.Trspaso_Salida.equals(newValue.getNombreFolio())) { // Reemplaza con el nombre
+			if (NombreFolio.Traspaso_Entrada.equals(newValue.getNombreFolio()) || NombreFolio.Trspaso_Salida.equals(newValue.getNombreFolio())) { // Reemplaza con el nombre
 				tFieldFolioCompuesto.setText(cBoxFolio.getSelectionModel().getSelectedItem().folioCompuesto());
 				tFieldDescripcion.setDisable(false); // Habilitar el TextField
 				cBoxSucursal.setDisable(false);
@@ -318,5 +311,14 @@ public class MovimientoInventarioDetalleController2 implements Initializable {
 			}
 		}
 		return false; // Producto no existe
+	}
+
+	public void cargarProductosMovimiento(MovimientoInventario mi) {
+		tFieldDescripcion.setText(mi.getDecripcion());
+		cBoxSucursal.getSelectionModel().select(mi.getSucursalDestino());
+		cBoxFolio.getSelectionModel().select(mi.getFolio());
+		tFieldId.setText(mi.getIdMovimientoInventario() + "");
+		tFieldFolioCompuesto.setText(mi.getFolioCompuesto());
+		cBoxFolio.setDisable(true);
 	}
 }

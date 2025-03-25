@@ -148,7 +148,7 @@ public class MovimientoInventarioController implements Initializable {
 		dPicketFin.setValue(LocalDate.now());
 		iniciarTablaMovimientoInventario();
 		iniciarChoiceBox();
-		//tFieldDescripcion.setText(null);
+		// tFieldDescripcion.setText(null);
 	}
 
 	private void iniciarTablaMovimientoInventario() {
@@ -162,7 +162,7 @@ public class MovimientoInventarioController implements Initializable {
 		columnFecha.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
 		columnFecha.prefWidthProperty().bind(tViewMovimientoInventario.widthProperty().multiply(0.2));
 
-		columnFolio.setCellValueFactory(new PropertyValueFactory<>("folio"));
+		columnFolio.setCellValueFactory(new PropertyValueFactory<>("folioCompuesto"));
 		columnFolio.prefWidthProperty().bind(tViewMovimientoInventario.widthProperty().multiply(0.1));
 
 		columnTipoMovimiento.setCellValueFactory(new PropertyValueFactory<>("naturaleza"));
@@ -193,8 +193,8 @@ public class MovimientoInventarioController implements Initializable {
 		try {
 			FXMLLoader loader = springFXMLLoader.load("/fxml/movimientoinventariodetalle.fxml");
 			AnchorPane root = loader.load();
-			//MovimientoInventarioDetalleController midc = loader.getController();
-			//midc.mostrarRegistro(mi);
+			MovimientoInventarioDetalleController2 midc = loader.getController();
+			midc.cargarProductosMovimiento(mi);
 
 			Stage stage = new Stage();
 			stage.initModality(Modality.APPLICATION_MODAL);

@@ -2,6 +2,7 @@ package com.salespointfxadmin.www.repositorie;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,5 +12,6 @@ import com.salespointfxadmin.www.model.Sucursal;
 
 public interface MovimientoInventarioRepo extends JpaRepository<MovimientoInventario, Integer> {
 	List<MovimientoInventario> findBySucursalAndCreatedAtBetweenAndNombreFolio(Sucursal sucursal, LocalDateTime startDate, LocalDateTime endDate, NombreFolio nombreFolio);
-	MovimientoInventario findByfolioCompuesto(String folio);
+
+	Optional<MovimientoInventario> findByfolioCompuesto(String folio);
 }

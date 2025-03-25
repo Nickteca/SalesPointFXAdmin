@@ -33,7 +33,6 @@ public class MovimientoInventario implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column()
 	private Integer idMovimientoInventario;
 
 	@Column(nullable = false, length = 17, unique = true)
@@ -61,15 +60,16 @@ public class MovimientoInventario implements Serializable {
 	@JoinColumn(name = "sucursalDestino", referencedColumnName = "idSucursal")
 	@ManyToOne(optional = true)
 	private Sucursal sucursalDestino;
-	
+
 	@JoinColumn(name = "folio", referencedColumnName = "idFolio")
-	@ManyToOne(optional = true)
+	@ManyToOne(optional = false)
 	private Folio folio;
 
 	@OneToMany(mappedBy = "movimientoInventario", cascade = CascadeType.ALL)
 	private List<MovimientoInventarioDetalle> listMovimientoInventarioDetalle;
 
-	public MovimientoInventario(Integer idMovimientoInventario, String folioCompuesto, Naturaleza naturaleza, NombreFolio nombreFolio, String decripcion, Sucursal sucursal, Sucursal sucursaldestino) {
+	public MovimientoInventario(Integer idMovimientoInventario, String folioCompuesto, Naturaleza naturaleza, NombreFolio nombreFolio, String decripcion, Sucursal sucursal, Sucursal sucursaldestino,
+			Folio folio) {
 		super();
 		this.idMovimientoInventario = idMovimientoInventario;
 		this.folioCompuesto = folioCompuesto;
@@ -77,12 +77,14 @@ public class MovimientoInventario implements Serializable {
 		this.nombreFolio = nombreFolio;
 		this.decripcion = decripcion;
 		this.sucursal = sucursal;
+		this.folio = folio;
 		this.sucursalDestino = sucursaldestino;
 		this.createdAt = LocalDateTime.now();
 		this.updatedAt = LocalDateTime.now();
 	}
-	
-	public MovimientoInventario(Integer idMovimientoInventario, String folioCompuesto, Naturaleza naturaleza, NombreFolio nombreFolio, String decripcion, Sucursal sucursal, Sucursal sucursaldestino, List<MovimientoInventarioDetalle> listMovimientoInventarioDetalle) {
+
+	public MovimientoInventario(Integer idMovimientoInventario, String folioCompuesto, Naturaleza naturaleza, NombreFolio nombreFolio, String decripcion, Sucursal sucursal, Sucursal sucursaldestino,
+			List<MovimientoInventarioDetalle> listMovimientoInventarioDetalle) {
 		super();
 		this.idMovimientoInventario = idMovimientoInventario;
 		this.folioCompuesto = folioCompuesto;
