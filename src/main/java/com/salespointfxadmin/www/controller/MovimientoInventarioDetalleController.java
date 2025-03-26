@@ -321,7 +321,7 @@ public class MovimientoInventarioDetalleController implements Initializable {
 	}
 
 	private void eliminarProducto(Integer id) {
-		mids.dalete(new MovimientoInventarioDetalle(id));
+		// mids.dalete(new MovimientoInventarioDetalle(id));
 	}
 
 	public void mostrarRegistro(MovimientoInventario mi) {

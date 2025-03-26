@@ -1,6 +1,7 @@
 package com.salespointfxadmin.www.controller;
 
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 
 import org.springframework.stereotype.Component;
@@ -26,6 +27,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -76,6 +78,8 @@ public class ProductoController implements Initializable {
 	@FXML
 	private TableView<SucursalProducto> tVeiwSucursalProductos;
 	private ObservableList<SucursalProducto> olsp;
+
+	DecimalFormat formato = new DecimalFormat("0.#"); // Mostrar entero si es entero, o un decimal si tiene decimales
 
 	@FXML
 	void cancelar(ActionEvent event) {
@@ -202,6 +206,22 @@ public class ProductoController implements Initializable {
 
 		columnPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
 		columnPrecio.prefWidthProperty().bind(tVeiwSucursalProductos.widthProperty().multiply(0.15));
+		// Agregar el formato para mostrar el precio como moneda
+		columnPrecio.setCellFactory(col -> {
+			return new TableCell<SucursalProducto, Float>() {
+				@Override
+				protected void updateItem(Float item, boolean empty) {
+					super.updateItem(item, empty);
+					if (item != null && !empty) {
+						// Formatear el precio como moneda
+						DecimalFormat df = new DecimalFormat("#.##");
+						setText("$" + df.format(item));
+					} else {
+						setText(null);
+					}
+				}
+			};
+		});
 
 		columnVendible.setCellValueFactory(new PropertyValueFactory<>("vendible"));
 		columnVendible.prefWidthProperty().bind(tVeiwSucursalProductos.widthProperty().multiply(0.15));
@@ -219,6 +239,7 @@ public class ProductoController implements Initializable {
 				if (productoSeleccionado != null) {
 					tFieldDescripcion.setText(productoSeleccionado.getProducto().getNombreProducto());
 					tFieldPrecio.setText(productoSeleccionado.getPrecio() + "");
+					// tFieldPrecio.commitValue();
 					tFieldId.setText(productoSeleccionado.getIdSucursalProducto() + "");
 					cBoxCategoria.getSelectionModel().select(productoSeleccionado.getCategoria());
 					tFieldInventario.setText(productoSeleccionado.getInventario() + "");
@@ -246,13 +267,21 @@ public class ProductoController implements Initializable {
 		TextFormatter<String> formatter2 = new TextFormatter<>(change -> {
 			String newText = change.getControlNewText();
 
-			// Permitir solo números que no inicien con '0', excepto si es solo '0'
-			if (newText.matches("[1-9][0-9]*|0|")) {
+			// Permitir solo números que no inicien con '0', excepto si es solo '0' o
+			// números con punto decimal
+			if (newText.matches("[0-9]*\\.?[0-9]*")) {
 				return change; // Aceptar el cambio
 			}
 			return null; // Rechazar el cambio
 		});
 		tFieldPrecio.setTextFormatter(formatter2);
+	}
+
+	// Formatear el precio con 2 decimales, sin añadir ceros innecesarios si no es
+	// necesario
+	private String formatPrecio(double precio) {
+		// Si el número tiene decimales, se muestra con hasta 2 decimales
+		return String.format("$%.2f", precio).replaceAll("\\.00$", "");
 	}
 
 }

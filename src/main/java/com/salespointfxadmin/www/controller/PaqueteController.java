@@ -1,6 +1,7 @@
 package com.salespointfxadmin.www.controller;
 
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -32,6 +33,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -227,6 +229,7 @@ public class PaqueteController implements Initializable {
 		cargarCategorias();
 		agregarDobleClickTablapaquetes();
 		textFielNumeros();
+		tFieldPrecio.setOnAction(event -> btnGuardar.fire());
 	}
 
 	private void agregarProductoAlContenedor(String nombreProducto) {
@@ -250,18 +253,19 @@ public class PaqueteController implements Initializable {
 		label.getStyleClass().add("producto-label"); // Aplicar clase CSS
 		label.setPrefWidth(100);
 		TextField cantidadTextField = new TextField("1"); // Cantidad por defecto
-		TextFormatter<String> formatter = new TextFormatter<>(change -> {
+		TextFormatter<String> formatter2 = new TextFormatter<>(change -> {
 			String newText = change.getControlNewText();
 
-			// Permitir solo números que no inicien con '0', excepto si es solo '0'
-			if (newText.matches("[1-9][0-9]*|0|")) {
+			// Permitir solo números que no inicien con '0', excepto si es solo '0' o
+			// números con punto decimal
+			if (newText.matches("[0-9]*\\.?[0-9]*")) {
 				return change; // Aceptar el cambio
 			}
 			return null; // Rechazar el cambio
 		});
 		cantidadTextField.getStyleClass().add("cantidad-field"); // Aplicar clase CSS
 		cantidadTextField.setPrefWidth(50);
-		cantidadTextField.setTextFormatter(formatter);
+		cantidadTextField.setTextFormatter(formatter2);
 
 		Button eliminarBtn = new Button("❌");
 		eliminarBtn.getStyleClass().add("eliminar-btn"); // Aplicar clase CSS
@@ -287,6 +291,21 @@ public class PaqueteController implements Initializable {
 
 		columnPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
 		columnPrecio.prefWidthProperty().bind(tViewPaquetes.widthProperty().multiply(0.15));
+		columnPrecio.setCellFactory(col -> {
+			return new TableCell<SucursalProducto, Float>() {
+				@Override
+				protected void updateItem(Float item, boolean empty) {
+					super.updateItem(item, empty);
+					if (item != null && !empty) {
+						// Formatear el precio como moneda
+						DecimalFormat df = new DecimalFormat("#.##");
+						setText("$" + df.format(item));
+					} else {
+						setText(null);
+					}
+				}
+			};
+		});
 
 		columnVendible.setCellValueFactory(new PropertyValueFactory<>("vendible"));
 		columnVendible.prefWidthProperty().bind(tViewPaquetes.widthProperty().multiply(0.15));
@@ -362,16 +381,17 @@ public class PaqueteController implements Initializable {
 	}
 
 	private void textFielNumeros() {
-		TextFormatter<String> formatter = new TextFormatter<>(change -> {
+		TextFormatter<String> formatter2 = new TextFormatter<>(change -> {
 			String newText = change.getControlNewText();
 
-			// Permitir solo números que no inicien con '0', excepto si es solo '0'
-			if (newText.matches("[1-9][0-9]*|0|")) {
+			// Permitir solo números que no inicien con '0', excepto si es solo '0' o
+			// números con punto decimal
+			if (newText.matches("[0-9]*\\.?[0-9]*")) {
 				return change; // Aceptar el cambio
 			}
 			return null; // Rechazar el cambio
 		});
-		tFieldPrecio.setTextFormatter(formatter);
+		tFieldPrecio.setTextFormatter(formatter2);
 
 	}
 

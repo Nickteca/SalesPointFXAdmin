@@ -314,14 +314,14 @@ public class MovimientoInventarioDetalleController2 implements Initializable {
 		}
 		return false; // Producto no existe
 	}
-	
+
 	private void eliminarProducto(Integer id) {
 		try {
-			if(id!=null) {
-				mids.de
+			if (id != null) {
+				mids.dalete(id);
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
@@ -332,7 +332,7 @@ public class MovimientoInventarioDetalleController2 implements Initializable {
 		tFieldId.setText(mi.getIdMovimientoInventario() + "");
 		tFieldFolioCompuesto.setText(mi.getFolioCompuesto());
 		cBoxFolio.setDisable(true);
-		
+
 		List<MovimientoInventarioDetalle> lmid = mids.findByMovimiento(mi);
 		for (MovimientoInventarioDetalle mid : lmid) {
 			// HBox para contener el producto y la cantidad

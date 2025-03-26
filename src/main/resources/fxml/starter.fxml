@@ -29,9 +29,9 @@
                                     <VBox alignment="CENTER" layoutX="50.0" layoutY="81.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
                                           <Button fx:id="btnProductos" mnemonicParsing="false" onAction="#productos" styleClass="boton-fuego" text="Productos" textFill="#141414" VBox.vgrow="ALWAYS" />
-                                          <Button fx:id="btnCrearPaquetes" mnemonicParsing="false" onAction="#crearPaquetes" styleClass="boton-fuego" text="Crear Paquetes" VBox.vgrow="ALWAYS" />
+                                          <Button fx:id="btnCrearPaquetes" mnemonicParsing="false" onAction="#crearPaquetes" styleClass="boton-fuego" text="Paquetes" VBox.vgrow="ALWAYS" />
                                           <Button fx:id="btnMovimientoInventario" mnemonicParsing="false" onAction="#movimiento" styleClass="boton-fuego" text="Movimientos" VBox.vgrow="ALWAYS" />
-                                          <Button mnemonicParsing="false" styleClass="boton-fuego" text="Button" VBox.vgrow="ALWAYS" />
+                                          <Button fx:id="btnGastos" mnemonicParsing="false" onAction="#gastos" styleClass="boton-fuego" text="GASTOS" VBox.vgrow="ALWAYS" />
                                           <Button mnemonicParsing="false" styleClass="boton-fuego" text="Button" VBox.vgrow="ALWAYS" />
                                           <Button mnemonicParsing="false" styleClass="boton-fuego" text="Button" VBox.vgrow="ALWAYS" />
                                           <Button mnemonicParsing="false" styleClass="boton-fuego" text="Button" VBox.vgrow="ALWAYS" />

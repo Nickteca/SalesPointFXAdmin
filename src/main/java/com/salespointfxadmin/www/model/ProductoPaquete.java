@@ -10,7 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -54,10 +53,14 @@ public class ProductoPaquete implements Serializable {
 
 	@Override
 	public String toString() {
-		return productoPaquete.getNombreProducto()+" "+cantidad;
+		// Verificar si la cantidad tiene decimales
+		if (cantidad == (int) cantidad) {
+			// Si no tiene decimales, mostrar como entero
+			return productoPaquete.getNombreProducto() + "-" + (int) cantidad;
+		} else {
+			// Si tiene decimales, mostrar con un solo decimal
+			return productoPaquete.getNombreProducto() + "-" + String.format("%.1f", cantidad);
+		}
 	}
-
-	
-	
 
 }

@@ -34,13 +34,21 @@ public class MovimientoInventarioService2 {
 			Optional<MovimientoInventario> existingMovimiento = mir.findByfolioCompuesto(mi.getFolioCompuesto());
 
 			if (existingMovimiento.isEmpty()) {
-				System.out.println("Entro al vancio");
 				// **CASO: NUEVO MOVIMIENTO**
 				mi = mir.save(mi);
 				if (mi != null) {
 					for (MovimientoInventarioDetalle mid : lmid) {
+						Optional<SucursalProducto> osp = spr.findBySucursalAndProducto(mi.getSucursal(), mid.getSucursalProducto().getProducto());
+						if (osp.isPresent()) {
+							SucursalProducto sp = osp.get();
+							if (mi.getNaturaleza().equals(Naturaleza.E)) {
+								sp.setInventario(sp.getInventario() + mid.getUnidades());
+							} else {
+								sp.setInventario(sp.getInventario() - mid.getUnidades());
+							}
+							spr.save(sp);
+						}
 						mid.setMovimientoInventario(mi);
-						actualizarInventario(mid, mi.getNaturaleza(), true);
 						midr.save(mid);
 					}
 
@@ -50,27 +58,46 @@ public class MovimientoInventarioService2 {
 				}
 
 			} else {
-				System.out.println("Entro al que si eciste");
-				// **CASO: MODIFICACIÓN DEL MOVIMIENTO**
-				MovimientoInventario miExistente = existingMovimiento.get();
-				List<MovimientoInventarioDetalle> detallesAntiguos = miExistente.getListMovimientoInventarioDetalle();
+				List<MovimientoInventarioDetalle> lmide = midr.findByMovimientoInventario(mi);
+				for (MovimientoInventarioDetalle mid : lmid) {
+					if (mid.getIdMovimientoInventarioDetalle() == null) {
+						Optional<SucursalProducto> osp = spr.findBySucursalEstatusSucursalTrueAndProducto(mid.getSucursalProducto().getProducto());
+						if (osp.isPresent()) {
+							SucursalProducto sp = osp.get();
+							if (mi.getNaturaleza().equals(Naturaleza.E)) {
+								sp.setInventario(sp.getInventario() + mid.getUnidades());
+							} else {
+								sp.setInventario(sp.getInventario() - mid.getUnidades());
+							}
+							spr.save(sp);
+						}
+					} else {
+						MovimientoInventarioDetalle antiguoIngreso = lmide.stream().filter(det -> det.getIdMovimientoInventarioDetalle().equals(mid.getIdMovimientoInventarioDetalle())).findFirst()
+								.orElse(null);
+						if (antiguoIngreso != null) {
+							float cantidadAnterior = antiguoIngreso.getUnidades(); // Obtener la cantidad anterior
+							float diferencia = mid.getUnidades() - cantidadAnterior; // Diferencia entre nueva y anterior
 
-				// 1. **Revertir el impacto de los detalles antiguos en el inventario**
-				for (MovimientoInventarioDetalle midAntiguo : detallesAntiguos) {
-					actualizarInventario(midAntiguo, miExistente.getNaturaleza(), false);
+							Optional<SucursalProducto> osp = spr.findBySucursalEstatusSucursalTrueAndProducto(mid.getSucursalProducto().getProducto());
+							if (osp.isPresent()) {
+								SucursalProducto sp = osp.get();
+
+								// Ajustar inventario correctamente con la diferencia
+								if (mi.getNaturaleza().equals(Naturaleza.E)) {
+									sp.setInventario(sp.getInventario() + diferencia);
+								} else {
+									sp.setInventario(sp.getInventario() - diferencia);
+								}
+
+								spr.save(sp);
+							}
+						}
+
+					}
+					mid.setMovimientoInventario(mi);
+					midr.save(mid);
 				}
 
-				// 2. **Actualizar datos del movimiento**
-				miExistente.setNaturaleza(mi.getNaturaleza());
-				miExistente.setDecripcion(mi.getDecripcion());
-				mir.save(miExistente);
-
-				// 3. **Aplicar los nuevos detalles y actualizar el inventario**
-				for (MovimientoInventarioDetalle midNuevo : lmid) {
-					midNuevo.setMovimientoInventario(miExistente);
-					actualizarInventario(midNuevo, miExistente.getNaturaleza(), true);
-					midr.save(midNuevo);
-				}
 			}
 		} catch (Exception e) {
 			System.out.println("Error al guardar MovimientoInventario: " + e.getMessage());
@@ -80,26 +107,41 @@ public class MovimientoInventarioService2 {
 		return mi;
 	}
 
-	private void actualizarInventario(MovimientoInventarioDetalle mid, Naturaleza naturaleza, boolean agregar) {
+	private void actualizarInventario(MovimientoInventarioDetalle mid, Naturaleza naturaleza, boolean esNuevo) {
 		Optional<SucursalProducto> osp = spr.findBySucursalEstatusSucursalTrueAndProducto(mid.getSucursalProducto().getProducto());
 
 		SucursalProducto sp;
 		if (osp.isPresent()) {
 			sp = osp.get();
 		} else {
-			// **Caso: El producto aún no existe en la sucursal, se debe crear**
+			// **Si el producto no existe en la sucursal, se crea**
 			sp = new SucursalProducto();
 			sp.setSucursal(mid.getMovimientoInventario().getSucursal());
 			sp.setProducto(mid.getSucursalProducto().getProducto());
-			sp.setInventario(0); // Inicializar en 0
+			sp.setInventario(0); // Se inicializa en 0
 			spr.save(sp);
 		}
 
-		// **Actualizar inventario**
-		float ajuste = agregar ? mid.getUnidades() : -mid.getUnidades();
-		float nuevoInventario = naturaleza.equals(Naturaleza.E) ? sp.getInventario() + ajuste : sp.getInventario() - ajuste;
+		float cantidadNueva = mid.getUnidades();
 
-		sp.setInventario(nuevoInventario);
+		if (!esNuevo) {
+			// **Si se está modificando, primero revertimos la cantidad anterior**
+			float cantidadAnterior = mid.getUnidades(); // Necesitas agregar este campo en tu DTO o entidad
+
+			if (naturaleza.equals(Naturaleza.E)) {
+				sp.setInventario(sp.getInventario() - cantidadAnterior);
+			} else {
+				sp.setInventario(sp.getInventario() + cantidadAnterior);
+			}
+		}
+
+		// **Aplicamos la cantidad nueva**
+		if (naturaleza.equals(Naturaleza.E)) {
+			sp.setInventario(sp.getInventario() + cantidadNueva);
+		} else {
+			sp.setInventario(sp.getInventario() - cantidadNueva);
+		}
+
 		spr.save(sp);
 	}
 

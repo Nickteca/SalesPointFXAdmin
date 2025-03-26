@@ -22,12 +22,12 @@ public class StarterController {
 	private final SpringFXMLLoader springFXMLLoader;
 	@FXML
 	private BorderPane bPanePrimcipal;
-
 	@FXML
 	private Button btnProductos;
-
 	@FXML
 	private Button btnCrearPaquetes;
+	@FXML
+	private Button btnGastos;
 	@FXML
 	private Button btnMovimientoInventario;
 
@@ -44,6 +44,11 @@ public class StarterController {
 	@FXML
 	void crearPaquetes(ActionEvent event) {
 		cargarVista("/fxml/paquetes.fxml");
+	}
+
+	@FXML
+	void gastos(ActionEvent event) {
+		cargarVista("/fxml/gastos.fxml");
 	}
 
 	private void cargarVista(String fxmlPath) {
