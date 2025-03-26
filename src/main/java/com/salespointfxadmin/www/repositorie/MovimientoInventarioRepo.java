@@ -14,4 +14,10 @@ public interface MovimientoInventarioRepo extends JpaRepository<MovimientoInvent
 	List<MovimientoInventario> findBySucursalAndCreatedAtBetweenAndNombreFolio(Sucursal sucursal, LocalDateTime startDate, LocalDateTime endDate, NombreFolio nombreFolio);
 
 	Optional<MovimientoInventario> findByfolioCompuesto(String folio);
+	
+	@Override
+	default Optional<MovimientoInventario> findById(Integer id) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
+	}
 }

@@ -16,6 +16,7 @@ import com.salespointfxadmin.www.model.MovimientoInventarioDetalle;
 import com.salespointfxadmin.www.model.Sucursal;
 import com.salespointfxadmin.www.model.SucursalProducto;
 import com.salespointfxadmin.www.service.FolioService;
+import com.salespointfxadmin.www.service.MovimientoInventarioDetalleService;
 import com.salespointfxadmin.www.service.MovimientoInventarioService2;
 import com.salespointfxadmin.www.service.SucursalProductoService;
 import com.salespointfxadmin.www.service.SucursalService;
@@ -52,6 +53,7 @@ public class MovimientoInventarioDetalleController2 implements Initializable {
 	private final MovimientoInventarioService2 mis2;
 	private final SucursalService ss;
 	private final SucursalProductoService sps;
+	private final MovimientoInventarioDetalleService mids;
 
 	@FXML
 	private Button btnCancelar;
@@ -312,6 +314,16 @@ public class MovimientoInventarioDetalleController2 implements Initializable {
 		}
 		return false; // Producto no existe
 	}
+	
+	private void eliminarProducto(Integer id) {
+		try {
+			if(id!=null) {
+				mids.de
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 
 	public void cargarProductosMovimiento(MovimientoInventario mi) {
 		tFieldDescripcion.setText(mi.getDecripcion());
@@ -320,5 +332,47 @@ public class MovimientoInventarioDetalleController2 implements Initializable {
 		tFieldId.setText(mi.getIdMovimientoInventario() + "");
 		tFieldFolioCompuesto.setText(mi.getFolioCompuesto());
 		cBoxFolio.setDisable(true);
+		
+		List<MovimientoInventarioDetalle> lmid = mids.findByMovimiento(mi);
+		for (MovimientoInventarioDetalle mid : lmid) {
+			// HBox para contener el producto y la cantidad
+			HBox hbox = new HBox(10);
+			hbox.setAlignment(Pos.CENTER_LEFT);
+			hbox.getStyleClass().add("item-hbox");
+
+			// Estilo opcional para el HBox (bordes visibles para depuración)
+			// hbox.setStyle("-fx-padding: 5; -fx-border-color: lightgray;");
+			Label labelId = new Label(mid.getIdMovimientoInventarioDetalle() + "");
+			labelId.setMinWidth(20);
+			labelId.setPrefWidth(20);
+			labelId.setMaxWidth(20);
+
+			Label label = new Label(mid.getSucursalProducto().getProducto().getNombreProducto());
+			label.getStyleClass().add("item-label");
+			label.setPrefWidth(100);
+			TextField cantidadTextField = new TextField(); // Cantidad por defecto
+			cantidadTextField.getStyleClass().add("item-textfield");
+
+			cantidadTextField.setOnMouseClicked(event -> {
+				cantidadTextField.selectAll(); // Selecciona todo el texto al hacer clic
+			});
+			cantidadTextField.setText(formato.format(mid.getUnidades()));
+			cantidadTextField.setEditable(true);
+			cantidadTextField.setPrefWidth(50);
+
+			Button eliminarBtn = new Button("❌");
+			eliminarBtn.getStyleClass().add("button-eliminar");
+			eliminarBtn.setOnAction(e -> {
+				vBoxProductosSeleccionados.getChildren().remove(hbox);
+				eliminarProducto((labelId.getText() != null && !labelId.getText().trim().isEmpty()) ? Integer.parseInt(labelId.getText()) : null);
+			});
+
+			hbox.getChildren().add(labelId);
+			hbox.getChildren().add(label);
+			hbox.getChildren().add(cantidadTextField);
+			hbox.getChildren().add(eliminarBtn);
+
+			vBoxProductosSeleccionados.getChildren().add(hbox);
+		}
 	}
 }
