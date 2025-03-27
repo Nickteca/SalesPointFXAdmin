@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 import org.springframework.stereotype.Component;
 
 import com.salespointfxadmin.www.model.Gasto;
+import com.salespointfxadmin.www.model.Sucursal;
+import com.salespointfxadmin.www.model.SucursalGasto;
 import com.salespointfxadmin.www.service.GastoService;
 
 import javafx.collections.FXCollections;
@@ -17,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -52,6 +55,30 @@ public class GastoController implements Initializable {
 	@FXML
 	private TableView<Gasto> tViewGatos;
 	private ObservableList<Gasto> olg;
+	
+
+    @FXML
+    private TableColumn<SucursalGasto, String> columnContratoSucursalGasto;
+    @FXML
+    private TableColumn<SucursalGasto, LocalDateTime> columnCreatedAtSucursalGasto;;
+    @FXML
+    private TableColumn<SucursalGasto, Gasto> columnDescripcionGastoSucursalGasto;
+    @FXML
+    private TableColumn<SucursalGasto, Integer> columnIdGastoSucursalGasto;
+    @FXML
+    private TableColumn<SucursalGasto, Float> columnMontoSucursalGasto;
+    @FXML
+    private TableColumn<SucursalGasto, Sucursal> columnSucursalSucursalGasto;
+	
+    @FXML
+    private TableView<SucursalGasto> tViewSucursalGasto;
+    private ObservableList<SucursalGasto> olsg;
+    
+    @FXML
+    private DatePicker dPickerFin;
+
+    @FXML
+    private DatePicker dPickerInicio;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -67,7 +94,12 @@ public class GastoController implements Initializable {
 		olg = FXCollections.observableArrayList(gs.findAll());
 		tViewGatos.setItems(olg);
 		tablaLsitener();
+		iniciarTablasucursalProducto();
 	}
+    @FXML
+    void buscar(ActionEvent event) {
+
+    }
 
 	@FXML
 	void cancelar(ActionEvent event) {
@@ -123,5 +155,28 @@ public class GastoController implements Initializable {
 		tFieldId.setText(null);
 		tFieldDescripcion.setText("");
 		tViewGatos.getSelectionModel().clearSelection();
+	}
+	private void iniciarTablasucursalProducto(){
+		columnIdGastoSucursalGasto.setCellValueFactory(new PropertyValueFactory<>("idSucursalGasto"));
+		columnIdGastoSucursalGasto.prefWidthProperty().bind(tViewSucursalGasto.widthProperty().multiply(0.1));
+		
+		columnMontoSucursalGasto.setCellValueFactory(new PropertyValueFactory<>("montoGasto"));
+		columnMontoSucursalGasto.prefWidthProperty().bind(tViewSucursalGasto.widthProperty().multiply(0.1));
+		
+		columnContratoSucursalGasto.setCellValueFactory(new PropertyValueFactory<>("contrato"));
+		columnContratoSucursalGasto.prefWidthProperty().bind(tViewSucursalGasto.widthProperty().multiply(0.15));
+		
+		columnCreatedAtSucursalGasto.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+		columnCreatedAtSucursalGasto.prefWidthProperty().bind(tViewSucursalGasto.widthProperty().multiply(0.15));
+		
+		columnDescripcionGastoSucursalGasto.setCellValueFactory(new PropertyValueFactory<>("gasto"));
+		columnDescripcionGastoSucursalGasto.prefWidthProperty().bind(tViewSucursalGasto.widthProperty().multiply(0.3));
+
+		columnSucursalSucursalGasto.setCellValueFactory(new PropertyValueFactory<>("sucursal"));
+		columnSucursalSucursalGasto.prefWidthProperty().bind(tViewSucursalGasto.widthProperty().multiply(0.2));
+
+		/*olsg = FXCollections.observableArrayList();
+		tViewSucursalGasto.setItems(olsg);*/
+
 	}
 }
