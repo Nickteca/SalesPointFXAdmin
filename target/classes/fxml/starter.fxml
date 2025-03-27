@@ -32,7 +32,7 @@
                                           <Button fx:id="btnCrearPaquetes" mnemonicParsing="false" onAction="#crearPaquetes" styleClass="boton-fuego" text="Paquetes" VBox.vgrow="ALWAYS" />
                                           <Button fx:id="btnMovimientoInventario" mnemonicParsing="false" onAction="#movimiento" styleClass="boton-fuego" text="Movimientos" VBox.vgrow="ALWAYS" />
                                           <Button fx:id="btnGastos" mnemonicParsing="false" onAction="#gastos" styleClass="boton-fuego" text="GASTOS" VBox.vgrow="ALWAYS" />
-                                          <Button mnemonicParsing="false" styleClass="boton-fuego" text="Button" VBox.vgrow="ALWAYS" />
+                                          <Button fx:id="btnRecoleccion" mnemonicParsing="false" onAction="#recoleccion" styleClass="boton-fuego" text="RECOLECCION" VBox.vgrow="ALWAYS" />
                                           <Button mnemonicParsing="false" styleClass="boton-fuego" text="Button" VBox.vgrow="ALWAYS" />
                                           <Button mnemonicParsing="false" styleClass="boton-fuego" text="Button" VBox.vgrow="ALWAYS" />
                                           <Button mnemonicParsing="false" styleClass="boton-fuego" text="Button" VBox.vgrow="ALWAYS" />

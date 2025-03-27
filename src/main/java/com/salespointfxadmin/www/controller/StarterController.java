@@ -30,6 +30,8 @@ public class StarterController {
 	private Button btnGastos;
 	@FXML
 	private Button btnMovimientoInventario;
+	@FXML
+	private Button btnRecoleccion;
 
 	@FXML
 	void productos(ActionEvent event) {
@@ -51,6 +53,11 @@ public class StarterController {
 		cargarVista("/fxml/gastos.fxml");
 	}
 
+	@FXML
+	void recoleccion(ActionEvent event) {
+		cargarVista("/fxml/recoleccion.fxml");
+	}
+
 	private void cargarVista(String fxmlPath) {
 		try {
 			FXMLLoader fxml = springFXMLLoader.load(fxmlPath);
@@ -67,4 +74,18 @@ public class StarterController {
 			e.printStackTrace();
 		}
 	}
+
+	/*
+	 * private void cargarModal(String fxmlPath) { try { FXMLLoader loader =
+	 * springFXMLLoader.load(fxmlPath); StackPane root = (StackPane) loader.load();
+	 * 
+	 * Stage stage = new Stage(); stage.initModality(Modality.APPLICATION_MODAL); //
+	 * stage.initStyle(StageStyle.UNDECORATED); // Ventana sin bordes
+	 * stage.setTitle("registrar "); stage.setScene(new Scene(root));
+	 * stage.setResizable(false); stage.showAndWait();
+	 * 
+	 * // Recargar la tabla después de que se cierre la ventana //
+	 * iniciarTablaMovimientoInventario(); // cargarSuursalgasto(); } catch
+	 * (IOException e) { e.printStackTrace(); } }
+	 */
 }

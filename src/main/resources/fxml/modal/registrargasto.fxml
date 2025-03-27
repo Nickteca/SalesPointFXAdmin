@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="337.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.modal.RegistrarGastoController">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <BorderPane prefHeight="483.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <top>
+                  <AnchorPane BorderPane.alignment="CENTER">
+                     <children>
+                        <Label alignment="CENTER" layoutX="286.0" layoutY="92.0" text="Registrar Gasto" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </top>
+               <center>
+                  <VBox prefHeight="466.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <AnchorPane />
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Label text="Gasto:" />
+                              <ChoiceBox fx:id="cBoxGasto" prefWidth="150.0" />
+                              <Label text="Cantidad $:" />
+                              <TextField fx:id="tFieldCantidad" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Label text="Obsevacion:" />
+                              <TextField fx:id="tFieldObservaciones" prefHeight="25.0" prefWidth="314.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Label text="Numero de contrato" />
+                              <TextField fx:id="tFieldContrato" />
+                              <Button fx:id="btnregistrar" mnemonicParsing="false" onAction="#registrar" text="Registrar" />
+                              <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </center>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
