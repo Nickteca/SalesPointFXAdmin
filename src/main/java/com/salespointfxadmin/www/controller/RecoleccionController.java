@@ -1,25 +1,34 @@
 package com.salespointfxadmin.www.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
 import org.springframework.stereotype.Component;
 
+import com.salespointfxadmin.www.component.SpringFXMLLoader;
+import com.salespointfxadmin.www.controller.modal.SucursalRecoleccionEditController;
+import com.salespointfxadmin.www.enums.BilleteValor;
+import com.salespointfxadmin.www.model.Billete;
 import com.salespointfxadmin.www.model.Sucursal;
 import com.salespointfxadmin.www.model.SucursalRecoleccion;
+import com.salespointfxadmin.www.service.BilleteService;
 import com.salespointfxadmin.www.service.SucursalRecoleccionService;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -27,13 +36,18 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
 public class RecoleccionController implements Initializable {
+	private final SpringFXMLLoader springFXMLLoader;
 	private final SucursalRecoleccionService srs;
+	private final BilleteService bs;
 
 	@FXML
 	private Button btnBuscar;
@@ -100,19 +114,70 @@ public class RecoleccionController implements Initializable {
 	private ObservableList<SucursalRecoleccion> olsr = FXCollections.observableArrayList();
 
 	private final int[] valores = { 1000, 500, 200, 100, 50, 20, 10, 5, 2, 1 };
+	private final String[] denominacion = { "$1000", "$500", "$200", "$100", "$50", "$20", "$10", "$5", "$2", "$1" };
 	private TextField[] textFields;
 	private Label[] labels;
 
 	@FXML
 	void buscar(ActionEvent event) {
+		try {
+			olsr = FXCollections.observableArrayList(srs.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(dPickerInicio.getValue(), dPickerFin.getValue()));
+			tViewSucursalRecoleccion.setItems(olsr);
+		} catch (Exception e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Error buscando la recoleccion");
+			error.setHeaderText("Hay un errpor o no se pudeo encontrar la recoleccion");
+			error.setContentText(e.getMessage() + "\n" + e.getCause());
+			error.show();
+		}
 	}
 
 	@FXML
 	void cancelar(ActionEvent event) {
+		TextField[] textFields = { tFieldX1000, tFieldX500, tFieldX200, tFieldX100, tFieldX50, tFieldX20, tFieldX10, tFieldX5, tFieldX2, tFieldX1 };
+		int total = 0;
+
+		for (int i = 0; i < textFields.length; i++) {
+
+			textFields[i].setText("0");
+			labels[i].setText("$0"); // Actualizar cada Label
+
+		}
+
+		labelTotal.setText("$0");
 	}
 
 	@FXML
 	void registrar(ActionEvent event) {
+		try {
+			SucursalRecoleccion sr = new SucursalRecoleccion();
+			TextField[] textFields = { tFieldX1000, tFieldX500, tFieldX200, tFieldX100, tFieldX50, tFieldX20, tFieldX10, tFieldX5, tFieldX2, tFieldX1 };
+			int total = 0;
+			List<Billete> lb = new ArrayList<Billete>();
+			for (int i = 0; i < textFields.length; i++) {
+				if (!textFields[i].getText().isEmpty() || textFields[i].getText() != "0") {
+					int cantidad = Integer.parseInt(textFields[i].getText());
+					int subtotal = cantidad * valores[i];
+					total += subtotal;
+					Billete b = new Billete(null, BilleteValor.valueOf(denominacion[i]), cantidad, subtotal, sr);
+					lb.add(b);
+				}
+			}
+			sr.setIdSucursalRecoleccion(null);
+			sr.setTotalRecoleccion(total);
+			sr.setListBillete(lb);
+			if (srs.save(sr, total, lb) != null) {
+				btnCancelar.fire();
+				btnBuscar.fire();
+			}
+
+		} catch (Exception e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Error Insertando recoleecion");
+			error.setHeaderText("Hay un errpor o no se pudeo ingresar recoleccion");
+			error.setContentText(e.getMessage() + "\n" + e.getCause());
+			error.show();
+		}
 	}
 
 	@Override
@@ -122,6 +187,7 @@ public class RecoleccionController implements Initializable {
 		seleccinarContenidoTextField();
 		textfieldCantidades();
 		llenarTablaInicial();
+		tablaLsitener();
 	}
 
 	private void iniciarDataPicher() {
@@ -166,10 +232,8 @@ public class RecoleccionController implements Initializable {
 	}
 
 	private void textfieldCantidades() {
-		TextField[] textFields = { tFieldX1000, tFieldX500, tFieldX200, tFieldX100, tFieldX50, tFieldX20, tFieldX10,
-				tFieldX5, tFieldX2, tFieldX1 };
-		labels = new Label[] { label1000, label500, label200, label100, label50, label20, label10, label5, label2,
-				label1 };
+		TextField[] textFields = { tFieldX1000, tFieldX500, tFieldX200, tFieldX100, tFieldX50, tFieldX20, tFieldX10, tFieldX5, tFieldX2, tFieldX1 };
+		labels = new Label[] { label1000, label500, label200, label100, label50, label20, label10, label5, label2, label1 };
 
 		for (int i = 0; i < textFields.length; i++) {
 			final int index = i;
@@ -180,8 +244,7 @@ public class RecoleccionController implements Initializable {
 	}
 
 	private void actualizarTotal() {
-		TextField[] textFields = { tFieldX1000, tFieldX500, tFieldX200, tFieldX100, tFieldX50, tFieldX20, tFieldX10,
-				tFieldX5, tFieldX2, tFieldX1 };
+		TextField[] textFields = { tFieldX1000, tFieldX500, tFieldX200, tFieldX100, tFieldX50, tFieldX20, tFieldX10, tFieldX5, tFieldX2, tFieldX1 };
 		int total = 0;
 
 		for (int i = 0; i < textFields.length; i++) {
@@ -195,24 +258,58 @@ public class RecoleccionController implements Initializable {
 			}
 		}
 
-		labelTotal.setText("Total: $" + total);
+		labelTotal.setText("$" + total);
 	}
-	
+
 	private void llenarTablaInicial() {
-		
+
 		columnId.setCellValueFactory(new PropertyValueFactory<>("idSucursalRecoleccion"));
 		columnId.prefWidthProperty().bind(tViewSucursalRecoleccion.widthProperty().multiply(0.1));
 
 		columnTotal.setCellValueFactory(new PropertyValueFactory<>("TotalRecoleccion"));
-		columnTotal.prefWidthProperty().bind(tViewSucursalRecoleccion.widthProperty().multiply(0.6));
+		columnTotal.prefWidthProperty().bind(tViewSucursalRecoleccion.widthProperty().multiply(0.2));
 
 		columnSucursal.setCellValueFactory(new PropertyValueFactory<>("sucursal"));
-		columnSucursal.prefWidthProperty().bind(tViewSucursalRecoleccion.widthProperty().multiply(0.1));
-		
+		columnSucursal.prefWidthProperty().bind(tViewSucursalRecoleccion.widthProperty().multiply(0.4));
+
 		columnFecha.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
-		columnFecha.prefWidthProperty().bind(tViewSucursalRecoleccion.widthProperty().multiply(0.2));
-		
+		columnFecha.prefWidthProperty().bind(tViewSucursalRecoleccion.widthProperty().multiply(0.3));
+
 		olsr = FXCollections.observableArrayList(srs.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(dPickerInicio.getValue(), dPickerFin.getValue()));
 		tViewSucursalRecoleccion.setItems(olsr);
+	}
+
+	private void tablaLsitener() {
+		/* SE AGREGA N ESCUCHADOR A LA TABLA CSUCURSALPRODUCTO */
+		tViewSucursalRecoleccion.setOnMouseClicked(event -> {
+			if (event.getClickCount() == 1) { // Doble clic
+				SucursalRecoleccion sucursalRecoleccion = tViewSucursalRecoleccion.getSelectionModel().getSelectedItem();
+				if (sucursalRecoleccion != null) {
+					try {
+						FXMLLoader loader = springFXMLLoader.load("/fxml/modal/sucursalrecoleccionedit.fxml");
+						StackPane root = loader.load();
+						SucursalRecoleccionEditController sre = loader.getController();
+						sre.cargarBilletes(sucursalRecoleccion);
+						Stage stage = new Stage();
+						stage.initModality(Modality.APPLICATION_MODAL);
+						// stage.initStyle(StageStyle.UNDECORATED); // Ventana sin bordes
+						stage.setTitle("Nuevo Movimiento de Inventario");
+						stage.setScene(new Scene(root));
+						stage.setResizable(false);
+						stage.showAndWait();
+
+						// Recargar la tabla después de que se cierre la ventana
+						btnBuscar.fire();
+
+					} catch (IOException e) {
+						Alert error = new Alert(AlertType.ERROR);
+						error.setTitle("erro al abrir el modal!!");
+						error.setHeaderText("No abrio el modal de los detalles billete");
+						error.setContentText(e.getMessage() + "\n" + e.getCause());
+						error.show();
+					}
+				}
+			}
+		});
 	}
 }

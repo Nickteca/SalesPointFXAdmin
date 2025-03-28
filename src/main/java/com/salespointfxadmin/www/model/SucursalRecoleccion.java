@@ -13,8 +13,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,9 +29,9 @@ public class SucursalRecoleccion implements Serializable {
 	private Integer idSucursalRecoleccion;
 
 	@Column(nullable = false)
-	private float TotalRecoleccion;
+	private int TotalRecoleccion;
 
-	@Column( nullable = false)
+	@Column(nullable = false)
 	private LocalDateTime createdAt;
 
 	@JoinColumn(name = "sucursal", referencedColumnName = "idSucursal")

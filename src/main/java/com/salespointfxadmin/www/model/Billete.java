@@ -33,12 +33,21 @@ public class Billete implements Serializable {
 	private BilleteValor billete;
 
 	@Column(nullable = false)
-	private float cantidad;
+	private int cantidad;
 
 	@Column(nullable = false)
-	private float subtotal;
+	private int subtotal;
 
 	@JoinColumn(name = "sucursalRecoleccion", referencedColumnName = "idSucursalRecoleccion")
 	@ManyToOne(optional = false)
 	private SucursalRecoleccion sucursalRecoleccion;
+
+	public Billete(Integer idBillete, BilleteValor billete, int cantidad, int subtotal) {
+		super();
+		this.idBillete = idBillete;
+		this.billete = billete;
+		this.cantidad = cantidad;
+		this.subtotal = subtotal;
+	}
+
 }

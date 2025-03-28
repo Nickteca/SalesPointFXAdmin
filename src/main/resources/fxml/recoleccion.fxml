@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="738.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.RecoleccionController">
+<AnchorPane prefHeight="738.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.RecoleccionController">
    <children>
       <BorderPane layoutX="188.0" layoutY="185.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -88,9 +88,9 @@
                               </Label>
                            </children>
                         </AnchorPane>
-                        <HBox alignment="CENTER" spacing="10.0">
+                        <HBox alignment="CENTER" spacing="5.0">
                            <children>
-                              <Label text="\$1000">
+                              <Label alignment="CENTER_RIGHT" prefWidth="45.0" text="\$1000">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -110,16 +110,16 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="label1000" text="0">
+                              <Label fx:id="label1000" alignment="CENTER" prefWidth="50.0" text="0">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="10.0">
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="5.0">
                            <children>
-                              <Label text="\$500">
+                              <Label alignment="CENTER_RIGHT" prefWidth="45.0" text="\$500">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -139,16 +139,16 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="label500" text="0">
+                              <Label fx:id="label500" alignment="CENTER" prefWidth="50.0" text="0">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" layoutX="10.0" layoutY="35.0" spacing="10.0">
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="35.0" spacing="5.0">
                            <children>
-                              <Label text="\$200">
+                              <Label alignment="CENTER_RIGHT" prefWidth="45.0" text="\$200">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -168,16 +168,16 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="label200" text="0">
+                              <Label fx:id="label200" alignment="CENTER" prefWidth="50.0" text="0">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" layoutX="10.0" layoutY="60.0" spacing="10.0">
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="60.0" spacing="5.0">
                            <children>
-                              <Label text="\$100">
+                              <Label alignment="CENTER_RIGHT" prefWidth="45.0" text="\$100">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -197,16 +197,16 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="label100" text="0">
+                              <Label fx:id="label100" alignment="CENTER" prefWidth="50.0" text="0">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" layoutX="10.0" layoutY="85.0" spacing="10.0">
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="85.0" spacing="5.0">
                            <children>
-                              <Label text="\$50">
+                              <Label alignment="CENTER_RIGHT" prefWidth="45.0" text="\$50">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -226,16 +226,16 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="label50" text="0">
+                              <Label fx:id="label50" alignment="CENTER" prefWidth="50.0" text="0">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" layoutX="10.0" layoutY="200.0" spacing="10.0">
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="200.0" spacing="5.0">
                            <children>
-                              <Label text="\$20">
+                              <Label alignment="CENTER_RIGHT" prefWidth="45.0" text="\$20">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -255,16 +255,16 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="label20" text="0">
+                              <Label fx:id="label20" alignment="CENTER" prefWidth="50.0" text="0">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" layoutX="10.0" layoutY="110.0" spacing="10.0">
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="110.0" spacing="5.0">
                            <children>
-                              <Label text="\$10">
+                              <Label alignment="CENTER_RIGHT" prefWidth="45.0" text="\$10">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -284,16 +284,16 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="label10" text="0">
+                              <Label fx:id="label10" alignment="CENTER" prefWidth="50.0" text="0">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" layoutX="10.0" layoutY="135.0" spacing="10.0">
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="135.0" spacing="5.0">
                            <children>
-                              <Label text="\$5">
+                              <Label alignment="CENTER_RIGHT" prefWidth="45.0" text="\$5">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -313,16 +313,16 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="label5" text="0">
+                              <Label fx:id="label5" alignment="CENTER" prefWidth="50.0" text="0">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" layoutX="10.0" layoutY="160.0" spacing="10.0">
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="160.0" spacing="5.0">
                            <children>
-                              <Label text="\$2">
+                              <Label alignment="CENTER_RIGHT" prefWidth="45.0" text="\$2">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -342,16 +342,16 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="label2" text="0">
+                              <Label fx:id="label2" alignment="CENTER" prefWidth="50.0" text="0">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" layoutX="10.0" layoutY="185.0" spacing="10.0">
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="185.0" spacing="5.0">
                            <children>
-                              <Label text="\$1">
+                              <Label alignment="CENTER_RIGHT" prefWidth="45.0" text="\$1">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -371,7 +371,7 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="label1" text="0">
+                              <Label fx:id="label1" alignment="CENTER" prefWidth="50.0" text="0">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -408,7 +408,7 @@
                   </VBox>
                </children>
                <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </AnchorPane>
          </left>
