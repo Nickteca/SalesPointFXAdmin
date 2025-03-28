@@ -1,20 +1,29 @@
 package com.salespointfxadmin.www.controller;
 
+import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
+
+import org.springframework.stereotype.Component;
 
 import com.salespointfxadmin.www.model.Sucursal;
 import com.salespointfxadmin.www.model.SucursalRecoleccion;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 
-public class RecoleccionController {
+ @Component
+public class RecoleccionController implements Initializable {
 
 	@FXML
 	private Button btnBuscar;
@@ -116,6 +125,41 @@ public class RecoleccionController {
 	@FXML
 	void registrar(ActionEvent event) {
 
+	}
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		iniciarDataPicher();
+		numerosTexfiel();
+		
+	}
+	
+	private void iniciarDataPicher() {
+		dPickerFin.setValue(LocalDate.now());
+		dPickerInicio.setValue(LocalDate.now());
+	}
+	
+	private void numerosTexfiel() {
+		UnaryOperator<TextFormatter.Change> numericFilter = change -> {
+            // Asegura que la entrada solo contenga números (0-9) y se permita el cambio
+            String text = change.getText();
+            if (text.matches("[0-9]*")) {  // Solo acepta dígitos del 0 al 9
+                return change; // Si el texto es numérico, permite el cambio
+            }
+            return null; // Si no es numérico, no permite el cambio
+        };
+
+        // Crear un TextFormatter con el filtro
+     // Aplicar el filtro a los TextFields ya definidos
+        tFieldX1.setTextFormatter(new TextFormatter<>(numericFilter));
+        tFieldX10.setTextFormatter(new TextFormatter<>(numericFilter));
+        tFieldX100.setTextFormatter(new TextFormatter<>(numericFilter));
+        tFieldX1000.setTextFormatter(new TextFormatter<>(numericFilter));
+        tFieldX2.setTextFormatter(new TextFormatter<>(numericFilter));
+        tFieldX200.setTextFormatter(new TextFormatter<>(numericFilter));
+        tFieldX5.setTextFormatter(new TextFormatter<>(numericFilter));
+        tFieldX50.setTextFormatter(new TextFormatter<>(numericFilter));
+        tFieldX500.setTextFormatter(new TextFormatter<>(numericFilter));
 	}
 
 }
