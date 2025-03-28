@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="738.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.RecoleccionController">
+<AnchorPane prefHeight="738.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.RecoleccionController">
    <children>
       <BorderPane layoutX="188.0" layoutY="185.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -96,7 +96,7 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="tFieldX1000">
+                              <TextField fx:id="tFieldX1000" onKeyTyped="#keytyped">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -125,7 +125,7 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="tFieldX500">
+                              <TextField fx:id="tFieldX500" onKeyTyped="#keytyped">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -154,7 +154,7 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="tFieldX200">
+                              <TextField fx:id="tFieldX200" onKeyTyped="#keytyped">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -183,7 +183,7 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="tFieldX100">
+                              <TextField fx:id="tFieldX100" onKeyTyped="#keytyped">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -212,7 +212,7 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="tFieldX50">
+                              <TextField fx:id="tFieldX50" onKeyTyped="#keytyped">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -241,7 +241,7 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="tFieldX10">
+                              <TextField fx:id="tFieldX10" onKeyTyped="#keytyped">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -270,7 +270,7 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="tFieldX5">
+                              <TextField fx:id="tFieldX5" onKeyTyped="#keytyped">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -299,7 +299,7 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="tFieldX2">
+                              <TextField fx:id="tFieldX2" onKeyTyped="#keytyped">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -328,7 +328,7 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="tFieldX1">
+                              <TextField fx:id="tFieldX1" onKeyTyped="#keytyped">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
