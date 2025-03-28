@@ -10,12 +10,16 @@ import org.springframework.stereotype.Component;
 
 import com.salespointfxadmin.www.model.Sucursal;
 import com.salespointfxadmin.www.model.SucursalRecoleccion;
+import com.salespointfxadmin.www.service.SucursalRecoleccionService;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -24,208 +28,100 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.input.KeyEvent;
+import lombok.RequiredArgsConstructor;
 
 @Component
+@RequiredArgsConstructor
 public class RecoleccionController implements Initializable {
+	private final SucursalRecoleccionService srs;
 
 	@FXML
 	private Button btnBuscar;
-
 	@FXML
 	private Button btnCancelar;
-
 	@FXML
 	private Button btnRegistrar;
-
 	@FXML
 	private TableColumn<SucursalRecoleccion, LocalDateTime> columnFecha;
-
 	@FXML
 	private TableColumn<SucursalRecoleccion, Integer> columnId;
-
 	@FXML
 	private TableColumn<SucursalRecoleccion, Sucursal> columnSucursal;
-
 	@FXML
 	private TableColumn<SucursalRecoleccion, Float> columnTotal;
-
 	@FXML
 	private DatePicker dPickerFin;
-
 	@FXML
 	private DatePicker dPickerInicio;
-
 	@FXML
 	private Label label1;
-
 	@FXML
 	private Label label10;
-
 	@FXML
 	private Label label100;
-
 	@FXML
 	private Label label1000;
-
 	@FXML
 	private Label label2;
-
+	@FXML
+	private Label label20;
 	@FXML
 	private Label label200;
-
 	@FXML
 	private Label label5;
-
 	@FXML
 	private Label label50;
-
 	@FXML
 	private Label label500;
-
 	@FXML
 	private Label labelTotal;
-
 	@FXML
 	private TextField tFieldX1;
-
 	@FXML
 	private TextField tFieldX10;
-
 	@FXML
 	private TextField tFieldX100;
-
 	@FXML
 	private TextField tFieldX1000;
-
 	@FXML
 	private TextField tFieldX2;
-
+	@FXML
+	private TextField tFieldX20;
 	@FXML
 	private TextField tFieldX200;
-
 	@FXML
 	private TextField tFieldX5;
-
 	@FXML
 	private TextField tFieldX50;
-
 	@FXML
 	private TextField tFieldX500;
-
 	@FXML
 	private TableView<SucursalRecoleccion> tViewSucursalRecoleccion;
+	private ObservableList<SucursalRecoleccion> olsr = FXCollections.observableArrayList();
+
+	private final int[] valores = { 1000, 500, 200, 100, 50, 20, 10, 5, 2, 1 };
+	private TextField[] textFields;
+	private Label[] labels;
 
 	@FXML
 	void buscar(ActionEvent event) {
-
 	}
 
 	@FXML
 	void cancelar(ActionEvent event) {
-
 	}
-
-
-	
-    @FXML
-    void keytyped(KeyEvent event) {
-    	try {
-			TextField tf = (TextField) event.getSource();
-			// Verificar si el campo de texto no está vacío
-	        String text = tf.getText().trim();
-	        if (text.isEmpty()) {
-	            return;
-	        }
-
-
-			switch (tf.getId()) {
-			case "tFieldX1000": {
-
-				int numero = Integer.parseInt(tf.getText());
-				int subtotal = numero * 1000;
-				label1000.setText(subtotal + "");
-				break;
-			}
-			case "tFieldX100": {
-
-				int numero = Integer.parseInt(tf.getText());
-				int subtotal = numero * 100;
-				label100.setText(subtotal + "");
-				break;
-			}
-			case "tFieldX10": {
-
-				int numero = Integer.parseInt(tf.getText());
-				int subtotal = numero * 10;
-				label10.setText(subtotal + "");
-				break;
-			}
-			case "tFieldX1": {
-
-				int numero = Integer.parseInt(tf.getText());
-				int subtotal = numero * 1;
-				label1.setText(subtotal + "");
-				break;
-			}
-			case "tFieldX200": {
-
-				int numero = Integer.parseInt(tf.getText());
-				int subtotal = numero * 200;
-				label200.setText(subtotal + "");
-				break;
-			}
-			case "tFieldX500": {
-
-				int numero = Integer.parseInt(tf.getText());
-				int subtotal = numero * 500;
-				label500.setText(subtotal + "");
-				break;
-			}
-			case "tFieldX50": {
-
-				int numero = Integer.parseInt(tf.getText());
-				int subtotal = numero * 50;
-				label50.setText(subtotal + "");
-				break;
-			}
-			case "tFieldX2": {
-
-				int numero = Integer.parseInt(tf.getText());
-				int subtotal = numero * 2;
-				label2.setText(subtotal + "");
-				break;
-			}
-			case "tFieldX5": {
-
-				int numero = Integer.parseInt(tf.getText());
-				int subtotal = numero * 5;
-				label5.setText(subtotal + "");
-				break;
-			}
-			default:
-				break;
-				//throw new NumberFormatException("No e sun numeor al parcer: " + tf.getId());
-			}
-		} catch (NumberFormatException e) {
-			Alert err = new Alert(AlertType.ERROR);
-			err.setTitle("error!!");
-			err.setHeaderText("No es numero al oparcer");
-			err.setContentText(e.getMessage() + "\n" + e.getCause());
-			err.show();
-			//e.printStackTrace();
-		}
-    }
 
 	@FXML
 	void registrar(ActionEvent event) {
-
 	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		iniciarDataPicher();
 		numerosTexfiel();
-
+		seleccinarContenidoTextField();
+		textfieldCantidades();
+		llenarTablaInicial();
 	}
 
 	private void iniciarDataPicher() {
@@ -256,4 +152,67 @@ public class RecoleccionController implements Initializable {
 		tFieldX500.setTextFormatter(new TextFormatter<>(numericFilter));
 	}
 
+	private void seleccinarContenidoTextField() {
+		tFieldX1.setOnMouseClicked(event -> tFieldX1.selectAll());
+		tFieldX10.setOnMouseClicked(event -> tFieldX10.selectAll());
+		tFieldX100.setOnMouseClicked(event -> tFieldX100.selectAll());
+		tFieldX1000.setOnMouseClicked(event -> tFieldX1000.selectAll());
+		tFieldX2.setOnMouseClicked(event -> tFieldX2.selectAll());
+		tFieldX20.setOnMouseClicked(event -> tFieldX20.selectAll());
+		tFieldX200.setOnMouseClicked(event -> tFieldX200.selectAll());
+		tFieldX5.setOnMouseClicked(event -> tFieldX5.selectAll());
+		tFieldX50.setOnMouseClicked(event -> tFieldX5.selectAll());
+		tFieldX500.setOnMouseClicked(event -> tFieldX500.selectAll());
+	}
+
+	private void textfieldCantidades() {
+		TextField[] textFields = { tFieldX1000, tFieldX500, tFieldX200, tFieldX100, tFieldX50, tFieldX20, tFieldX10,
+				tFieldX5, tFieldX2, tFieldX1 };
+		labels = new Label[] { label1000, label500, label200, label100, label50, label20, label10, label5, label2,
+				label1 };
+
+		for (int i = 0; i < textFields.length; i++) {
+			final int index = i;
+			textFields[i].textProperty().addListener((obs, oldValue, newValue) -> {
+				actualizarTotal();
+			});
+		}
+	}
+
+	private void actualizarTotal() {
+		TextField[] textFields = { tFieldX1000, tFieldX500, tFieldX200, tFieldX100, tFieldX50, tFieldX20, tFieldX10,
+				tFieldX5, tFieldX2, tFieldX1 };
+		int total = 0;
+
+		for (int i = 0; i < textFields.length; i++) {
+			try {
+				int cantidad = Integer.parseInt(textFields[i].getText());
+				int subtotal = cantidad * valores[i];
+				labels[i].setText("$" + subtotal); // Actualizar cada Label
+				total += subtotal;
+			} catch (NumberFormatException e) {
+				labels[i].setText("$0"); // Si no es un número, pone $0
+			}
+		}
+
+		labelTotal.setText("Total: $" + total);
+	}
+	
+	private void llenarTablaInicial() {
+		
+		columnId.setCellValueFactory(new PropertyValueFactory<>("idSucursalRecoleccion"));
+		columnId.prefWidthProperty().bind(tViewSucursalRecoleccion.widthProperty().multiply(0.1));
+
+		columnTotal.setCellValueFactory(new PropertyValueFactory<>("TotalRecoleccion"));
+		columnTotal.prefWidthProperty().bind(tViewSucursalRecoleccion.widthProperty().multiply(0.6));
+
+		columnSucursal.setCellValueFactory(new PropertyValueFactory<>("sucursal"));
+		columnSucursal.prefWidthProperty().bind(tViewSucursalRecoleccion.widthProperty().multiply(0.1));
+		
+		columnFecha.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+		columnFecha.prefWidthProperty().bind(tViewSucursalRecoleccion.widthProperty().multiply(0.2));
+		
+		olsr = FXCollections.observableArrayList(srs.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(dPickerInicio.getValue(), dPickerFin.getValue()));
+		tViewSucursalRecoleccion.setItems(olsr);
+	}
 }

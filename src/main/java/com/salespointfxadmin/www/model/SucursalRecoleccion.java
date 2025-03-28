@@ -1,7 +1,7 @@
 package com.salespointfxadmin.www.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -33,9 +33,8 @@ public class SucursalRecoleccion implements Serializable {
 	@Column(nullable = false)
 	private float TotalRecoleccion;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fecha_pedido", nullable = false)
-	private Date fechaPedido;
+	@Column( nullable = false)
+	private LocalDateTime createdAt;
 
 	@JoinColumn(name = "sucursal", referencedColumnName = "idSucursal")
 	@ManyToOne(optional = false)
