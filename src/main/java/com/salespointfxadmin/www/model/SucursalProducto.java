@@ -78,4 +78,11 @@ public class SucursalProducto implements Serializable {
 		this.sucursal = sucursal;
 	}
 
+	public SucursalProducto(Short idSucursalProducto, float inventario, Producto producto) {
+		super();
+		this.idSucursalProducto = idSucursalProducto;
+		this.inventario = inventario;
+		this.producto = producto;
+	}
+
 }

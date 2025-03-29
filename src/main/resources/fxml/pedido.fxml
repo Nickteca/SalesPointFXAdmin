@@ -1,37 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 
 <AnchorPane prefHeight="738.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.PedidoController">
    <children>
-      <VBox layoutX="351.0" layoutY="197.0" prefHeight="738.0" prefWidth="824.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <AnchorPane>
+      <BorderPane layoutX="291.0" layoutY="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <AnchorPane BorderPane.alignment="CENTER">
                <children>
-                  <Label alignment="CENTER" layoutX="398.0" layoutY="92.0" text="PEDIDOS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Label alignment="CENTER" layoutX="398.0" layoutY="92.0" text="PEDIDO" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
-            <AnchorPane>
+         </top>
+         <center>
+            <AnchorPane BorderPane.alignment="CENTER">
+               <children>
+                  <VBox layoutX="362.0" layoutY="142.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                           <children>
+                              <AnchorPane prefWidth="412.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <TableView fx:id="tViewSucursalProducto" layoutX="85.0" layoutY="74.0" onDragDetected="#setOnDragDetected" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <columns>
+                                          <TableColumn fx:id="columnId" prefWidth="75.0" text="ID" />
+                                          <TableColumn fx:id="columnProducto" prefWidth="75.0" text="PRODUCTO" />
+                                          <TableColumn fx:id="columnInventario" prefWidth="75.0" text="INVENTARIO" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane prefWidth="412.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <TableView fx:id="tViewPedido" editable="true" layoutX="106.0" layoutY="243.0" onDragDropped="#setOnDragDropped" onDragOver="#setOnDragOver" prefHeight="686.0" prefWidth="412.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                                        <TableColumn fx:id="columnPedidoId" editable="false" prefWidth="75.0" sortable="false" text="ID" />
+                                        <TableColumn fx:id="columnPedidoProducto" editable="false" prefWidth="75.0" sortable="false" text="PRODUCTO" />
+                                          <TableColumn fx:id="columnPedidoCantidad" prefWidth="75.0" sortable="false" text="CANTIDAD" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </center>
+         <bottom>
+            <AnchorPane BorderPane.alignment="CENTER">
                <children>
                   <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <AnchorPane HBox.hgrow="ALWAYS">
-                           <children>
-                              <ListView fx:id="lViewProductos" />
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane HBox.hgrow="ALWAYS" />
+                        <Button fx:id="btnEnviar" mnemonicParsing="false" onAction="#enviar" text="Enviar" />
+                        <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
                      </children>
                   </HBox>
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" />
-         </children>
-      </VBox>
+         </bottom>
+      </BorderPane>
    </children>
 </AnchorPane>
