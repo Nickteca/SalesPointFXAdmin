@@ -29,7 +29,7 @@ public class Billete implements Serializable {
 	private Integer idBillete;
 
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	private BilleteValor billete;
 
 	@Column(nullable = false)

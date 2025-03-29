@@ -143,7 +143,7 @@ public class RecoleccionController implements Initializable {
 			labels[i].setText("$0"); // Actualizar cada Label
 
 		}
-
+		tViewSucursalRecoleccion.getSelectionModel().clearSelection();
 		labelTotal.setText("$0");
 	}
 
@@ -162,6 +162,9 @@ public class RecoleccionController implements Initializable {
 					Billete b = new Billete(null, BilleteValor.valueOf(denominacion[i]), cantidad, subtotal, sr);
 					lb.add(b);
 				}
+			}
+			if(total<=0) {
+				throw new Exception("Al parecer no hay billetes capturados");
 			}
 			sr.setIdSucursalRecoleccion(null);
 			sr.setTotalRecoleccion(total);
@@ -227,7 +230,7 @@ public class RecoleccionController implements Initializable {
 		tFieldX20.setOnMouseClicked(event -> tFieldX20.selectAll());
 		tFieldX200.setOnMouseClicked(event -> tFieldX200.selectAll());
 		tFieldX5.setOnMouseClicked(event -> tFieldX5.selectAll());
-		tFieldX50.setOnMouseClicked(event -> tFieldX5.selectAll());
+		tFieldX50.setOnMouseClicked(event -> tFieldX50.selectAll());
 		tFieldX500.setOnMouseClicked(event -> tFieldX500.selectAll());
 	}
 

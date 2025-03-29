@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
 
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 
@@ -127,7 +129,8 @@ public class SucursalRecoleccionEditController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		lsitenerTextField();
-
+		numerosTexfiel();
+		seleccinarContenidoTextField();
 	}
 
 	public void cargarBilletes(SucursalRecoleccion sr) {
@@ -231,5 +234,39 @@ public class SucursalRecoleccionEditController implements Initializable {
 		}
 
 		labelTotal.setText("" + total);
+	}
+	private void numerosTexfiel() {
+		UnaryOperator<TextFormatter.Change> numericFilter = change -> {
+			// Asegura que la entrada solo contenga números (0-9) y se permita el cambio
+			String text = change.getText();
+			if (text.matches("[0-9]*")) { // Solo acepta dígitos del 0 al 9
+				return change; // Si el texto es numérico, permite el cambio
+			}
+			return null; // Si no es numérico, no permite el cambio
+		};
+
+		// Crear un TextFormatter con el filtro
+		// Aplicar el filtro a los TextFields ya definidos
+		tField1.setTextFormatter(new TextFormatter<>(numericFilter));
+		tField10.setTextFormatter(new TextFormatter<>(numericFilter));
+		tField100.setTextFormatter(new TextFormatter<>(numericFilter));
+		tField1000.setTextFormatter(new TextFormatter<>(numericFilter));
+		tField2.setTextFormatter(new TextFormatter<>(numericFilter));
+		tField200.setTextFormatter(new TextFormatter<>(numericFilter));
+		tField5.setTextFormatter(new TextFormatter<>(numericFilter));
+		tField50.setTextFormatter(new TextFormatter<>(numericFilter));
+		tField500.setTextFormatter(new TextFormatter<>(numericFilter));
+	}
+	private void seleccinarContenidoTextField() {
+		tField1.setOnMouseClicked(event -> tField1.selectAll());
+		tField10.setOnMouseClicked(event -> tField10.selectAll());
+		tField100.setOnMouseClicked(event -> tField100.selectAll());
+		tField1000.setOnMouseClicked(event -> tField1000.selectAll());
+		tField2.setOnMouseClicked(event -> tField2.selectAll());
+		tField20.setOnMouseClicked(event -> tField20.selectAll());
+		tField200.setOnMouseClicked(event -> tField200.selectAll());
+		tField5.setOnMouseClicked(event -> tField5.selectAll());
+		tField50.setOnMouseClicked(event -> tField50.selectAll());
+		tField500.setOnMouseClicked(event -> tField500.selectAll());
 	}
 }
