@@ -50,8 +50,12 @@ public class SucursalProductoService {
 			spr.save(new SucursalProducto(0, 0, true, producto, new Categoria((short) 1), sucursal));
 		}
 	}
-	
+
 	public SucursalProducto findBySucursalAndProductoNombreProducto(Sucursal sucursal, String nombre) {
 		return spr.findBySucursalAndProductoNombreProducto(sucursal, nombre);
+	}
+
+	public SucursalProducto findBySucursalEstatusSucursalTrueAndIdSucursalProducto(Short idScuursalPrducto) {
+		return spr.findBySucursalEstatusSucursalTrueAndIdSucursalProducto(idScuursalPrducto);
 	}
 }

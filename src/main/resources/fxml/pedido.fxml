@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="738.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.PedidoController">
+<AnchorPane prefHeight="738.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.PedidoController">
    <children>
       <BorderPane layoutX="291.0" layoutY="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -47,9 +46,9 @@
                                  <children>
                                     <TableView fx:id="tViewPedido" editable="true" layoutX="106.0" layoutY="243.0" onDragDropped="#setOnDragDropped" onDragOver="#setOnDragOver" prefHeight="686.0" prefWidth="412.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <columns>
-                                        <TableColumn fx:id="columnPedidoId" editable="false" prefWidth="75.0" sortable="false" text="ID" />
-                                        <TableColumn fx:id="columnPedidoProducto" editable="false" prefWidth="75.0" sortable="false" text="PRODUCTO" />
-                                          <TableColumn fx:id="columnPedidoCantidad" prefWidth="75.0" sortable="false" text="CANTIDAD" />
+                                        <TableColumn fx:id="columnIdSucursalProductoPedidoDetalle" editable="false" prefWidth="75.0" sortable="false" text="ID" />
+                                        <TableColumn fx:id="columnProductoPedido" editable="false" prefWidth="75.0" sortable="false" text="PRODUCTO" />
+                                          <TableColumn fx:id="columnCantidadPedido" prefWidth="75.0" sortable="false" text="CANTIDAD" />
                                       </columns>
                                     </TableView>
                                  </children>
