@@ -24,9 +24,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -43,6 +47,11 @@ import lombok.RequiredArgsConstructor;
 public class PedidoController implements Initializable {
 	private final SucursalProductoService sps;
 	private final SucursalPedidoService spedidos;
+
+	@FXML
+	private ContextMenu cMenu;
+	@FXML
+	private MenuItem mItem;
 
 	@FXML
 	private Button btnCancelar;
@@ -70,6 +79,15 @@ public class PedidoController implements Initializable {
 	@FXML
 	private TableView<SucursalPedidoDetalle> tViewPedido;
 	private ObservableList<SucursalPedidoDetalle> olspd = FXCollections.observableArrayList();
+
+	@FXML
+	void eliminarRegistro(ActionEvent event) {
+		SucursalPedidoDetalle spd = tViewPedido.getSelectionModel().getSelectedItem();
+		if (spd != null) {
+			olspd.remove(spd);
+			tViewPedido.getSelectionModel().clearSelection();
+		}
+	}
 
 	@FXML
 	void cancelar(ActionEvent event) {
@@ -122,56 +140,68 @@ public class PedidoController implements Initializable {
 
 	@FXML
 	void setOnDragDropped(DragEvent event) {
-		Dragboard db = event.getDragboard();
-		boolean success = false;
+		try {
+			Dragboard db = event.getDragboard();
+			boolean success = false;
 
-		if (db.hasString()) {
-			String[] data = db.getString().split(","); // Deserializar datos
-			// Crear el diálogo
-			TextInputDialog dialog = new TextInputDialog();
-			dialog.setTitle("Entrada de Cantidad");
-			dialog.setHeaderText(data[1] + ":");
-			dialog.setContentText("Cantidad:");
-			// Mostrar el diálogo y esperar la respuesta
-			Optional<String> result = dialog.showAndWait();
-			result.ifPresentOrElse(cantidad -> {
-				// VARIABLE SQUE COPUMANO
-				float cantidadFloat = Float.parseFloat(cantidad);
-				Short idScursalProducto = Short.parseShort(data[0]);
+			if (db.hasString()) {
+				String[] data = db.getString().split(","); // Deserializar datos
+				// Crear el diálogo
+				TextInputDialog dialog = new TextInputDialog();
+				dialog.setTitle("Entrada de Cantidad");
+				dialog.setHeaderText(data[1] + ":");
+				dialog.setContentText("Cantidad:");
+				// Mostrar el diálogo y esperar la respuesta
+				Optional<String> result = dialog.showAndWait();
+				result.ifPresentOrElse(cantidad -> {
+					// VARIABLE SQUE COPUMANO
+					float cantidadFloat = Float.parseFloat(cantidad);
+					Short idScursalProducto = Short.parseShort(data[0]);
 
-				// Buscar si el producto ya está en la lista
-				boolean existe = olspd.stream().anyMatch(spd -> spd.getSucursalProducto().getIdSucursalProducto().equals(idScursalProducto));
+					// Buscar si el producto ya está en la lista
+					boolean existe = olspd.stream().anyMatch(
+							spd -> spd.getSucursalProducto().getIdSucursalProducto().equals(idScursalProducto));
 
-				if (existe) {
-					Alert alerta = new Alert(AlertType.WARNING);
-					alerta.setTitle("Producto Duplicado");
-					alerta.setHeaderText(null);
-					alerta.setContentText("Este producto ya fue agregado.");
-					alerta.show();
-				} else {
-					SucursalPedidoDetalle nuevoProducto = new SucursalPedidoDetalle(null, cantidadFloat, sps.findBySucursalEstatusSucursalTrueAndIdSucursalProducto(idScursalProducto));
+					if (existe) {
+						Alert alerta = new Alert(AlertType.WARNING);
+						alerta.setTitle("Producto Duplicado");
+						alerta.setHeaderText(null);
+						alerta.setContentText("Este producto ya fue agregado.");
+						alerta.show();
+					} else {
+						SucursalPedidoDetalle nuevoProducto = new SucursalPedidoDetalle(null, cantidadFloat,
+								sps.findBySucursalEstatusSucursalTrueAndIdSucursalProducto(idScursalProducto));
 
-					olspd.add(nuevoProducto);
-					tViewPedido.setItems(olspd);
-				}
-				// olspd.add(nuevoProducto);
-				// tViewPedido.setItems(olspd);
-				// tViewPedido.getItems().add(nuevoProducto); // Agregar a la segunda tabla
-				// tableView1.getItems().removeIf(p -> p.getNombre().equals(data[0])); //
-				// Eliminar de la primera tabla
+						olspd.add(nuevoProducto);
+						tViewPedido.setItems(olspd);
+					}
+					// olspd.add(nuevoProducto);
+					// tViewPedido.setItems(olspd);
+					// tViewPedido.getItems().add(nuevoProducto); // Agregar a la segunda tabla
+					// tableView1.getItems().removeIf(p -> p.getNombre().equals(data[0])); //
+					// Eliminar de la primera tabla
 
-			}, () -> {
-				Alert error2 = new Alert(AlertType.ERROR);
-				error2.setTitle("Error!!!");
-				error2.setContentText("Entrada inválida. Por favor ingrese un número.");
-				error2.setContentText("Al parece rno as introducido nada");
-				error2.show();
-			});
-			success = true;
+				}, () -> {
+					Alert error2 = new Alert(AlertType.ERROR);
+					error2.setTitle("Error!!!");
+					error2.setContentText("Entrada inválida. Por favor ingrese un número.");
+					error2.setContentText("Al parece rno as introducido nada");
+					error2.show();
+					return;
+				});
+				success = true;
+			}
+
+			event.setDropCompleted(success);
+			event.consume();
+		} catch (Exception e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Error!!!");
+			error.setContentText("Entrada inválida. Por favor ingrese un número.");
+			error.setContentText(
+					"Al parece rno as introducido nada o no es numero:\n" + e.getMessage() + "\n" + e.getCause());
+			error.show();
 		}
-
-		event.setDropCompleted(success);
-		event.consume();
 	}
 
 	@FXML
@@ -181,12 +211,6 @@ public class PedidoController implements Initializable {
 		}
 		event.consume();
 	}
-	/*
-	 * @FXML void setOnEditCommit(CellEditEvent<SucursalProducto, Float> event) {
-	 * SucursalProducto producto = event.getRowValue(); // Obtener el producto de la
-	 * fila editada producto.setInventario(event.getNewValue()); // Actualizar la
-	 * cantidad tViewPedido.refresh(); // Refrescar la tabla }
-	 */
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -210,7 +234,8 @@ public class PedidoController implements Initializable {
 
 	private void iniciarTablap() {
 		tViewPedido.setEditable(true);
-		columnIdSucursalProductoPedidoDetalle.setCellValueFactory(new PropertyValueFactory<>("idSucursalPedidoDetalle"));
+		columnIdSucursalProductoPedidoDetalle
+				.setCellValueFactory(new PropertyValueFactory<>("idSucursalPedidoDetalle"));
 		columnIdSucursalProductoPedidoDetalle.prefWidthProperty().bind(tViewPedido.widthProperty().multiply(0.1));
 
 		columnProductoPedido.setCellValueFactory(new PropertyValueFactory<>("sucursalProducto"));
@@ -220,13 +245,27 @@ public class PedidoController implements Initializable {
 		columnCantidadPedido.prefWidthProperty().bind(tViewPedido.widthProperty().multiply(0.2));
 		// Establecer el comportamiento de edición y formateo
 		columnCantidadPedido.setCellFactory(col -> {
-			// Habilitar la edición y aplicar el formateo al valor
 			return new TextFieldTableCell<SucursalPedidoDetalle, Float>(new FloatStringConverter()) {
+				@Override
+				public void startEdit() {
+					super.startEdit();
+					if (getGraphic() instanceof TextField textField) {
+						// Aplicar el filtro para solo permitir números con decimales
+						textField.setTextFormatter(new TextFormatter<>(change -> {
+							String newText = change.getControlNewText();
+							if (newText.matches("\\d*\\.?\\d*")) { // Solo números y un punto decimal
+								return change;
+							} else {
+								return null; // Rechazar cambios inválidos
+							}
+						}));
+					}
+				}
+
 				@Override
 				public void updateItem(Float item, boolean empty) {
 					super.updateItem(item, empty);
 					if (item != null && !empty) {
-						// Formatear el valor como número con dos decimales
 						DecimalFormat df = new DecimalFormat("#.##");
 						setText(df.format(item));
 					} else {
@@ -236,11 +275,20 @@ public class PedidoController implements Initializable {
 			};
 		});
 
-		// Establecer el comportamiento de commit (guardar el valor editado)
+		// Establecer el comportamiento de commit
 		columnCantidadPedido.setOnEditCommit((CellEditEvent<SucursalPedidoDetalle, Float> event) -> {
-			SucursalPedidoDetalle sucursalPedidoDetalle = event.getRowValue(); // Obtener el producto de la fila editada
-			sucursalPedidoDetalle.setCantidad(event.getNewValue()); // Actualizar la cantidad
-			tViewPedido.refresh(); // Refrescar la tabla
+			try {
+				Float newValue = event.getNewValue();
+				if (newValue != null) {
+					event.getRowValue().setCantidad(newValue);
+					tViewPedido.refresh();
+				} else {
+					throw new NumberFormatException("El valor ingresado no es válido");
+				}
+			} catch (NumberFormatException e) {
+				// Manejar el error si el usuario ingresó un valor no válido
+				System.out.println("Error: Ingrese un valor numérico válido.");
+			}
 		});
 
 	}
