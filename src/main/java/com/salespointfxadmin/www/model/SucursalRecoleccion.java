@@ -29,7 +29,7 @@ public class SucursalRecoleccion implements Serializable {
 	private Integer idSucursalRecoleccion;
 
 	@Column(nullable = false)
-	private int TotalRecoleccion;
+	private float TotalRecoleccion;
 
 	@Column(nullable = false)
 	private LocalDateTime createdAt;
