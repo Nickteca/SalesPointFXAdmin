@@ -2,6 +2,7 @@ package com.salespointfxadmin.www.controller;
 
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +11,7 @@ import java.util.ResourceBundle;
 import org.springframework.stereotype.Component;
 
 import com.salespointfxadmin.www.model.Producto;
+import com.salespointfxadmin.www.model.Sucursal;
 import com.salespointfxadmin.www.model.SucursalPedido;
 import com.salespointfxadmin.www.model.SucursalPedidoDetalle;
 import com.salespointfxadmin.www.model.SucursalProducto;
@@ -79,6 +81,16 @@ public class PedidoController implements Initializable {
 	@FXML
 	private TableView<SucursalPedidoDetalle> tViewPedido;
 	private ObservableList<SucursalPedidoDetalle> olspd = FXCollections.observableArrayList();
+	
+    @FXML
+    private TableColumn<SucursalPedido, LocalDateTime> columnCreatedAtSucursalPedido;
+    @FXML
+    private TableColumn<SucursalPedido, Integer> columnIdSucursalPeido;
+    @FXML
+    private TableColumn<SucursalPedido, Sucursal> columnSucursalSucursakPedido;
+    @FXML
+    private TableView<SucursalPedido> tViewSucusalPedido;
+    private ObservableList<SucursalPedido> olspTable = FXCollections.observableArrayList();
 
 	@FXML
 	void eliminarRegistro(ActionEvent event) {
@@ -213,6 +225,19 @@ public class PedidoController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		iniciarTablaSp();
 		iniciarTablap();
+	}
+	
+	private void iniciarTablaPedidos() {
+		columnCreatedAtSucursalPedido.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+		columnCreatedAtSucursalPedido.prefWidthProperty().bind(tViewSucusalPedido.widthProperty().multiply(0.1));
+
+		columnIdSucursalPeido.setCellValueFactory(new PropertyValueFactory<>("SucursalPedido"));
+		columnIdSucursalPeido.prefWidthProperty().bind(tViewSucusalPedido.widthProperty().multiply(0.3));
+
+		columnSucursalSucursakPedido.setCellValueFactory(new PropertyValueFactory<>("sucursal"));
+		columnSucursalSucursakPedido.prefWidthProperty().bind(tViewSucusalPedido.widthProperty().multiply(0.2));
+		
+		
 	}
 
 	private void iniciarTablaSp() {

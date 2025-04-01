@@ -31,7 +31,7 @@
                <children>
                   <VBox layoutX="362.0" layoutY="142.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <HBox alignment="CENTER">
+                        <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
                            <children>
                               <AnchorPane HBox.hgrow="ALWAYS">
                                  <children>
@@ -86,6 +86,17 @@
                               </AnchorPane>
                            </children>
                         </HBox>
+                        <AnchorPane VBox.vgrow="ALWAYS">
+                           <children>
+                              <TableView fx:id="tViewSucusalPedido" layoutX="347.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                  <TableColumn fx:id="columnIdSucursalPeido" prefWidth="75.0" text="ID" />
+                                  <TableColumn fx:id="columnSucursalSucursakPedido" prefWidth="75.0" text="SUCURSAL" />
+                                    <TableColumn fx:id="columnCreatedAtSucursalPedido" prefWidth="75.0" text="CREATEDAT" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
                      </children>
                   </VBox>
                </children>
