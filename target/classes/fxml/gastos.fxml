@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="738.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.GastoController">
+<AnchorPane prefHeight="738.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.GastoController">
    <children>
       <BorderPane layoutX="312.0" layoutY="97.0" prefHeight="738.0" prefWidth="824.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -91,6 +91,7 @@
                                     <DatePicker fx:id="dPickerFin" layoutX="41.0" layoutY="10.0" />
                                     <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#buscar" text="Buscar" />
                                     <Button fx:id="btnRegistrarGasto" mnemonicParsing="false" onAction="#registrarGasto" text="Nuevo Gasto" />
+                                    <Button fx:id="btnimprimir" mnemonicParsing="false" onAction="#imprimir" text="Imprimir" />
                                  </children>
                               </HBox>
                            </children>

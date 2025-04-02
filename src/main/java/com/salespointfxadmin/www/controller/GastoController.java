@@ -46,11 +46,12 @@ public class GastoController implements Initializable {
 
 	@FXML
 	private Button btnCancelar;
-
 	@FXML
 	private Button btnGuardar;
 	@FXML
 	private Button btnRegistrarGasto;
+    @FXML
+    private Button btnimprimir;
 
 	@FXML
 	private TableColumn<Gasto, String> columnDescripcinGasto;
@@ -115,7 +116,12 @@ public class GastoController implements Initializable {
 
 	@FXML
 	void buscar(ActionEvent event) {
-
+		try {
+			olsg = FXCollections.observableArrayList(sgs.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(dPickerInicio.getValue(), dPickerFin.getValue()));
+			tViewSucursalGasto.setItems(olsg);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	@FXML
@@ -152,6 +158,22 @@ public class GastoController implements Initializable {
 			limpiar();
 		}
 	}
+    @FXML
+    void imprimir(ActionEvent event) {
+    	try {
+			SucursalGasto sg= tViewSucursalGasto.getSelectionModel().getSelectedItem();
+			if(sg !=null) {
+				sgs.imprimir(sg);
+			}
+		} catch (Exception e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Erro al imprimir");
+			error.setHeaderText("No se puede imprimir el gasto");
+			error.setContentText(e.getMessage() + "\n" + e.getCause());
+		} finally {
+			tViewSucursalGasto.getSelectionModel().clearSelection();
+		}
+    }
 
 	@FXML
 	void registrarGasto(ActionEvent event) {
@@ -248,7 +270,7 @@ public class GastoController implements Initializable {
 		if (!olsg.isEmpty()) {
 			olsg.clear();
 		}
-		olsg = FXCollections.observableArrayList(sgs.findByCreatedAt(dPickerInicio.getValue(), dPickerFin.getValue()));
+		olsg = FXCollections.observableArrayList(sgs.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(dPickerInicio.getValue(), dPickerFin.getValue()));
 		tViewSucursalGasto.setItems(olsg);
 	}
 

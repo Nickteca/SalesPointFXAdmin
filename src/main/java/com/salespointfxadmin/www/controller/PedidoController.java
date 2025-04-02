@@ -2,6 +2,7 @@ package com.salespointfxadmin.www.controller;
 
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -56,10 +58,18 @@ public class PedidoController implements Initializable {
 	private MenuItem mItem;
 
 	@FXML
-	private Button btnCancelar;
+	private DatePicker dPickerFin;
+	@FXML
+	private DatePicker dPicketInicio;
 
 	@FXML
+	private Button btnCancelar;
+	@FXML
 	private Button btnEnviar;
+	@FXML
+	private Button btnBuscar;
+	@FXML
+	private Button btnImprimir;
 
 	@FXML
 	private TableColumn<SucursalProducto, Short> columnId;
@@ -81,16 +91,52 @@ public class PedidoController implements Initializable {
 	@FXML
 	private TableView<SucursalPedidoDetalle> tViewPedido;
 	private ObservableList<SucursalPedidoDetalle> olspd = FXCollections.observableArrayList();
-	
-    @FXML
-    private TableColumn<SucursalPedido, LocalDateTime> columnCreatedAtSucursalPedido;
-    @FXML
-    private TableColumn<SucursalPedido, Integer> columnIdSucursalPeido;
-    @FXML
-    private TableColumn<SucursalPedido, Sucursal> columnSucursalSucursakPedido;
-    @FXML
-    private TableView<SucursalPedido> tViewSucusalPedido;
-    private ObservableList<SucursalPedido> olspTable = FXCollections.observableArrayList();
+
+	@FXML
+	private TableColumn<SucursalPedido, LocalDateTime> columnCreatedAtSucursalPedido;
+	@FXML
+	private TableColumn<SucursalPedido, Integer> columnIdSucursalPeido;
+	@FXML
+	private TableColumn<SucursalPedido, Sucursal> columnSucursalSucursakPedido;
+	@FXML
+	private TableView<SucursalPedido> tViewSucusalPedido;
+	private ObservableList<SucursalPedido> olspTable = FXCollections.observableArrayList();
+
+	@FXML
+	void buscar(ActionEvent event) {
+		try {
+			olspTable = FXCollections.observableArrayList(
+					spedidos.fingBySucursalEstatusSucursalTrueAndCreatedatBeetween(dPicketInicio.getValue(),
+							dPickerFin.getValue()));
+			tViewSucusalPedido.setItems(olspTable);
+		} catch (Exception e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Error!");
+			error.setHeaderText("No se puede buscar");
+			error.setContentText(e.getMessage() + "\n" + e.getCause());
+			error.show();
+		}
+	}
+
+	@FXML
+	void imprimir(ActionEvent event) {
+		try {
+			SucursalPedido sp = tViewSucusalPedido.getSelectionModel().getSelectedItem();
+			if (sp != null) {
+				spedidos.imprimir(sp);
+			}else {
+				throw new Exception("Seleccione un pedido de la lista");
+			}
+		} catch (Exception e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Error!");
+			error.setHeaderText("Hno s epued eimprimir");
+			error.setContentText(e.getMessage() + "\n" + e.getCause());
+			error.show();
+		} finally {
+			tViewSucusalPedido.getSelectionModel().clearSelection();
+		}
+	}
 
 	@FXML
 	void eliminarRegistro(ActionEvent event) {
@@ -134,6 +180,8 @@ public class PedidoController implements Initializable {
 			error.setHeaderText("NO se registro");
 			error.setContentText(e.getMessage() + "\n" + e.getCause());
 			error.show();
+		} finally {
+			btnBuscar.fire();
 		}
 	}
 
@@ -171,7 +219,8 @@ public class PedidoController implements Initializable {
 					Short idScursalProducto = Short.parseShort(data[0]);
 
 					// Buscar si el producto ya está en la lista
-					boolean existe = olspd.stream().anyMatch(spd -> spd.getSucursalProducto().getIdSucursalProducto().equals(idScursalProducto));
+					boolean existe = olspd.stream().anyMatch(
+							spd -> spd.getSucursalProducto().getIdSucursalProducto().equals(idScursalProducto));
 
 					if (existe) {
 						Alert alerta = new Alert(AlertType.WARNING);
@@ -180,7 +229,8 @@ public class PedidoController implements Initializable {
 						alerta.setContentText("Este producto ya fue agregado.");
 						alerta.show();
 					} else {
-						SucursalPedidoDetalle nuevoProducto = new SucursalPedidoDetalle(null, cantidadFloat, sps.findBySucursalEstatusSucursalTrueAndIdSucursalProducto(idScursalProducto));
+						SucursalPedidoDetalle nuevoProducto = new SucursalPedidoDetalle(null, cantidadFloat,
+								sps.findBySucursalEstatusSucursalTrueAndIdSucursalProducto(idScursalProducto));
 
 						olspd.add(nuevoProducto);
 						tViewPedido.setItems(olspd);
@@ -208,7 +258,8 @@ public class PedidoController implements Initializable {
 			Alert error = new Alert(AlertType.ERROR);
 			error.setTitle("Error!!!");
 			error.setContentText("Entrada inválida. Por favor ingrese un número.");
-			error.setContentText("Al parece rno as introducido nada o no es numero:\n" + e.getMessage() + "\n" + e.getCause());
+			error.setContentText(
+					"Al parece rno as introducido nada o no es numero:\n" + e.getMessage() + "\n" + e.getCause());
 			error.show();
 		}
 	}
@@ -225,8 +276,15 @@ public class PedidoController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		iniciarTablaSp();
 		iniciarTablap();
+		iniciarTablaPedidos();
+		iniciardataPicker();
 	}
-	
+
+	private void iniciardataPicker() {
+		dPickerFin.setValue(LocalDate.now());
+		dPicketInicio.setValue(LocalDate.now());
+	}
+
 	private void iniciarTablaPedidos() {
 		columnCreatedAtSucursalPedido.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
 		columnCreatedAtSucursalPedido.prefWidthProperty().bind(tViewSucusalPedido.widthProperty().multiply(0.1));
@@ -236,8 +294,10 @@ public class PedidoController implements Initializable {
 
 		columnSucursalSucursakPedido.setCellValueFactory(new PropertyValueFactory<>("sucursal"));
 		columnSucursalSucursakPedido.prefWidthProperty().bind(tViewSucusalPedido.widthProperty().multiply(0.2));
-		
-		
+
+		olspTable = FXCollections.observableArrayList(
+				spedidos.fingBySucursalEstatusSucursalTrueAndCreatedatBeetween(LocalDate.now(), LocalDate.now()));
+		tViewSucusalPedido.setItems(olspTable);
 	}
 
 	private void iniciarTablaSp() {
@@ -257,7 +317,8 @@ public class PedidoController implements Initializable {
 	private void iniciarTablap() {
 		olspd.clear();
 		tViewPedido.setEditable(true);
-		columnIdSucursalProductoPedidoDetalle.setCellValueFactory(new PropertyValueFactory<>("idSucursalPedidoDetalle"));
+		columnIdSucursalProductoPedidoDetalle
+				.setCellValueFactory(new PropertyValueFactory<>("idSucursalPedidoDetalle"));
 		columnIdSucursalProductoPedidoDetalle.prefWidthProperty().bind(tViewPedido.widthProperty().multiply(0.1));
 
 		columnProductoPedido.setCellValueFactory(new PropertyValueFactory<>("sucursalProducto"));
