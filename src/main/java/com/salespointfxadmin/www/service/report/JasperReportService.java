@@ -3,11 +3,17 @@ package com.salespointfxadmin.www.service.report;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.sql.DataSource;
+
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+
 import lombok.RequiredArgsConstructor;
-import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 @Service
@@ -15,21 +21,22 @@ import net.sf.jasperreports.engine.util.JRLoader;
 public class JasperReportService {
 	private final DataSource dataSource;
 
-  
+	public byte[] generateReport(Integer idPedido) throws Exception {
+		// Cargar el archivo .jasper
+		InputStream reportStream = new ClassPathResource("/pdf/Simple_Blue_Table_Based.jasper").getInputStream();
+		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(reportStream);
 
-    public byte[] generateReport(Integer idPedido) throws Exception {
-        // Cargar el archivo .jasper
-        InputStream reportStream =  new ClassPathResource("/pdf/PedidoReport.jasper").getInputStream();
-        JasperReport jasperReport = (JasperReport) JRLoader.loadObject(reportStream);
+		// Configurar parámetros
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("idP", idPedido); // Pasar el parámetro
+		parameters.put("REPORT_CONNECTION", dataSource.getConnection());
 
-        // Configurar parámetros
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("idP", idPedido); // Pasar el parámetro
+		// Llenar el reporte con datos
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource.getConnection());
+		// JasperViewer.viewReport(jasperPrint, false);
+		System.out.println("Conexión a la base de datos: " + dataSource.getConnection());
 
-        // Llenar el reporte con datos
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource.getConnection());
-
-        // Exportar a PDF
-        return JasperExportManager.exportReportToPdf(jasperPrint);
-    }
+		// Exportar a PDF
+		return JasperExportManager.exportReportToPdf(jasperPrint);
+	}
 }

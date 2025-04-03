@@ -1,7 +1,5 @@
 package com.salespointfxadmin.www.service;
 
-
-import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.time.LocalDate;
@@ -34,27 +32,28 @@ public class SucursalPedidoService {
 		sp.setCreatedAt(LocalDateTime.now());
 		sp.setSucursal(ss.getSucursalActive());
 		p.imprimirPedido(sp);
-		
+
 		return spr.save(sp);
 	}
-	
-	public List<SucursalPedido> fingBySucursalEstatusSucursalTrueAndCreatedatBeetween(LocalDate inicio, LocalDate fin){
-		return spr.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(inicio.atStartOfDay(), fin.atTime(23,59,59));
+
+	public List<SucursalPedido> fingBySucursalEstatusSucursalTrueAndCreatedatBeetween(LocalDate inicio, LocalDate fin) {
+		return spr.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(inicio.atStartOfDay(), fin.atTime(23, 59, 59));
 	}
-	
+
 	public void imprimir(SucursalPedido sp) {
 		List<SucursalPedidoDetalle> lspd = spdr.findBySucursalPedido(sp);
 		sp.setListSucursalpedidoDetalle(lspd);
 		p.imprimirPedido(sp);
 		try {
-	        byte[] pdf = jrs.generateReport(sp.getSucursalPedido());
-	        File file = new File("pedido_" + sp.getSucursalPedido() + ".pdf");
-	        try (FileOutputStream fos = new FileOutputStream(file)) {
-	            fos.write(pdf);
-	        }
-	        System.out.println("Reporte generado en: " + new File("reporte.pdf").getAbsolutePath());
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
+			byte[] pdf = jrs.generateReport(sp.getSucursalPedido());
+			File file = new File("pedido_" + sp.getSucursalPedido() + ".pdf");
+			try (FileOutputStream fos = new FileOutputStream(file)) {
+				fos.write(pdf);
+			}
+			System.out.println("Reporte generado en: " + file.getAbsolutePath());
+			System.out.println("Este es Id:" + sp.getSucursalPedido());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
