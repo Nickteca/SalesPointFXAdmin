@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="768.0" prefWidth="824.0" stylesheets="@../css/productos.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.ProductoController">
+   <children>
+      <BorderPane layoutX="229.0" layoutY="104.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <VBox spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="20.0">
+                     <children>
+                        <Label text="BUSCAR:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="tFieldBuscar" prefHeight="25.0" prefWidth="217.0" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </HBox>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <TableView fx:id="tVeiwSucursalProductos" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                            <TableColumn fx:id="columnId" prefWidth="75.0" style="-fx-alignment: center;" text="ID" />
+                            <TableColumn fx:id="columnDescripcion" prefWidth="102.0" text="DESCRIPCION" />
+                              <TableColumn fx:id="columnCategoria" prefWidth="126.0" style="-fx-alignment: center;" text="CATEGORIA" />
+                              <TableColumn fx:id="columnPrecio" minWidth="0.0" prefWidth="279.0" style="-fx-alignment: center;" text="PRECIO" />
+                              <TableColumn fx:id="columnInventario" minWidth="0.0" prefWidth="106.0" style="-fx-alignment: center;" text="INVENTARIO" />
+                              <TableColumn fx:id="columnVendible" prefWidth="75.0" style="-fx-alignment: center;" text="VENDIBLE" />
+                          </columns>
+                        </TableView>
+                     </children>
+                     <styleClass>
+                        <String fx:value="banner-bg" />
+                        <String fx:value="radius" />
+                        <String fx:value="shadow" />
+                     </styleClass>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding></AnchorPane>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <VBox layoutX="345.0" layoutY="14.0" prefHeight="256.0" prefWidth="824.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <AnchorPane>
+                                 <children>
+                                    <Label alignment="CENTER" layoutX="398.0" layoutY="53.0" styleClass="titulo" text="PRODUCTO" textFill="#faf3e0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <VBox layoutX="384.0" layoutY="56.0" prefHeight="388.0" prefWidth="824.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                             <children>
+                                                <Label text="ID:">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="tFieldId" editable="false" prefHeight="25.0" prefWidth="79.0" />
+                                                <Label text="DESCRIPCIN:">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="tFieldDescripcion" prefHeight="25.0" prefWidth="212.0" />
+                                                <Label text="CATEGORIA">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <ChoiceBox fx:id="cBoxCategoria" prefWidth="150.0" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                                             <children>
+                                                <Label text="PRECIO:">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="tFieldPrecio" prefHeight="25.0" prefWidth="97.0" />
+                                                <Label text="INVENTARIO:">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="tFieldInventario" />
+                                                <CheckBox fx:id="cBoxVendible" mnemonicParsing="false" text="VENDIBLE" />
+                                                <Button fx:id="buttonGuardar" mnemonicParsing="false" onAction="#guardar" text="GUARDAR">
+                                                   <graphic>
+                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" smooth="false">
+                                                         <image>
+                                                            <Image url="@../img/Save.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </graphic>
+                                                </Button>
+                                                <Button fx:id="buttonCancelar" mnemonicParsing="false" onAction="#cancelar" text="CANCELAR">
+                                                   <graphic>
+                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" smooth="false">
+                                                         <image>
+                                                            <Image url="@../img/Cancel.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </graphic>
+                                                </Button>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </VBox>
+                     </children>
+                     <styleClass>
+                        <String fx:value="banner-bg" />
+                        <String fx:value="radius" />
+                        <String fx:value="shadow" />
+                     </styleClass>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></AnchorPane>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </VBox>
+         </center>
+         <top>
+            <AnchorPane BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="TOP" layoutX="308.0" layoutY="83.0" styleClass="titulo" text="PRODUCTOS" textFill="#faf3e0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>
