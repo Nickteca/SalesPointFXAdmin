@@ -1,5 +1,9 @@
 package com.salespointfxadmin.www.service;
 
+
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,6 +15,7 @@ import com.salespointfxadmin.www.model.SucursalPedidoDetalle;
 import com.salespointfxadmin.www.repositorie.SucursalPedidoDetalleRepo;
 import com.salespointfxadmin.www.repositorie.SucursalPedidoRepo;
 import com.salespointfxadmin.www.service.printer.ImprimirPedido;
+import com.salespointfxadmin.www.service.report.JasperReportService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +27,14 @@ public class SucursalPedidoService {
 	private final SucursalPedidoDetalleRepo spdr;
 	private final SucursalService ss;
 	private final ImprimirPedido p;
+	private final JasperReportService jrs;
 
 	@Transactional
 	public SucursalPedido save(SucursalPedido sp) {
 		sp.setCreatedAt(LocalDateTime.now());
 		sp.setSucursal(ss.getSucursalActive());
 		p.imprimirPedido(sp);
+		
 		return spr.save(sp);
 	}
 	
@@ -39,5 +46,15 @@ public class SucursalPedidoService {
 		List<SucursalPedidoDetalle> lspd = spdr.findBySucursalPedido(sp);
 		sp.setListSucursalpedidoDetalle(lspd);
 		p.imprimirPedido(sp);
+		try {
+	        byte[] pdf = jrs.generateReport(sp.getSucursalPedido());
+	        File file = new File("pedido_" + sp.getSucursalPedido() + ".pdf");
+	        try (FileOutputStream fos = new FileOutputStream(file)) {
+	            fos.write(pdf);
+	        }
+	        System.out.println("Reporte generado en: " + new File("reporte.pdf").getAbsolutePath());
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 }
