@@ -23,7 +23,7 @@ public class JasperReportService {
 
 	public byte[] generateReport(Integer idPedido) throws Exception {
 		// Cargar el archivo .jasper
-		InputStream reportStream = new ClassPathResource("/pdf/Simple_Blue_Table_Based.jasper").getInputStream();
+		InputStream reportStream = new ClassPathResource("/pdf/PedidoReport.jasper").getInputStream();
 		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(reportStream);
 
 		// Configurar parámetros

@@ -12,8 +12,10 @@ import com.salespointfxadmin.www.model.SucursalPedido;
 import com.salespointfxadmin.www.model.SucursalPedidoDetalle;
 import com.salespointfxadmin.www.repositorie.SucursalPedidoDetalleRepo;
 import com.salespointfxadmin.www.repositorie.SucursalPedidoRepo;
+import com.salespointfxadmin.www.service.email.EmailService;
 import com.salespointfxadmin.www.service.printer.ImprimirPedido;
 import com.salespointfxadmin.www.service.report.JasperReportService;
+import com.salespointfxadmin.www.service.wats.WhatsAppService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,8 @@ public class SucursalPedidoService {
 	private final SucursalService ss;
 	private final ImprimirPedido p;
 	private final JasperReportService jrs;
+	private final WhatsAppService ws;
+	private final EmailService es;
 
 	@Transactional
 	public SucursalPedido save(SucursalPedido sp) {
@@ -50,8 +54,15 @@ public class SucursalPedidoService {
 			try (FileOutputStream fos = new FileOutputStream(file)) {
 				fos.write(pdf);
 			}
-			System.out.println("Reporte generado en: " + file.getAbsolutePath());
-			System.out.println("Este es Id:" + sp.getSucursalPedido());
+			// System.out.println(file.getName());
+			// System.out.println(file.getAbsolutePath());
+			String mensage = "";
+			for (SucursalPedidoDetalle spd : lspd) {
+				mensage = mensage += "	" + spd.getSucursalProducto().getProducto().getNombreProducto() + "		" + spd.getCantidad() + "\n";
+			}
+			ws.sendWhatsAppMessage("4341327947", mensage, file.getAbsolutePath(), file.getName());
+			es.sendEmail("isaaclunaavila@gmail.com", "Pedido", "Pedido de una sucursal", file.getAbsolutePath());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
