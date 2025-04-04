@@ -1,6 +1,7 @@
 package com.salespointfxadmin.www.service.wats;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,7 @@ public class WhatsAppService {
 		 * System.out.println(response.body().string());
 		 */
 
-		OkHttpClient client = new OkHttpClient();
+		OkHttpClient client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).writeTimeout(10, TimeUnit.SECONDS).readTimeout(10, TimeUnit.SECONDS).build();
 		RequestBody body = new FormBody.Builder().add("token", TOKEN).add("to", numero).add("body", mensaje)
 
 				.build();

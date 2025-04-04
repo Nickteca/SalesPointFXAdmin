@@ -23,7 +23,7 @@ public class JasperReportService {
 
 	public byte[] generateReport(Integer idPedido) throws Exception {
 		// Cargar el archivo .jasper
-		InputStream reportStream = new ClassPathResource("/pdf/PedidoReport.jasper").getInputStream();
+		InputStream reportStream = new ClassPathResource("/pdf/Pedido.jasper").getInputStream();
 		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(reportStream);
 
 		// Configurar parámetros
@@ -37,6 +37,7 @@ public class JasperReportService {
 		System.out.println("Conexión a la base de datos: " + dataSource.getConnection());
 
 		// Exportar a PDF
+		// JasperPrintManager.printReport(jasperPrint, false);
 		return JasperExportManager.exportReportToPdf(jasperPrint);
 	}
 }

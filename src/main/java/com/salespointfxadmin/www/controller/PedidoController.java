@@ -105,9 +105,7 @@ public class PedidoController implements Initializable {
 	@FXML
 	void buscar(ActionEvent event) {
 		try {
-			olspTable = FXCollections.observableArrayList(
-					spedidos.fingBySucursalEstatusSucursalTrueAndCreatedatBeetween(dPicketInicio.getValue(),
-							dPickerFin.getValue()));
+			olspTable = FXCollections.observableArrayList(spedidos.fingBySucursalEstatusSucursalTrueAndCreatedatBeetween(dPicketInicio.getValue(), dPickerFin.getValue()));
 			tViewSucusalPedido.setItems(olspTable);
 		} catch (Exception e) {
 			Alert error = new Alert(AlertType.ERROR);
@@ -123,8 +121,10 @@ public class PedidoController implements Initializable {
 		try {
 			SucursalPedido sp = tViewSucusalPedido.getSelectionModel().getSelectedItem();
 			if (sp != null) {
-				spedidos.imprimir(sp);
-			}else {
+				new Thread(() -> {
+					spedidos.imprimir(sp);
+				}).start();
+			} else {
 				throw new Exception("Seleccione un pedido de la lista");
 			}
 		} catch (Exception e) {
@@ -219,8 +219,7 @@ public class PedidoController implements Initializable {
 					Short idScursalProducto = Short.parseShort(data[0]);
 
 					// Buscar si el producto ya está en la lista
-					boolean existe = olspd.stream().anyMatch(
-							spd -> spd.getSucursalProducto().getIdSucursalProducto().equals(idScursalProducto));
+					boolean existe = olspd.stream().anyMatch(spd -> spd.getSucursalProducto().getIdSucursalProducto().equals(idScursalProducto));
 
 					if (existe) {
 						Alert alerta = new Alert(AlertType.WARNING);
@@ -229,8 +228,7 @@ public class PedidoController implements Initializable {
 						alerta.setContentText("Este producto ya fue agregado.");
 						alerta.show();
 					} else {
-						SucursalPedidoDetalle nuevoProducto = new SucursalPedidoDetalle(null, cantidadFloat,
-								sps.findBySucursalEstatusSucursalTrueAndIdSucursalProducto(idScursalProducto));
+						SucursalPedidoDetalle nuevoProducto = new SucursalPedidoDetalle(null, cantidadFloat, sps.findBySucursalEstatusSucursalTrueAndIdSucursalProducto(idScursalProducto));
 
 						olspd.add(nuevoProducto);
 						tViewPedido.setItems(olspd);
@@ -258,8 +256,7 @@ public class PedidoController implements Initializable {
 			Alert error = new Alert(AlertType.ERROR);
 			error.setTitle("Error!!!");
 			error.setContentText("Entrada inválida. Por favor ingrese un número.");
-			error.setContentText(
-					"Al parece rno as introducido nada o no es numero:\n" + e.getMessage() + "\n" + e.getCause());
+			error.setContentText("Al parece rno as introducido nada o no es numero:\n" + e.getMessage() + "\n" + e.getCause());
 			error.show();
 		}
 	}
@@ -295,8 +292,7 @@ public class PedidoController implements Initializable {
 		columnSucursalSucursakPedido.setCellValueFactory(new PropertyValueFactory<>("sucursal"));
 		columnSucursalSucursakPedido.prefWidthProperty().bind(tViewSucusalPedido.widthProperty().multiply(0.2));
 
-		olspTable = FXCollections.observableArrayList(
-				spedidos.fingBySucursalEstatusSucursalTrueAndCreatedatBeetween(LocalDate.now(), LocalDate.now()));
+		olspTable = FXCollections.observableArrayList(spedidos.fingBySucursalEstatusSucursalTrueAndCreatedatBeetween(LocalDate.now(), LocalDate.now()));
 		tViewSucusalPedido.setItems(olspTable);
 	}
 
@@ -317,8 +313,7 @@ public class PedidoController implements Initializable {
 	private void iniciarTablap() {
 		olspd.clear();
 		tViewPedido.setEditable(true);
-		columnIdSucursalProductoPedidoDetalle
-				.setCellValueFactory(new PropertyValueFactory<>("idSucursalPedidoDetalle"));
+		columnIdSucursalProductoPedidoDetalle.setCellValueFactory(new PropertyValueFactory<>("idSucursalPedidoDetalle"));
 		columnIdSucursalProductoPedidoDetalle.prefWidthProperty().bind(tViewPedido.widthProperty().multiply(0.1));
 
 		columnProductoPedido.setCellValueFactory(new PropertyValueFactory<>("sucursalProducto"));

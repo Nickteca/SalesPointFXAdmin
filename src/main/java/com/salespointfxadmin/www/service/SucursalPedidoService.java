@@ -56,12 +56,20 @@ public class SucursalPedidoService {
 			}
 			// System.out.println(file.getName());
 			// System.out.println(file.getAbsolutePath());
-			String mensage = "";
+			String mensage = sp.getSucursal().getNombreSucursal() + "\n";
 			for (SucursalPedidoDetalle spd : lspd) {
 				mensage = mensage += "	" + spd.getSucursalProducto().getProducto().getNombreProducto() + "		" + spd.getCantidad() + "\n";
 			}
-			ws.sendWhatsAppMessage("4341327947", mensage, file.getAbsolutePath(), file.getName());
-			es.sendEmail("isaaclunaavila@gmail.com", "Pedido", "Pedido de una sucursal", file.getAbsolutePath());
+			try {
+				ws.sendWhatsAppMessage("4341327947", mensage, file.getAbsolutePath(), file.getName());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				es.sendEmail("isaaclunaavila@gmail.com", "Pedido", "Pedido de una sucursal", file.getAbsolutePath());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
