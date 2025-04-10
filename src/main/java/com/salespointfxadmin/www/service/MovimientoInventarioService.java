@@ -41,7 +41,7 @@ public class MovimientoInventarioService {
 				Optional<SucursalProducto> osp = spr.findBySucursalAndProducto(mi.getSucursal(), mid.getSucursalProducto().getProducto());
 				if (osp.isPresent()) {
 					SucursalProducto sp = osp.get();
-					if (mi.getNaturaleza().equals(Naturaleza.E)) {
+					if (mi.getNaturaleza().equals(Naturaleza.Entrada)) {
 						sp.setInventario(sp.getInventario() + mid.getUnidades());
 					} else {
 						sp.setInventario(sp.getInventario() - mid.getUnidades());
@@ -59,7 +59,7 @@ public class MovimientoInventarioService {
 					Optional<SucursalProducto> osp = spr.findBySucursalAndProducto(mi.getSucursal(), mid.getSucursalProducto().getProducto());
 					if (osp.isPresent()) {
 						SucursalProducto sp = osp.get();
-						if (mi.getNaturaleza().equals(Naturaleza.E)) {
+						if (mi.getNaturaleza().equals(Naturaleza.Entrada)) {
 							sp.setInventario(sp.getInventario() + mid.getUnidades());
 						} else {
 							sp.setInventario(sp.getInventario() - mid.getUnidades());
@@ -71,7 +71,7 @@ public class MovimientoInventarioService {
 					Optional<SucursalProducto> osp = spr.findBySucursalAndProducto(mi.getSucursal(), mid.getSucursalProducto().getProducto());
 					if (osp.isPresent()) {
 						SucursalProducto sp = osp.get();
-						if (mi.getNaturaleza().equals(Naturaleza.E)) {
+						if (mi.getNaturaleza().equals(Naturaleza.Entrada)) {
 							sp.setInventario(sp.getInventario() + mid.getUnidades());
 						} else {
 							sp.setInventario(sp.getInventario() - mid.getUnidades());

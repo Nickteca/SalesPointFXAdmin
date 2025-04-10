@@ -20,13 +20,13 @@ public class FolioService {
 
 	@Transactional
 	public void insertFolios(Sucursal sucursal) {
-		fr.save(new Folio("VEN-", 1, Naturaleza.S, sucursal, NombreFolio.Venta));
-		fr.save(new Folio("ENT-", 1, Naturaleza.E, sucursal, NombreFolio.Ajuste_Entrada));
-		fr.save(new Folio("SAL-", 1, Naturaleza.S, sucursal, NombreFolio.Ajuste_salida));
-		fr.save(new Folio("TRS-", 1, Naturaleza.S, sucursal, NombreFolio.Trspaso_Salida));
-		fr.save(new Folio("TRE-", 1, Naturaleza.E, sucursal, NombreFolio.Traspaso_Entrada));
-		fr.save(new Folio("DEV-", 1, Naturaleza.S, sucursal, NombreFolio.Devolucion_Venta));
-		fr.save(new Folio("CAN-", 1, Naturaleza.E, sucursal, NombreFolio.Cancelacion_Venta));
+		fr.save(new Folio("VEN-", 1, Naturaleza.Salida, sucursal, NombreFolio.Venta));
+		fr.save(new Folio("ENT-", 1, Naturaleza.Entrada, sucursal, NombreFolio.Ajuste_Entrada));
+		fr.save(new Folio("SAL-", 1, Naturaleza.Salida, sucursal, NombreFolio.Ajuste_salida));
+		fr.save(new Folio("TRS-", 1, Naturaleza.Salida, sucursal, NombreFolio.Trspaso_Salida));
+		fr.save(new Folio("TRE-", 1, Naturaleza.Entrada, sucursal, NombreFolio.Traspaso_Entrada));
+		fr.save(new Folio("DEV-", 1, Naturaleza.Salida, sucursal, NombreFolio.Devolucion_Venta));
+		fr.save(new Folio("CAN-", 1, Naturaleza.Entrada, sucursal, NombreFolio.Cancelacion_Venta));
 	}
 
 	public List<Folio> findBySucursalEstatusSucursalTrue() {

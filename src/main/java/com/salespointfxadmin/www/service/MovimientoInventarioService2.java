@@ -41,7 +41,7 @@ public class MovimientoInventarioService2 {
 						Optional<SucursalProducto> osp = spr.findBySucursalAndProducto(mi.getSucursal(), mid.getSucursalProducto().getProducto());
 						if (osp.isPresent()) {
 							SucursalProducto sp = osp.get();
-							if (mi.getNaturaleza().equals(Naturaleza.E)) {
+							if (mi.getNaturaleza().equals(Naturaleza.Entrada)) {
 								sp.setInventario(sp.getInventario() + mid.getUnidades());
 							} else {
 								sp.setInventario(sp.getInventario() - mid.getUnidades());
@@ -64,7 +64,7 @@ public class MovimientoInventarioService2 {
 						Optional<SucursalProducto> osp = spr.findBySucursalEstatusSucursalTrueAndProducto(mid.getSucursalProducto().getProducto());
 						if (osp.isPresent()) {
 							SucursalProducto sp = osp.get();
-							if (mi.getNaturaleza().equals(Naturaleza.E)) {
+							if (mi.getNaturaleza().equals(Naturaleza.Entrada)) {
 								sp.setInventario(sp.getInventario() + mid.getUnidades());
 							} else {
 								sp.setInventario(sp.getInventario() - mid.getUnidades());
@@ -83,7 +83,7 @@ public class MovimientoInventarioService2 {
 								SucursalProducto sp = osp.get();
 
 								// Ajustar inventario correctamente con la diferencia
-								if (mi.getNaturaleza().equals(Naturaleza.E)) {
+								if (mi.getNaturaleza().equals(Naturaleza.Entrada)) {
 									sp.setInventario(sp.getInventario() + diferencia);
 								} else {
 									sp.setInventario(sp.getInventario() - diferencia);
@@ -128,7 +128,7 @@ public class MovimientoInventarioService2 {
 			// **Si se está modificando, primero revertimos la cantidad anterior**
 			float cantidadAnterior = mid.getUnidades(); // Necesitas agregar este campo en tu DTO o entidad
 
-			if (naturaleza.equals(Naturaleza.E)) {
+			if (naturaleza.equals(Naturaleza.Entrada)) {
 				sp.setInventario(sp.getInventario() - cantidadAnterior);
 			} else {
 				sp.setInventario(sp.getInventario() + cantidadAnterior);
@@ -136,7 +136,7 @@ public class MovimientoInventarioService2 {
 		}
 
 		// **Aplicamos la cantidad nueva**
-		if (naturaleza.equals(Naturaleza.E)) {
+		if (naturaleza.equals(Naturaleza.Entrada)) {
 			sp.setInventario(sp.getInventario() + cantidadNueva);
 		} else {
 			sp.setInventario(sp.getInventario() - cantidadNueva);
