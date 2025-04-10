@@ -47,7 +47,7 @@ public class SucursalProductoService {
 	public void insertarSucursalProductos(Sucursal sucursal) {
 		List<Producto> productos = ps.getAllProductos();
 		for (Producto producto : productos) {
-			spr.save(new SucursalProducto(0, 0, true, producto, new Categoria((short) 1), sucursal));
+			spr.save(new SucursalProducto(0, 0, false, producto, new Categoria((short) 1), sucursal));
 		}
 	}
 
