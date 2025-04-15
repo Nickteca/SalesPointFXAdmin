@@ -8,6 +8,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.salespointfxadmin.www.enums.BilleteValor;
+import com.salespointfxadmin.www.model.Billete;
 import com.salespointfxadmin.www.model.Categoria;
 import com.salespointfxadmin.www.model.Empresa;
 import com.salespointfxadmin.www.model.Gasto;
@@ -16,6 +18,7 @@ import com.salespointfxadmin.www.model.ProductoPaquete;
 import com.salespointfxadmin.www.model.Sucursal;
 import com.salespointfxadmin.www.model.Usuario;
 import com.salespointfxadmin.www.model.UsuarioRol;
+import com.salespointfxadmin.www.repositorie.BilleteRepo;
 import com.salespointfxadmin.www.repositorie.CategoriaRepo;
 import com.salespointfxadmin.www.repositorie.EmpresaRepo;
 import com.salespointfxadmin.www.repositorie.GastoRepo;
@@ -38,6 +41,7 @@ public class DataInitialed implements CommandLineRunner {
 	private final ProductoRepo pr;
 	private final GastoRepo gr;
 	private final ProductoPaqueteRepo ppr;
+	private final BilleteRepo br;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -48,6 +52,7 @@ public class DataInitialed implements CommandLineRunner {
 		insertarProductos();
 		insertarGastos();
 		insertarPaquetes();
+		insertarBillete();
 	}
 
 	private Empresa saveEmpresa() {
@@ -324,6 +329,20 @@ public class DataInitialed implements CommandLineRunner {
 			gr.save(new Gasto(null, "Internet"));
 			gr.save(new Gasto(null, "Salarios"));
 			gr.save(new Gasto(null, "Herramienta"));
+		}
+	}
+	private void insertarBillete() {
+		if (br.count() == 0) {
+			br.save(new Billete(null, BilleteValor.$1000));
+			br.save(new Billete(null, BilleteValor.$500));
+			br.save(new Billete(null, BilleteValor.$200));
+			br.save(new Billete(null, BilleteValor.$100));
+			br.save(new Billete(null, BilleteValor.$50));
+			br.save(new Billete(null, BilleteValor.$20));
+			br.save(new Billete(null, BilleteValor.$10));
+			br.save(new Billete(null, BilleteValor.$5));
+			br.save(new Billete(null, BilleteValor.$2));
+			br.save(new Billete(null, BilleteValor.$1));
 		}
 	}
 }

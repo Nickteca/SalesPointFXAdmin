@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 public class BilleteService {
 	private final BilleteRepo br;
 
-	public List<Billete> findBySucursalRecoleccion(SucursalRecoleccion sr) {
+	/*public List<Billete> findBySucursalRecoleccion(SucursalRecoleccion sr) {
 		return br.findBySucursalRecoleccion(sr);
-	}
+	}*/
 }
