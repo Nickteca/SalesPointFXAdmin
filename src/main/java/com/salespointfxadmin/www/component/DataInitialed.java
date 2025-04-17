@@ -132,6 +132,7 @@ public class DataInitialed implements CommandLineRunner {
 			pr.save(new Producto(null, "Salsa Extra", false));
 			pr.save(new Producto(null, "Salsa Aceite", false));
 			pr.save(new Producto(null, "Papas Fritas", false));
+			pr.save(new Producto(null, "Papas Extra", false));
 			pr.save(new Producto(null, "Salsa Mexicana", false));
 			pr.save(new Producto(null, "Salsa Arbol", false));
 			pr.save(new Producto(null, "Salsa Manzano", false));
@@ -315,7 +316,7 @@ public class DataInitialed implements CommandLineRunner {
 			ppr.save(new ProductoPaquete(null, p, 6, pr.findByNombreProducto("Pescuezos")));
 
 			p = pr.save(new Producto(null, "Salchicha 5 X $20", true));
-			ppr.save(new ProductoPaquete(null, p, 6, pr.findByNombreProducto("Salchicha")));
+			ppr.save(new ProductoPaquete(null, p, 5, pr.findByNombreProducto("Salchicha")));
 
 		}
 	}
