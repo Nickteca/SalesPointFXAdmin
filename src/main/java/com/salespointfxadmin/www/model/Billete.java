@@ -18,10 +18,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 public class Billete implements Serializable {
@@ -36,14 +41,13 @@ public class Billete implements Serializable {
 	private BilleteValor billeteValor;
 
 
-
 	@OneToMany(mappedBy = "billete", cascade = CascadeType.ALL)
 	private List<SucursalRecoleccionDetalle> listSucursalRecoleccionDetalle;
 
-	public Billete(Integer idBillete, BilleteValor billete) {
-		super();
-		this.idBillete = idBillete;
-		this.billeteValor = billete;
-	}
-
+    @Override
+    public String toString() {
+        return  billeteValor.toString();
+    }
+        
+        
 }

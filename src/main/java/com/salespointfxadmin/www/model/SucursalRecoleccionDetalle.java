@@ -22,6 +22,9 @@ public class SucursalRecoleccionDetalle {
 
     @Column(nullable = false)
     private short cantidad;
+    
+    @Column(nullable = false)
+    private float subTotal;
 
     @JoinColumn(name = "billete", referencedColumnName = "idBillete")
     @ManyToOne(optional = false)
