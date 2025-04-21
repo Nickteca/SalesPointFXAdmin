@@ -36,7 +36,7 @@ public class Corte {
 	private MovimientoCaja movimientoCaja;
 
 	@Column(nullable = false)
-	private float nicial;
+	private float inicial;
 
 	@Column(nullable = false)
 	private float ventas;
@@ -46,6 +46,9 @@ public class Corte {
 
 	@Column(nullable = false)
 	private float gasto;
+	
+	@Column(nullable = false)
+	private float saldoFinal;
 
 	@Column(nullable = false)
 	private LocalDateTime apertuta;
@@ -56,9 +59,9 @@ public class Corte {
 	@Column(nullable = false)
 	private LocalDateTime numFolios;
 
-	@Column(nullable = false)
+	@Column(nullable = false, length = 20)
 	private String folioIncial;
 
-	@Column(nullable = false)
+	@Column(nullable = false, length = 20)
 	private String folioFinal;
 }

@@ -48,6 +48,12 @@ public class Billete implements Serializable {
     public String toString() {
         return  billeteValor.toString();
     }
+
+	public Billete(Integer idBillete, BilleteValor billeteValor) {
+		super();
+		this.idBillete = idBillete;
+		this.billeteValor = billeteValor;
+	}
         
         
 }
