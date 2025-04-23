@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(indexes = { @Index(name = "indiceFecha", columnList = "createdAt") })
+@Table(indexes = { @Index(name = "creado", columnList = "createdAt") })
 public class SucursalGasto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id

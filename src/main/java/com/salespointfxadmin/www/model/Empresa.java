@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(/* indexes = { @Index(name = "creado", columnList = "createdAt") }, */uniqueConstraints = @UniqueConstraint(columnNames = { "idEmpresa", "createdAt" }))
+@Table(/* indexes = { @Index(name = "creado", columnList = "createdAt") }, */uniqueConstraints = @UniqueConstraint(columnNames = { "idEmpresa", "createdAt", "nombreEmpresa" }))
 public class Empresa implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id

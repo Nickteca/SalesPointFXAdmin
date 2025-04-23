@@ -17,26 +17,28 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class VentaDetalle {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idVentaDetalle;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer idVentaDetalle;
 
-    @Column(nullable = false)
-    private short cantidad;
-    // @Max(value=?) @Min(value=?)//if you know range of your decimal fields
-    // consider using these annotations to enforce field validation
-    
-    @Column(nullable = false)
-    private float precio;
+	@Column(nullable = false)
+	private float cantidad;
+	// @Max(value=?) @Min(value=?)//if you know range of your decimal fields
+	// consider using these annotations to enforce field validation
+	@Column(nullable = true)
+	private float peso = 0;
 
-    @Column(nullable = false)
-    private float subTotal;
+	@Column(nullable = false)
+	private float precio = 0;
 
-    @JoinColumn(name = "sucursalProducto", referencedColumnName = "idSucursalProducto")
-    @ManyToOne(optional = false)
-    private SucursalProducto sucursalProducto;
+	@Column(nullable = false)
+	private float subTotal;
 
-    @JoinColumn(name = "venta", referencedColumnName = "idVenta")
-    @ManyToOne(optional = false)
-    private Venta venta;
+	@JoinColumn(name = "sucursalProducto", referencedColumnName = "idSucursalProducto")
+	@ManyToOne(optional = false)
+	private SucursalProducto sucursalProducto;
+
+	@JoinColumn(name = "venta", referencedColumnName = "idVenta")
+	@ManyToOne(optional = false)
+	private Venta venta;
 }
