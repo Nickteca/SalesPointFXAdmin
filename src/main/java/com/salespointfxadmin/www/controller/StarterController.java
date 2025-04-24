@@ -9,11 +9,15 @@ import com.salespointfxadmin.www.component.SpringFXMLLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -32,13 +36,37 @@ public class StarterController {
 	private Button btnMovimientoInventario;
 	@FXML
 	private Button btnRecoleccion;
-    @FXML
-    private Button btnPedido;
+	@FXML
+	private Button btnPedido;
 
-    @FXML
-    void pedido(ActionEvent event) {
-    	cargarVista("/fxml/pedido.fxml");
-    }
+	@FXML
+	void cancelarVenta(ActionEvent event) {
+		try {
+			FXMLLoader loader = springFXMLLoader.load("/fxml/modal/cancelarVenta.fxml");
+			StackPane root = loader.load();
+
+			Stage stage = new Stage();
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.setResizable(false);
+			// stage.initStyle(StageStyle.UNDECORATED); // Ventana sin bordes
+			stage.setTitle("Cancelar Venta");
+			stage.setScene(new Scene(root));
+			stage.setResizable(false);
+			stage.showAndWait();
+
+			// Recargar la tabla después de que se cierre la ventana
+			// iniciarTablaMovimientoInventario();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	void pedido(ActionEvent event) {
+		cargarVista("/fxml/pedido.fxml");
+	}
+
 	@FXML
 	void productos(ActionEvent event) {
 		cargarVista("/fxml/productos.fxml");

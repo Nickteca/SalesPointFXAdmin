@@ -23,4 +23,6 @@ public interface SucursalProductoRepo extends JpaRepository<SucursalProducto, Sh
 	Optional<SucursalProducto> findBySucursalEstatusSucursalTrueAndProducto(Producto producto);
 
 	SucursalProducto findBySucursalEstatusSucursalTrueAndIdSucursalProducto(Short idSucursalProducto);
+
+	Optional<SucursalProducto> findByProductoAndSucursal(Producto p, Sucursal s);
 }

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" stylesheets="@../css/starter.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.StarterController">
+<StackPane minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" stylesheets="@../css/starter.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.StarterController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -34,7 +34,7 @@
                                           <Button fx:id="btnGastos" mnemonicParsing="false" onAction="#gastos" prefWidth="150.0" styleClass="boton-fuego" text="GASTOS" VBox.vgrow="ALWAYS" />
                                           <Button fx:id="btnRecoleccion" mnemonicParsing="false" onAction="#recoleccion" prefWidth="150.0" styleClass="boton-fuego" text="RECOLECCION" VBox.vgrow="ALWAYS" />
                                           <Button fx:id="btnPedido" mnemonicParsing="false" onAction="#pedido" prefWidth="150.0" styleClass="boton-fuego" text="PEDIDO" VBox.vgrow="ALWAYS" />
-                                          <Button mnemonicParsing="false" prefWidth="150.0" styleClass="boton-fuego" text="Button" VBox.vgrow="ALWAYS" />
+                                          <Button mnemonicParsing="false" onAction="#cancelarVenta" prefWidth="150.0" styleClass="boton-fuego" text="Cancelar Venta" VBox.vgrow="ALWAYS" />
                                           <Button mnemonicParsing="false" prefWidth="150.0" styleClass="boton-fuego" text="Button" VBox.vgrow="ALWAYS" />
                                           <Button mnemonicParsing="false" prefWidth="150.0" styleClass="boton-fuego" text="Button" VBox.vgrow="ALWAYS" />
                                           <Button mnemonicParsing="false" prefWidth="150.0" styleClass="boton-fuego" text="Button" VBox.vgrow="ALWAYS" />
