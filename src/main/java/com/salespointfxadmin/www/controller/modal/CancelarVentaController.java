@@ -2,6 +2,9 @@ package com.salespointfxadmin.www.controller.modal;
 
 import org.springframework.stereotype.Component;
 
+import com.salespointfxadmin.www.model.Venta;
+import com.salespointfxadmin.www.service.FolioService;
+import com.salespointfxadmin.www.service.MovimientoInventarioService;
 import com.salespointfxadmin.www.service.VentaService;
 
 import javafx.event.ActionEvent;
@@ -16,6 +19,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CancelarVentaController {
 	private final VentaService vs;
+	private final MovimientoInventarioService mcs;
+	private final FolioService fs;
 
 	@FXML
 	private TextField tFieldFolio;
@@ -26,9 +31,9 @@ public class CancelarVentaController {
 			if (tFieldFolio.getText().isEmpty()) {
 				throw new IllegalArgumentException("Folio Vacio");
 			}
-			boolean band = vs.cancelarVenta(tFieldFolio.getText());
-			if (band) {
-				showsucces("Exito!!!", "Se a cancelado correctamente");
+			Venta v = vs.cancelarVenta(tFieldFolio.getText());
+			if (v != null) {
+
 			}
 		} catch (IllegalArgumentException e) {
 			showError("IllegalArgumentException", e.getMessage());

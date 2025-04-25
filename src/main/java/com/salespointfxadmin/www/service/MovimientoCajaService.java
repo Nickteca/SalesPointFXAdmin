@@ -16,4 +16,5 @@ public class MovimientoCajaService {
 	public MovimientoCaja getLastMovmientoCaja() {
 		return mcr.findFirstBySucursalOrderByIdMovimientoCajaDesc(ss.getSucursalActive());
 	}
+
 }

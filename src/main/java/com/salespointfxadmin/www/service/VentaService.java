@@ -22,23 +22,33 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class VentaService {
+	private final MovimientoInventarioService2 mis;
 	private final VentaRepo vr;
 	private final ProductoPaqueteRepo ppr;
 	private final SucursalProductoRepo spr;
 
 	@Transactional
-	public boolean cancelarVenta(String folio) {
+	public Venta cancelarVenta(String folio) {
 		try {
 			Venta v = vr.findByFolio(folio);
 			if (v == null) {
 				throw new IllegalArgumentException("Venta no encontrada");
 			}
+			if (v.isStatus() == false) {
+				throw new IllegalArgumentException("Venta ya esta ancelada");
+			}
+
 			v.setStatus(false);
 			v.setUpdatedAt(LocalDateTime.now());
 			v.setNaturalezaVenta(Naturaleza.Entrada);
 			devolverInventarioPorCancelacion(v);
-			vr.save(v);
-			return true;
+			v = vr.save(v);
+			if (mis.ventaCancelada(v) != null) {
+				return v;
+			} else {
+				throw new IllegalArgumentException("No se inserto movimiento");
+			}
+
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			throw e;
