@@ -170,10 +170,11 @@ public class MovimientoInventarioService2 {
 				SucursalProducto sp = vd.getSucursalProducto();
 
 				if (sp.getProducto().isEsPaquete()) {
-					MovimientoInventarioDetalle mid = new MovimientoInventarioDetalle();
+
 					List<ProductoPaquete> lpp = ppr.findByPaquete(sp.getProducto());
 
 					for (ProductoPaquete pp : lpp) {
+						MovimientoInventarioDetalle mid = new MovimientoInventarioDetalle();
 						SucursalProducto spa = spr.findByProductoAndSucursal(pp.getProductoPaquete(), v.getSucursal()).orElseThrow(() -> new RuntimeException("No se encontró producto en sucursal"));
 						mid.setSucursalProducto(spa);
 						mid.setUnidades(pp.getCantidad() * vd.getCantidad());

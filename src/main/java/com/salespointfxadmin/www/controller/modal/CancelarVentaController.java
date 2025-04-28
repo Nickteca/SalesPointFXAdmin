@@ -33,7 +33,9 @@ public class CancelarVentaController {
 			}
 			Venta v = vs.cancelarVenta(tFieldFolio.getText());
 			if (v != null) {
-
+				showsucces("Cancelacion Correcta", "La cancelacion del Folio:" + v.getFolio() + " Esta correcta");
+				Stage stage = (Stage) tFieldFolio.getScene().getWindow();
+				stage.close();
 			}
 		} catch (IllegalArgumentException e) {
 			showError("IllegalArgumentException", e.getMessage());

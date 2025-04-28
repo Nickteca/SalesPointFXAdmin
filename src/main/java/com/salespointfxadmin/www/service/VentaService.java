@@ -8,7 +8,6 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.salespointfxadmin.www.enums.Naturaleza;
 import com.salespointfxadmin.www.model.ProductoPaquete;
 import com.salespointfxadmin.www.model.SucursalProducto;
 import com.salespointfxadmin.www.model.Venta;
@@ -40,7 +39,6 @@ public class VentaService {
 
 			v.setStatus(false);
 			v.setUpdatedAt(LocalDateTime.now());
-			v.setNaturalezaVenta(Naturaleza.Entrada);
 			devolverInventarioPorCancelacion(v);
 			v = vr.save(v);
 			if (mis.ventaCancelada(v) != null) {

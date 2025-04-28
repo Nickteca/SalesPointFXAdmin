@@ -218,7 +218,12 @@ public class MovimientoInventarioDetalleController2 implements Initializable {
 	private void cargarProductos() {
 		olsp = FXCollections.observableArrayList(sps.findBySucursalEstatusSucursalTrueAndProductoEsPaqueteFalse());
 		lViewProductos.setItems(olsp);
-
+		lViewProductos.setOnMouseClicked(event -> {
+			if (event.getClickCount() == 2 && lViewProductos.getSelectionModel().getSelectedItem() != null) {
+				SucursalProducto sucursalProductoSeleccionado = lViewProductos.getSelectionModel().getSelectedItem();
+				agregarProductoAlContenedor(sucursalProductoSeleccionado.getProducto().getNombreProducto());
+			}
+		});
 	}
 
 	private void agregarProductoAlContenedor(String nombreProducto) {
