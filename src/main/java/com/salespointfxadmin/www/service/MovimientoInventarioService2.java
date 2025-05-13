@@ -161,7 +161,7 @@ public class MovimientoInventarioService2 {
 			movimiento.setNombreFolio(f.getNombreFolio());
 			movimiento.setNaturaleza(f.getNaturalezaFolio());
 			movimiento.setCreatedAt(LocalDateTime.now());
-			movimiento.setDecripcion("Vanta Cancelada: " + v.getFolio()); // quien hizo la cancelación
+			movimiento.setDecripcion(v.getFolio()); // quien hizo la cancelación
 			movimiento.setFolio(f);
 			movimiento.setFolioCompuesto(f.folioCompuesto());
 
@@ -170,6 +170,11 @@ public class MovimientoInventarioService2 {
 				SucursalProducto sp = vd.getSucursalProducto();
 
 				if (sp.getProducto().isEsPaquete()) {
+					MovimientoInventarioDetalle midPaquete = new MovimientoInventarioDetalle();
+					midPaquete.setSucursalProducto(sp); // ← el paquete como tal
+					midPaquete.setUnidades(vd.getCantidad());
+					midPaquete.setMovimientoInventario(movimiento); // el de cancelación
+					lmid.add(midPaquete);
 
 					List<ProductoPaquete> lpp = ppr.findByPaquete(sp.getProducto());
 
