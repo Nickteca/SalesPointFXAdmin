@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import com.salespointfxadmin.www.component.SpringFXMLLoader;
 import com.salespointfxadmin.www.controller.modal.SucursalRecoleccionEditController;
-import com.salespointfxadmin.www.enums.BilleteValor;
 import com.salespointfxadmin.www.model.Billete;
 import com.salespointfxadmin.www.model.Sucursal;
 import com.salespointfxadmin.www.model.SucursalRecoleccion;
@@ -159,16 +158,17 @@ public class RecoleccionController implements Initializable {
 					int cantidad = Integer.parseInt(textFields[i].getText());
 					int subtotal = cantidad * valores[i];
 					total += subtotal;
-					Billete b = new Billete(null, BilleteValor.valueOf(denominacion[i]), cantidad, subtotal, sr);
-					lb.add(b);
+					// Billete b = new Billete(null, BilleteValor.valueOf(denominacion[i]),
+					// cantidad, subtotal, sr);
+					// lb.add(b);
 				}
 			}
-			if(total<=0) {
+			if (total <= 0) {
 				throw new Exception("Al parecer no hay billetes capturados");
 			}
 			sr.setIdSucursalRecoleccion(null);
 			sr.setTotalRecoleccion(total);
-			sr.setListBillete(lb);
+			// sr.setListBillete(lb);
 			if (srs.save(sr, total, lb) != null) {
 				btnCancelar.fire();
 				btnBuscar.fire();

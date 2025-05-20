@@ -1,8 +1,5 @@
 package com.salespointfxadmin.www.service.printer;
 
-import java.util.Comparator;
-import java.util.List;
-
 import javax.print.PrintService;
 
 import org.springframework.stereotype.Service;
@@ -14,7 +11,6 @@ import com.github.anastaciocintra.escpos.Style;
 import com.github.anastaciocintra.escpos.Style.FontName;
 import com.github.anastaciocintra.escpos.Style.FontSize;
 import com.github.anastaciocintra.output.PrinterOutputStream;
-import com.salespointfxadmin.www.model.Billete;
 import com.salespointfxadmin.www.model.SucursalRecoleccion;
 
 import javafx.scene.control.Alert;
@@ -81,24 +77,24 @@ public class ImprimirRecoleccion {
 			// sr.getSucursal().getCiudadSucursal() + " " +
 			// sr.getSucursal().getEstadoSucursal());
 
-			escpos.writeLF(headerStyle, String.format("%-24s %5s %8s", "Billete", "Cantidad", "subtotal"));
-			escpos.writeLF(fontB, "----------------------------------------------------------------");
-			List<Billete> lb = sr.getListBillete();
-			lb.sort(Comparator.comparing(Billete::getBillete).reversed());
-			for (Billete rb : lb) {
-				// if (rb.getCantidad() > 0) {
-				String line = String.format("%-20s %10s %10s", rb.getBillete(), rb.getCantidad(), "$" + rb.getSubtotal());
-				escpos.writeLF(line);
-				// }
-			}
-			escpos.writeLF(fontB, "----------------------------------------------------------------");
-			escpos.writeLF(headerStyle.setBold(true), String.format("%-22s %5s %8s %8s", "", "", "Total", "$" + String.format("%,.0f", sr.getTotalRecoleccion())));
-
-			// Cortar papel y cerrar conexión
-			escpos.feed(5);
-			escpos.cut(EscPos.CutMode.FULL);
-
-			escpos.close();
+			/*
+			 * escpos.writeLF(headerStyle, String.format("%-24s %5s %8s", "Billete",
+			 * "Cantidad", "subtotal")); escpos.writeLF(fontB,
+			 * "----------------------------------------------------------------");
+			 * List<Billete> lb = sr.getListBillete();
+			 * lb.sort(Comparator.comparing(Billete::getBillete).reversed()); for (Billete
+			 * rb : lb) { // if (rb.getCantidad() > 0) { String line =
+			 * String.format("%-20s %10s %10s", rb.getBillete(), rb.getCantidad(), "$" +
+			 * rb.getSubtotal()); escpos.writeLF(line); // } } escpos.writeLF(fontB,
+			 * "----------------------------------------------------------------");
+			 * escpos.writeLF(headerStyle.setBold(true), String.format("%-22s %5s %8s %8s",
+			 * "", "", "Total", "$" + String.format("%,.0f", sr.getTotalRecoleccion())));
+			 * 
+			 * // Cortar papel y cerrar conexión escpos.feed(5);
+			 * escpos.cut(EscPos.CutMode.FULL);
+			 * 
+			 * escpos.close();
+			 */
 
 		} catch (Exception e) {
 			Alert infoAlert = new Alert(AlertType.ERROR);

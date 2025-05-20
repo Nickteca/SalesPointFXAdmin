@@ -8,7 +8,6 @@ import java.util.function.UnaryOperator;
 
 import org.springframework.stereotype.Component;
 
-import com.salespointfxadmin.www.enums.BilleteValor;
 import com.salespointfxadmin.www.model.Billete;
 import com.salespointfxadmin.www.model.SucursalRecoleccion;
 import com.salespointfxadmin.www.service.BilleteService;
@@ -104,12 +103,13 @@ public class SucursalRecoleccionEditController implements Initializable {
 					int cantidad = Integer.parseInt(textFields[i].getText());
 					int subtotal = cantidad * valores[i];
 					total += subtotal;
-					Billete b = new Billete(this.lb.get(i).getIdBillete(), BilleteValor.valueOf(denominacion[i]), cantidad, subtotal, sr);
-					lb.add(b);
+					// Billete b = new Billete(this.lb.get(i).getIdBillete(),
+					// BilleteValor.valueOf(denominacion[i]), cantidad, subtotal, sr);
+					// lb.add(b);
 				}
 			}
 			sr.setTotalRecoleccion(total);
-			sr.setListBillete(lb);
+			/* sr.setListBillete(lb); */
 
 			if (srs.save(sr, total, lb) != null) {
 				btnCancelar.fire();
@@ -134,76 +134,35 @@ public class SucursalRecoleccionEditController implements Initializable {
 	}
 
 	public void cargarBilletes(SucursalRecoleccion sr) {
-		this.sr = sr;
-		this.lb = bs.findBySucursalRecoleccion(sr);
-		TextField[] textFields = { tField1000, tField500, tField200, tField100, tField50, tField20, tField10, tField5, tField2, tField1 };
-		labels = new Label[] { label1000, label500, label200, label100, label50, label20, label10, label5, label2, label1 };
-		for (Billete b : lb) {
-			switch (String.valueOf(b.getBillete())) {
-			case "$1000": {
-				tField1000.setText(b.getCantidad() + "");
-				label1000.setText(b.getSubtotal() + "");
-				actualizarTotal();
-				break;
-			}
-			case "$500": {
-				tField500.setText(b.getCantidad() + "");
-				label500.setText(b.getSubtotal() + "");
-				actualizarTotal();
-				break;
-			}
-			case "$200": {
-				tField200.setText(b.getCantidad() + "");
-				label200.setText(b.getSubtotal() + "");
-				actualizarTotal();
-				break;
-			}
-			case "$100": {
-				tField100.setText(b.getCantidad() + "");
-				label100.setText(b.getSubtotal() + "");
-				actualizarTotal();
-				break;
-			}
-			case "$50": {
-				tField50.setText(b.getCantidad() + "");
-				label50.setText(b.getSubtotal() + "");
-				actualizarTotal();
-				break;
-			}
-			case "$20": {
-				tField20.setText(b.getCantidad() + "");
-				label20.setText(b.getSubtotal() + "");
-				actualizarTotal();
-				break;
-			}
-			case "$10": {
-				tField10.setText(b.getCantidad() + "");
-				label10.setText(b.getSubtotal() + "");
-				actualizarTotal();
-				break;
-			}
-			case "$5": {
-				tField5.setText(b.getCantidad() + "");
-				label5.setText(b.getSubtotal() + "");
-				actualizarTotal();
-				break;
-			}
-			case "$2": {
-				tField2.setText(b.getCantidad() + "");
-				label2.setText(b.getSubtotal() + "");
-				actualizarTotal();
-				break;
-			}
-			case "$1": {
-				tField1.setText(b.getCantidad() + "");
-				label1.setText(b.getSubtotal() + "");
-				actualizarTotal();
-				break;
-			}
-			default:
-				break;
-			}
-		}
+
+		/*
+		 * this.sr = sr; this.lb = bs.findBySucursalRecoleccion(sr); TextField[]
+		 * textFields = { tField1000, tField500, tField200, tField100, tField50,
+		 * tField20, tField10, tField5, tField2, tField1 }; labels = new Label[] {
+		 * label1000, label500, label200, label100, label50, label20, label10, label5,
+		 * label2, label1 }; for (Billete b : lb) { switch
+		 * (String.valueOf(b.getBillete())) { case "$1000": {
+		 * tField1000.setText(b.getCantidad() + ""); label1000.setText(b.getSubtotal() +
+		 * ""); actualizarTotal(); break; } case "$500": {
+		 * tField500.setText(b.getCantidad() + ""); label500.setText(b.getSubtotal() +
+		 * ""); actualizarTotal(); break; } case "$200": {
+		 * tField200.setText(b.getCantidad() + ""); label200.setText(b.getSubtotal() +
+		 * ""); actualizarTotal(); break; } case "$100": {
+		 * tField100.setText(b.getCantidad() + ""); label100.setText(b.getSubtotal() +
+		 * ""); actualizarTotal(); break; } case "$50": {
+		 * tField50.setText(b.getCantidad() + ""); label50.setText(b.getSubtotal() +
+		 * ""); actualizarTotal(); break; } case "$20": {
+		 * tField20.setText(b.getCantidad() + ""); label20.setText(b.getSubtotal() +
+		 * ""); actualizarTotal(); break; } case "$10": {
+		 * tField10.setText(b.getCantidad() + ""); label10.setText(b.getSubtotal() +
+		 * ""); actualizarTotal(); break; } case "$5": { tField5.setText(b.getCantidad()
+		 * + ""); label5.setText(b.getSubtotal() + ""); actualizarTotal(); break; } case
+		 * "$2": { tField2.setText(b.getCantidad() + ""); label2.setText(b.getSubtotal()
+		 * + ""); actualizarTotal(); break; } case "$1": {
+		 * tField1.setText(b.getCantidad() + ""); label1.setText(b.getSubtotal() + "");
+		 * actualizarTotal(); break; } default: break; } }
+		 */
+
 	}
 
 	private void lsitenerTextField() {
@@ -235,6 +194,7 @@ public class SucursalRecoleccionEditController implements Initializable {
 
 		labelTotal.setText("" + total);
 	}
+
 	private void numerosTexfiel() {
 		UnaryOperator<TextFormatter.Change> numericFilter = change -> {
 			// Asegura que la entrada solo contenga números (0-9) y se permita el cambio
@@ -257,6 +217,7 @@ public class SucursalRecoleccionEditController implements Initializable {
 		tField50.setTextFormatter(new TextFormatter<>(numericFilter));
 		tField500.setTextFormatter(new TextFormatter<>(numericFilter));
 	}
+
 	private void seleccinarContenidoTextField() {
 		tField1.setOnMouseClicked(event -> tField1.selectAll());
 		tField10.setOnMouseClicked(event -> tField10.selectAll());
