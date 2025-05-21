@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.salespointfxadmin.www.enums.BilleteValor;
 import com.salespointfxadmin.www.model.Billete;
 import com.salespointfxadmin.www.model.Categoria;
+import com.salespointfxadmin.www.model.Configuracion;
 import com.salespointfxadmin.www.model.Empresa;
 import com.salespointfxadmin.www.model.Gasto;
 import com.salespointfxadmin.www.model.Producto;
@@ -20,6 +21,7 @@ import com.salespointfxadmin.www.model.Usuario;
 import com.salespointfxadmin.www.model.UsuarioRol;
 import com.salespointfxadmin.www.repositorie.BilleteRepo;
 import com.salespointfxadmin.www.repositorie.CategoriaRepo;
+import com.salespointfxadmin.www.repositorie.ConfiguracionRepo;
 import com.salespointfxadmin.www.repositorie.EmpresaRepo;
 import com.salespointfxadmin.www.repositorie.GastoRepo;
 import com.salespointfxadmin.www.repositorie.ProductoPaqueteRepo;
@@ -42,6 +44,7 @@ public class DataInitialed implements CommandLineRunner {
 	private final GastoRepo gr;
 	private final ProductoPaqueteRepo ppr;
 	private final BilleteRepo br;
+	private final ConfiguracionRepo configr;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -53,6 +56,7 @@ public class DataInitialed implements CommandLineRunner {
 		insertarGastos();
 		insertarPaquetes();
 		insertarBillete();
+		configuracion();
 	}
 
 	private Empresa saveEmpresa() {
@@ -332,6 +336,7 @@ public class DataInitialed implements CommandLineRunner {
 			gr.save(new Gasto(null, "Herramienta"));
 		}
 	}
+
 	private void insertarBillete() {
 		if (br.count() == 0) {
 			br.save(new Billete(null, BilleteValor.$1000));
@@ -345,5 +350,17 @@ public class DataInitialed implements CommandLineRunner {
 			br.save(new Billete(null, BilleteValor.$2));
 			br.save(new Billete(null, BilleteValor.$1));
 		}
+	}
+
+	private void configuracion() {
+		try {
+			if (configr.count() == 0) {
+				configr.save(new Configuracion(null, "puerto_bascula", "COM5", "Puerto com de la bascula", sr.findByEstatusSucursalTrue()));
+				configr.save(new Configuracion(null, "impresora_ticket", "XP-80C", "Impresora que se conectar", sr.findByEstatusSucursalTrue()));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 }

@@ -40,9 +40,35 @@ public class StarterController {
 	private Button btnPedido;
 
 	@FXML
+	private Button buttonCorte;
+
+	@FXML
 	void cancelarVenta(ActionEvent event) {
 		try {
 			FXMLLoader loader = springFXMLLoader.load("/fxml/modal/cancelarVenta.fxml");
+			StackPane root = loader.load();
+
+			Stage stage = new Stage();
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.setResizable(false);
+			// stage.initStyle(StageStyle.UNDECORATED); // Ventana sin bordes
+			stage.setTitle("Cancelar Venta");
+			stage.setScene(new Scene(root));
+			stage.setResizable(false);
+			stage.showAndWait();
+
+			// Recargar la tabla después de que se cierre la ventana
+			// iniciarTablaMovimientoInventario();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	void corte(ActionEvent event) {
+		try {
+			FXMLLoader loader = springFXMLLoader.load("/fxml/modal/cortes.fxml");
 			StackPane root = loader.load();
 
 			Stage stage = new Stage();

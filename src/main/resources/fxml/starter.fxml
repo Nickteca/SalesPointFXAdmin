@@ -35,7 +35,7 @@
                                           <Button fx:id="btnRecoleccion" mnemonicParsing="false" onAction="#recoleccion" prefWidth="150.0" styleClass="boton-fuego" text="RECOLECCION" VBox.vgrow="ALWAYS" />
                                           <Button fx:id="btnPedido" mnemonicParsing="false" onAction="#pedido" prefWidth="150.0" styleClass="boton-fuego" text="PEDIDO" VBox.vgrow="ALWAYS" />
                                           <Button mnemonicParsing="false" onAction="#cancelarVenta" prefWidth="150.0" styleClass="boton-fuego" text="Cancelar Venta" VBox.vgrow="ALWAYS" />
-                                          <Button mnemonicParsing="false" prefWidth="150.0" styleClass="boton-fuego" text="Button" VBox.vgrow="ALWAYS" />
+                                          <Button fx:id="buttonCorte" mnemonicParsing="false" onAction="#corte" prefWidth="150.0" styleClass="boton-fuego" text="Cortes" VBox.vgrow="ALWAYS" />
                                           <Button mnemonicParsing="false" prefWidth="150.0" styleClass="boton-fuego" text="Button" VBox.vgrow="ALWAYS" />
                                           <Button mnemonicParsing="false" prefWidth="150.0" styleClass="boton-fuego" text="Button" VBox.vgrow="ALWAYS" />
                                           <Button mnemonicParsing="false" prefWidth="150.0" styleClass="boton-fuego" text="Button" VBox.vgrow="ALWAYS" />

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxadmin.www.controller.CorteController">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <top>
+            <AnchorPane BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" layoutX="270.0" layoutY="92.0" text="CONSULTA CORTES" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </top>
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox layoutX="215.0" layoutY="32.0" prefHeight="325.0" prefWidth="567.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <AnchorPane>
+                           <children>
+                              <HBox alignment="CENTER_RIGHT" layoutX="99.0" layoutY="25.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label text="INICIO" />
+                                    <DatePicker fx:id="dPicketInicio" />
+                                    <Label text="FIN" />
+                                    <DatePicker fx:id="dPickerFin" />
+                                    <Button fx:id="buttonBuscar" mnemonicParsing="false" onAction="#buscar" text="BUSCAR" />
+                                    <Button fx:id="buttonImprimir" mnemonicParsing="false" onAction="#imprimir" text="IMPRIMIR" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <TableView fx:id="tViewCorte" layoutX="160.0" layoutY="102.0" prefHeight="465.0" prefWidth="567.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                  <TableColumn fx:id="columnId" editable="false" prefWidth="46.0" style="-fx-alignment: center;" text="ID" />
+                                  <TableColumn fx:id="columnInicial" editable="false" prefWidth="77.0" style="-fx-alignment: center;" text="INICIAL" />
+                                    <TableColumn fx:id="columnVentas" editable="false" prefWidth="59.0" style="-fx-alignment: center;" text="VENTAS" />
+                                    <TableColumn fx:id="columnRecoleccion" editable="false" prefWidth="108.0" style="-fx-alignment: center;" text="RECOLECCION" />
+                                    <TableColumn fx:id="columnGasto" editable="false" prefWidth="82.0" style="-fx-alignment: center;" text="GASTO" />
+                                    <TableColumn fx:id="columnSaldoFinal" editable="false" prefWidth="84.0" style="-fx-alignment: center;" text="SALDO FINAL" />
+                                    <TableColumn fx:id="columnApertura" editable="false" prefWidth="144.0" text="APERTURA" />
+                                    <TableColumn fx:id="columnCierre" editable="false" prefWidth="144.0" text="CIERRE" />
+                                    <TableColumn fx:id="columnNumeroFolios" editable="false" style="-fx-alignment: center;" text="N. FOLIOS" />
+                                    <TableColumn fx:id="columnFolioInicial" editable="false" style="-fx-alignment: center;" text="F. INICIAL" />
+                                    <TableColumn fx:id="columnFolioFinal" editable="false" style="-fx-alignment: center;" text="F. FINAL" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </children>
+</StackPane>
