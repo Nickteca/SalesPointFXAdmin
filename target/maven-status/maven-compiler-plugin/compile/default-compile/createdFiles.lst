@@ -1,6 +1,9 @@
 com\salespointfxadmin\www\component\DataInitialed.class
 com\salespointfxadmin\www\controller\GastoController.class
+com\salespointfxadmin\www\service\printer\Printer2.class
 com\salespointfxadmin\www\repositorie\EmpresaRepo.class
+com\salespointfxadmin\www\repositorie\CorteDetalleRepo.class
+com\salespointfxadmin\www\controller\CorteController$2.class
 com\salespointfxadmin\www\model\SucursalGasto.class
 com\salespointfxadmin\www\model\ProductoPaquete.class
 com\salespointfxadmin\www\repositorie\SucursalPedidoRepo.class
@@ -8,6 +11,7 @@ com\salespointfxadmin\www\repositorie\FolioRepo.class
 com\salespointfxadmin\www\service\UsuarioService.class
 com\salespointfxadmin\www\repositorie\SucursalRecoleccionRepo.class
 com\salespointfxadmin\www\model\SucursalRecoleccion.class
+com\salespointfxadmin\www\repositorie\ConfiguracionRepo.class
 com\salespointfxadmin\www\controller\PaqueteController$1.class
 com\salespointfxadmin\www\model\SucursalRecoleccionDetalle.class
 com\salespointfxadmin\www\repositorie\SucursalPedidoDetalleRepo.class
@@ -16,6 +20,7 @@ com\salespointfxadmin\www\repositorie\RolRepo.class
 com\salespointfxadmin\www\controller\PedidoController$1.class
 com\salespointfxadmin\www\model\Empresa.class
 com\salespointfxadmin\www\controller\StarterController.class
+com\salespointfxadmin\www\service\ConfiguracionService.class
 com\salespointfxadmin\www\service\SucursalPedidoService.class
 com\salespointfxadmin\www\controller\modal\CancelarVentaController.class
 com\salespointfxadmin\www\service\email\EmailService$1.class
@@ -37,6 +42,7 @@ com\salespointfxadmin\www\enums\Naturaleza.class
 com\salespointfxadmin\www\service\BilleteService.class
 com\salespointfxadmin\www\controller\CrearPaqueteController.class
 com\salespointfxadmin\www\repositorie\ProductoRepo.class
+com\salespointfxadmin\www\model\Configuracion.class
 com\salespointfxadmin\www\controller\MovimientoCajaController.class
 com\salespointfxadmin\www\service\printer\CodigoBarrasYQR.class
 com\salespointfxadmin\www\repositorie\MovimientoInventarioRepo.class
@@ -52,6 +58,7 @@ com\salespointfxadmin\www\model\SucursalPedidoDetalle.class
 com\salespointfxadmin\www\service\CategoriaService.class
 com\salespointfxadmin\www\service\FolioService.class
 com\salespointfxadmin\www\model\UsuarioRol.class
+com\salespointfxadmin\www\service\CorteService.class
 com\salespointfxadmin\www\service\MovimientoInventarioDetalleService.class
 com\salespointfxadmin\www\controller\MovimientoInventarioDetalleController.class
 com\salespointfxadmin\www\controller\MovimientoInventarioDetalleController2.class
@@ -62,6 +69,7 @@ com\salespointfxadmin\www\repositorie\UsuarioRepo.class
 com\salespointfxadmin\www\service\printer\ImpresoraTermica.class
 com\salespointfxadmin\www\service\MovimientoCajaService.class
 com\salespointfxadmin\www\SalesPointFxAdminApplication.class
+com\salespointfxadmin\www\repositorie\CorteRepo.class
 com\salespointfxadmin\www\model\Corte.class
 com\salespointfxadmin\www\model\MovimientoInventarioDetalle.class
 com\salespointfxadmin\www\repositorie\SucursalRepo.class
@@ -75,6 +83,7 @@ com\salespointfxadmin\www\repositorie\BilleteRepo.class
 com\salespointfxadmin\www\model\Sucursal.class
 com\salespointfxadmin\www\DTO\PaqueteProductoDto.class
 com\salespointfxadmin\www\service\EmpresaService.class
+com\salespointfxadmin\www\controller\CorteController.class
 com\salespointfxadmin\www\service\report\JasperReportService.class
 com\salespointfxadmin\www\repositorie\SucursalGastoRepo.class
 com\salespointfxadmin\www\service\printer\ImprimirPedido.class
@@ -82,6 +91,7 @@ com\salespointfxadmin\www\service\GastoService.class
 com\salespointfxadmin\www\repositorie\GastoRepo.class
 com\salespointfxadmin\www\service\VentaService.class
 com\salespointfxadmin\www\service\SucursalProductoService.class
+com\salespointfxadmin\www\controller\CorteController$1.class
 com\salespointfxadmin\www\controller\PedidoController.class
 com\salespointfxadmin\www\model\VentaDetalle.class
 com\salespointfxadmin\www\repositorie\SucursalProductoRepo.class
