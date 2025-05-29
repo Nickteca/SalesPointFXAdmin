@@ -26,12 +26,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(indexes = { @Index(name = "indexFechaVenta", columnList = "createdAt"), @Index(name = "indexFolii",columnList = "folio") })
-public class Venta{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idVenta;
-    
+@Table(indexes = { @Index(name = "indexFechaVenta", columnList = "createdAt"), @Index(name = "indexFolii", columnList = "folio") })
+public class Venta {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer idVenta;
+
 	@Column(nullable = false, length = 17)
 	private String folio;
 
@@ -52,6 +52,8 @@ public class Venta{
 
 	@Column(nullable = true)
 	private LocalDateTime updatedAt;
+	@Column(nullable = false)
+	private boolean enviado;
 
 	@JoinColumn(name = "sucursal", referencedColumnName = "idSucursal")
 	@ManyToOne(optional = false)
