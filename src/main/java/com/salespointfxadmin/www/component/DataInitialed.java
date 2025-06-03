@@ -357,6 +357,7 @@ public class DataInitialed implements CommandLineRunner {
 			if (configr.count() == 0) {
 				configr.save(new Configuracion(null, "puerto_bascula", "COM5", "Puerto com de la bascula", sr.findByEstatusSucursalTrue()));
 				configr.save(new Configuracion(null, "impresora_ticket", "XP-80C", "Impresora que se conectar", sr.findByEstatusSucursalTrue()));
+				configr.save(new Configuracion(null, "correo_corte", "isaaclunaavila@gmail.com", "correo electronico para el corte", sr.findByEstatusSucursalTrue()));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
