@@ -31,8 +31,11 @@ import com.salespointfxadmin.www.repositorie.SucursalRepo;
 import com.salespointfxadmin.www.repositorie.UsuarioRepo;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+
+@Slf4j
 @RequiredArgsConstructor
 public class DataInitialed implements CommandLineRunner {
 	private final EmpresaRepo er;
@@ -69,6 +72,7 @@ public class DataInitialed implements CommandLineRunner {
 
 	private void saveSucursal(Empresa empresa) {
 		if (sr.count() == 0) {
+			sr.save(new Sucursal(null, "BODEGA", "RAMOS 15 COLONIA CENTRO, CP 61800", "PATZCUARO", "MICHOACAN", "1234567890", false, empresa));
 			sr.save(new Sucursal(null, "PATZCUARO", "RAMOS 15 COLONIA CENTRO, CP 61800", "PATZCUARO", "MICHOACAN", "1234567890", false, empresa));
 			sr.save(new Sucursal(null, "TARIACURI", "RAMOS 15 COLONIA CENTRO, CP 61800", "PATZCUARO", "MICHOACAN", "1234567890", false, empresa));
 			sr.save(new Sucursal(null, "ESTACION", "RAMOS 15 COLONIA CENTRO, CP 61800", "PATZCUARO", "MICHOACAN", "1234567890", false, empresa));
@@ -216,114 +220,216 @@ public class DataInitialed implements CommandLineRunner {
 
 	private void insertarPaquetes() {
 		if (ppr.count() == 0) {
-			/* PAQUETES INDIVIDUALES */
 			Producto p = pr.save(new Producto(null, "1/2 pollo", true));
-			ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Pollo")));
-			ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salchicha")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+            ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Pollo")));
+            ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salchicha")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
 
-			p = pr.save(new Producto(null, "1 pollo", true));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Pollo")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+            p = pr.save(new Producto(null, "1 pollo", true));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Pollo")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
 
-			p = pr.save(new Producto(null, "1 1/2 pollo", true));
-			ppr.save(new ProductoPaquete(null, p, 1.5f, pr.findByNombreProducto("Pollo")));
-			ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salsa Extra")));
+            p = pr.save(new Producto(null, "1 1/2 pollo", true));
+            ppr.save(new ProductoPaquete(null, p, 1.5f, pr.findByNombreProducto("Pollo")));
+            ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salsa Extra")));
 
-			p = pr.save(new Producto(null, "1/2 Costilla", true));
-			ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Costilla")));
-			ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salchicha")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+            p = pr.save(new Producto(null, "1/2 Costilla", true));
+            ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Costilla")));
+            ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salchicha")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
 
-			p = pr.save(new Producto(null, "1 Costilla", true));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Costilla")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+            p = pr.save(new Producto(null, "1 Costilla", true));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Costilla")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
 
-			p = pr.save(new Producto(null, "1 1/2 Costilla", true));
-			ppr.save(new ProductoPaquete(null, p, 1.5f, pr.findByNombreProducto("Costilla")));
-			ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salsa Extra")));
+            p = pr.save(new Producto(null, "1 1/2 Costilla", true));
+            ppr.save(new ProductoPaquete(null, p, 1.5f, pr.findByNombreProducto("Costilla")));
+            ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salsa Extra")));
 
-			p = pr.save(new Producto(null, "1 Pierna", true));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Pierna")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+            p = pr.save(new Producto(null, "1 Pierna", true));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Pierna")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
 
-			p = pr.save(new Producto(null, "1 pollo 1/2 costilla", true));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Pollo")));
-			ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Costilla")));
-			ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salsa Extra")));
+            p = pr.save(new Producto(null, "1 pollo 1/2 costilla", true));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Pollo")));
+            ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Costilla")));
+            ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salsa Extra")));
 
-			p = pr.save(new Producto(null, "1 costilla 1/2 pollo", true));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Costilla")));
-			ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Pollo")));
-			ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salsa Extra")));
-
-			/* PAQUETES CON ARROZ Y FRIJOL */
-			p = pr.save(new Producto(null, "1/2 Pollo arroz y frijol de 1/4", true));
-			ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Pollo")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Arroz 1/4")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Frijol 1/4")));
-			ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salchicha")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
-
-			p = pr.save(new Producto(null, "1 pollo arroz y frijol de 1/4", true));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Pollo")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Arroz 1/4")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Frijol 1/4")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
-
-			p = pr.save(new Producto(null, "1 1/2 pollo arroz y frijol de 1/4", true));
-			ppr.save(new ProductoPaquete(null, p, 1.5f, pr.findByNombreProducto("Pollo")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Arroz 1/4")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Frijol 1/4")));
-			ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salsa Extra")));
-
-			p = pr.save(new Producto(null, "1/2 Costilla arroz y frijol de 1/4", true));
-			ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Costilla")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Arroz 1/4")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Frijol 1/4")));
-			ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salchicha")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
-
-			p = pr.save(new Producto(null, "1 Costilla arroz y frijol de 1/4", true));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Costilla")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Arroz 1/4")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Frijol 1/4")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
-
-			p = pr.save(new Producto(null, "1 1/2 Costilla arroz y frijol de 1/4", true));
-			ppr.save(new ProductoPaquete(null, p, 1.5f, pr.findByNombreProducto("Costilla")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Arroz 1/4")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Frijol 1/4")));
-			ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salsa Extra")));
-
-			p = pr.save(new Producto(null, "1 Pierna arroz y frijol de 1/4", true));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Pierna")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Arroz 1/4")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Frijol 1/4")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
-
-			p = pr.save(new Producto(null, "1 pollo 1/2 costilla a y f de 1/4", true));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Pollo")));
-			ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Costilla")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Arroz 1/4")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Frijol 1/4")));
-			ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salsa Extra")));
-
-			p = pr.save(new Producto(null, "1 costilla 1/2 pollo ay f de 1/4", true));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Costilla")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Arroz 1/4")));
-			ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Frijol 1/4")));
-			ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Pollo")));
-			ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salsa Extra")));
-
-			p = pr.save(new Producto(null, "Pecuezos 6 X $30", true));
-			ppr.save(new ProductoPaquete(null, p, 6, pr.findByNombreProducto("Pescuezos")));
-
-			p = pr.save(new Producto(null, "Salchicha 5 X $20", true));
-			ppr.save(new ProductoPaquete(null, p, 5, pr.findByNombreProducto("Salchicha")));
+            p = pr.save(new Producto(null, "1 costilla 1/2 pollo", true));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Costilla")));
+            ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Pollo")));
+            ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salsa Extra")));
+            paquetesArmados();
 
 		}
 	}
+	private void paquetesArmados(){
+        try {
+            /*1/2 POLLOS*/
+            Producto p = pr.save(new Producto(null, "1/2 pollo +arropz 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Pollo")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Arroz")));
+            ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salchicha")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            p = pr.save(new Producto(null, "1/2 pollo +frijol 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Pollo")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Frijol")));
+            ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salchicha")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            p = pr.save(new Producto(null, "1/2 pollo +espagueti 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Pollo")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Espagueti")));
+            ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salchicha")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            /*POLLO ENTERO*/
+            p = pr.save(new Producto(null, "1 pollo +arropz 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Pollo")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Arroz")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            p = pr.save(new Producto(null, "1 pollo +frijol 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Pollo")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Frijol")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            p = pr.save(new Producto(null, "1 pollo +espagueti 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Pollo")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Espagueti")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            /*1 1/2 POLLLO*/
+            p = pr.save(new Producto(null, "1 1/2 pollo +arropz 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1.5f, pr.findByNombreProducto("Pollo")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Arroz")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            p = pr.save(new Producto(null, "1 1/2 pollo +frijol 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1.5f, pr.findByNombreProducto("Pollo")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Frijol")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            p = pr.save(new Producto(null, "1 1/2 pollo +espagueti 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1.5f, pr.findByNombreProducto("Pollo")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Espagueti")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            /*1/2 COSTILLA*/
+            p = pr.save(new Producto(null, "1/2 costilla +arropz 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Costilla")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Arroz")));
+            ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salchicha")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            p = pr.save(new Producto(null, "1/2 costilla +frijol 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Costilla")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Frijol")));
+            ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salchicha")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            p = pr.save(new Producto(null, "1/2 costilla +espagueti 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Costilla")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Espagueti")));
+            ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salchicha")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            /*1 COSTILLA*/
+            p = pr.save(new Producto(null, "1 Costilla +arropz 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Costilla")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Arroz")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            p = pr.save(new Producto(null, "1 Costilla +frijol 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Costilla")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Frijol")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            p = pr.save(new Producto(null, "1 Costilla +espagueti 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Costilla")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Espagueti")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            /*1 1/2 costilla*/
+            p = pr.save(new Producto(null, "1 1/2 Costilla +arropz 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1.5f, pr.findByNombreProducto("Costilla")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Arroz")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            p = pr.save(new Producto(null, "1 1/2 Costilla +frijol 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1.5f, pr.findByNombreProducto("Costilla")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Frijol")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            p = pr.save(new Producto(null, "1 1/2 Costilla +espagueti 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1.5f, pr.findByNombreProducto("Costilla")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Espagueti")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            /*1 PIERNA*/
+            p = pr.save(new Producto(null, "1 Pierna +arropz 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Pierna")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Arroz")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            p = pr.save(new Producto(null, "1 Pierna +frijol 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Pierna")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Frijol")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            p = pr.save(new Producto(null, "1 Pierna +espagueti 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Pierna")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Espagueti")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Salsa Extra")));
+
+            /*1 POLO 1/2 COSTILLA*/
+            p = pr.save(new Producto(null, "1 Pollo 1/2 costi +arroz 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Pollo")));
+            ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("costilla")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Arroz")));
+            ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salsa Extra")));
+
+            p = pr.save(new Producto(null, "1 Pollo 1/2 costi +frijol 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Pollo")));
+            ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("costilla")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Frijol")));
+            ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salsa Extra")));
+
+            p = pr.save(new Producto(null, "1 Pollo 1/2 costi +espagueti 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Pollo")));
+            ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("costilla")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Espagueti")));
+            ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salsa Extra")));
+
+            /*1 Costilla 1/2 Pollo*/
+            p = pr.save(new Producto(null, "1 Costi 1/2 Pollo +arroz 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Costilla")));
+            ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Pollo")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Arroz")));
+            ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salsa Extra")));
+
+            p = pr.save(new Producto(null, "1 Costi 1/2 Pollo +frijol 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Costilla")));
+            ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Pollo")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Frijol")));
+            ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salsa Extra")));
+
+            p = pr.save(new Producto(null, "1 Costi 1/2 Pollo +espagueti 1/2", true));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Costilla")));
+            ppr.save(new ProductoPaquete(null, p, 0.5f, pr.findByNombreProducto("Pollo")));
+            ppr.save(new ProductoPaquete(null, p, 1, pr.findByNombreProducto("Espagueti")));
+            ppr.save(new ProductoPaquete(null, p, 2, pr.findByNombreProducto("Salsa Extra")));
+
+            p = pr.save(new Producto(null, "Pecuezos 6 X $30", true));
+            ppr.save(new ProductoPaquete(null, p, 6, pr.findByNombreProducto("Pescuezos")));
+
+            p = pr.save(new Producto(null, "Salchicha 5 X $20", true));
+            ppr.save(new ProductoPaquete(null, p, 5, pr.findByNombreProducto("Salchicha")));
+        } catch (Exception e) {
+            log.error("Paquete saramados error: "+e.getMessage());
+        }
+    }
 
 	private void insertarGastos() {
 		if (gr.count() == 0) {
